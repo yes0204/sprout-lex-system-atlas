@@ -10,6 +10,14 @@ const modules=[
 {id:'emily',name:'Emily',role:'답변 경로 결정 · LangGraph',node:'route',current:'<mark>범위 거절/낮은 점수 → 미수록, 다음 사전 되물음 → 확인 질문, 나머지 → 근거 선별입니다.</mark> 명시 조문은 not lex.ask 조건과 generation_primary 복원 성공 때만 후보를 교체합니다. 현재 직접 조회도 앞선 벡터 검색에 의존합니다.',plan:'<strong class="keyword">명확한 조문 조회</strong>를 벡터 검색 장애와 독립시킵니다. 범위·자격 검사는 유지하고 유사도·좌표 확인·근거 자격을 별도 상태로 전달합니다.',extension:'최근 질문 2개를 합치는 전략의 영향을 다양한 문맥 전환/정정 질문으로 평가하고, 공통 후보 계약에 따라 경로를 연결합니다.',test:'정적 코드 조사. 검색 장애 시 직접 조회/되물음 미도달은 코드상 결합입니다. 신규 통합 요청·장애 재현·성능 실험은 미실행입니다.'},
 {id:'david',name:'David',role:'로컬모델 · 원문 항 선택',node:'llm',current:'기본은 출처 안내입니다. Ollama·A 모드·주근거·제외 근거 없음 등 인용 조건에서 모델을 호출합니다. <mark>모델은 원문 항 ID를 선택하고 서버가 필수 항을 포함해 원문을 렌더링합니다.</mark> B도 미수록/되물음으로 끝날 수 있으며 generate 도달 시 모델 없이 출처 안내입니다.',plan:'<strong class="keyword">입력 토큰 가드·선택 실패 사유</strong>를 구체화합니다. 알 수 없는 ID·빈 선택·비교 누락·모델 미설치 등을 구분하고 백오프를 포함한 지연 예산을 정합니다.',extension:'실측 후 의미 후보 해석 등 모델 역할 확대를 별도 검토합니다. 자유 해설·법률 판단이 현재 구현됐다고 표시하지 않습니다.',test:'이번 제품 모델 호출은 없습니다. 서버 필수 항 보존·잘못된 ID 거절·컨텍스트 한계·호출 중 근거 변경 시험은 다음 검증 항목입니다.'}
 ];
+const intakeNotes = {
+ james: '<p class="memo-provenance"><strong>2026-11-04 후속 · 계약 초안 제출</strong><br><mark>PR316의 ConceptScopeResult는 문서 제안이며 구현·소비자 인수 완료가 아닙니다.</mark> Robert는 질문·사전판·제시 후보에 선택 응답을 결속하고, 정정·부분 응답·모름을 구분하도록 요청했습니다. SKOS·ELI·PROV-O는 단계별 설계 참고이며 법적 적용 승인이나 표준 준수 선언이 아닙니다.</p>',
+ robert: '<p class="memo-provenance"><strong>소비자 검토 수령</strong><br>ambiguity/대안 ID, 재개 응답 결속, 정정의 이전 선택 무효화, pending·모름·unknown 분리가 필요합니다. 8개 인수 사례는 제안이며 제품 시험 미실행입니다.</p>',
+ william: '<p class="memo-provenance"><strong>Anna 대행 · SQLite 읽기 전용 시험</strong><br>William 지속 세션은 아직 없습니다. 기존 desktop DB와 과거 격리 DB 각각 2,356조·2,463판을 조사했습니다. 현재판 본문/메타 불일치0·중첩0, 미래판7은 미반환. <mark>James 발췌6개 중 raw body 정확 일치5개, C5는 표현 차이. 발췌 내부 좌표를 본문 좌표로 재사용할 수 없습니다.</mark> 원본 DB 지문 불변. 운영 서버 선택 DB·법령 최신성 인증은 아닙니다.</p>',
+ alice: '<p class="memo-provenance"><strong>James 계약과 SQLite 시험 공유</strong><br>개념 후보의 기원과 근거 자격 판정의 기원을 분리합니다. 원문 판이 일치해도 질문 적합성·충분성까지 승인된 것은 아닙니다. 소비자 인수 검토 중입니다.</p>'
+};
+for(const m of modules){if(intakeNotes[m.id]) m.extra=(m.extra||'')+intakeNotes[m.id];}
+modules.find(m=>m.id==='william').test='실제 로컬 DB2개 읽기 조회·지문 보존 확인. 별도 합성 중첩판에서는 본문new/메타old 불일치 재현. 실제 DB 중첩은0이며 운영 오류로 합산하지 않습니다. representation·변환판·원문 좌표 계약은 다음 구현입니다.';
 const owners={api:['michael'],retrieve:['grace','william','emily','james','robert'],route:['emily'],unrecorded:['emily'],clarify:['robert'],enrich:['alice','william'],generate:['emily','david'],navigation:['emily','alice'],quotes:['david','alice'],response:['michael'],rules:['james'],vector:['grace'],db:['william'],llm:['david']};
 const byId=Object.fromEntries(modules.map((m,i)=>[m.id,{...m,chapter:`01-${i+1}`} ]));
 const notebook=document.getElementById('module-notebook');if(!notebook)return;
