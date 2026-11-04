@@ -18,6 +18,7 @@ const intakeNotes = {
 };
 for(const m of modules){if(intakeNotes[m.id]) m.extra=(m.extra||'')+intakeNotes[m.id];}
 modules.find(m=>m.id==='william').test='실제 로컬 DB2개 읽기 조회·지문 보존 확인. 별도 합성 중첩판에서는 본문new/메타old 불일치 재현. 실제 DB 중첩은0이며 운영 오류로 합산하지 않습니다. representation·변환판·원문 좌표 계약은 다음 구현입니다.';
+for(const m of modules){if(['james','william','alice'].includes(m.id)) m.extra=(m.extra||'')+'<p class="memo-provenance"><strong>1차 조사 단락 정리 · 2026-11-04</strong><br>현 구조 조사·계약 초안 교환·로컬 복원 진단을 정리했습니다. <mark>공통 계약 인수·제품 구현·통합·운영 검증은 미완료입니다.</mark> 다음은 C5 표현/좌표 변환 경로 확인 → 소비자 계약 대조·독립 검수 → 담당 승인 후 격리 구현입니다. <a href="https://github.com/yes0204/sprout-lex/blob/codex/agent-team-harness-261104/harness_team/worklog/261104_1631_anna_section_report.md">한 일·할 일·Sarah 검수 보고서 ↗</a></p>';}
 const owners={api:['michael'],retrieve:['grace','william','emily','james','robert'],route:['emily'],unrecorded:['emily'],clarify:['robert'],enrich:['alice','william'],generate:['emily','david'],navigation:['emily','alice'],quotes:['david','alice'],response:['michael'],rules:['james'],vector:['grace'],db:['william'],llm:['david']};
 const byId=Object.fromEntries(modules.map((m,i)=>[m.id,{...m,chapter:`01-${i+1}`} ]));
 const notebook=document.getElementById('module-notebook');if(!notebook)return;
