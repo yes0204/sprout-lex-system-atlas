@@ -4,9 +4,9 @@
 관측 시각: 2026-11-04T02:13:40.728021+00:00
 운영 배포 커밋: 미확인. 이 문서는 실시간 서비스 상태가 아닌 시점 스냅샷이다.
 
-## 실행 중 서버의 health 관측
+## 관측 시점에 실행 중이던 로컬 서버의 health 자기 보고
 {"checked_at": "2026-11-04T02:13:40.728021+00:00", "kind": "live_local_health", "source_identity": "unverified", "live_stream": false, "http_status": 200, "status": "ci_preview_only", "documents_indexed": 0, "chat_ready": null, "reason": "index_empty"}
-health는 서버의 자기 보고이며 코드/실제 색인 신원을 증명하지 않는다.
+health는 서버의 자기 보고이며 코드/실제 색인 신원을 증명하지 않는다. ci_preview_only는 이전 미리보기 상태명이다. 실행 서버의 코드는 미확인이며 위 최신 코드와 같다고 볼 수 없다.
 
 ## 처리 구조
 LangGraph 실제 등록 노드는 retrieve, enrich, generate, clarify, unrecorded 다섯 개다. _route는 조건부 엣지이며 navigation/quotes는 generate 내부 경로다.
@@ -14,8 +14,8 @@ PUBLIC_SOURCE_ONLY는 코드상 옵션이지 실행 서버의 현재 설정 확�
 
 ## 요청 접수·전달
 API는 의미 분기점이 아닙니다. 입력 형식과 공개 원문 정책을 검사한 뒤 일반 그래프를 호출합니다.
-입력: question, mode A/B, history, context
-절차: FastAPI 요청 스키마 검사 → 빈 이력은 None으로 정규화 → 공개 모드이면 매니페스트 유효성 확인 → answer_graph에 원문·모드·이력·선택값 전달
+입력: question, mode A/B, history, context, source_filter (현재 미전달)
+절차: FastAPI 요청 스키마 검사 → 빈 이력은 None으로 정규화 → 공개 모드이면 매니페스트 유효성 확인 → answer_graph에 원질문·모드·정규화 이력·선택값 전달
 조건: 형식 위반 → 422 / PUBLIC_SOURCE_ONLY 정책 실패 → 409 / source_filter는 요청 필드에 있지만 이 호출에서 전달하지 않음
 출력: graph 입력 또는 오류
 코드 근거: backend/api/chat.py:101 chat
@@ -32,7 +32,7 @@ LangGraph 실제 노드 1. 검색과 범위·용어 검사를 묶어 상태를 �
 등록 노드가 아닌 조건부 엣지 함수입니다. 아래 순서대로 평가합니다.
 입력: scope_reject, score, lex_ask
 절차: ① 범위 밖 또는 점수 미달 확인 → ② 확인할 용어가 있는지 확인 → ③ 나머지는 enrich
-조건: scope_reject 또는 score < 0.45 → unrecorded / 그 외 lex_ask 있음 → clarify / 그 외 → enrich
+조건: scope_reject 또는 score < MIN_RELEVANCE (기본 0.45) → unrecorded / 그 외 lex_ask 있음 → clarify / 그 외 → enrich
 출력: unrecorded / clarify / enrich
 코드 근거: backend/core/rag_graph.py:367 _route
 
@@ -64,7 +64,7 @@ LangGraph 실제 노드. 후보를 답변에 쓸 수 있는 근거로 제한합�
 LangGraph 실제 노드. 이름과 달리 항상 LLM을 호출하거나 해설을 생성하지 않습니다.
 입력: mode, arts, excluded_evidence
 절차: can_quote 조건 검사 → 호출 전 원문 자격 재검사 → 조건 통과 시 모델이 원문 단위를 선택 → 렌더링 및 호출 후 자격 재검사
-조건: Ollama + A모드 + 명시근거 + 제외근거 없음 / 비교 질문은 명시 대상 2개 이상 / 조건 미달 또는 사전 검사 탈락 → 후보 안내 / 선택 누락 → 502 / 호출 중 근거 변경 → 503
+조건: Ollama + A모드 + 명시근거 + 제외근거 없음 / 비교 질문은 명시 대상 2개 이상 / 조건 미달 또는 사전 검사 탈락 → 후보 안내 / 선택 누락 → 502 / 호출 중 근거 변경 → LLMUnavailable(kind=outage) → 503
 출력: source_navigation / verified_quotes / 예외
 코드 근거: backend/core/rag_graph.py:229 n_generate
 
@@ -124,7 +124,7 @@ generate 내부 결과입니다. 선택된 원문 인용이지 자유로운 법�
 출력: 선택 JSON 또는 명시적 오류
 코드 근거: backend/core/rag_graph.py:229 n_generate
 
-## 과거 격리 실행10개
+## 과거 격리 실행10개 — Claude가 작성한 합성 개발 질문, 실제 민원·업무기록 아님
 실행 코드 0be706ba05cb6bb96141b181a20c0b0b4f176cbd, 2026-11-04T01:42:23.831729+00:00. 실제 SQLite/Chroma/임베딩·ASGI 관측. 현재 코드/실서버 결과로 승계하지 않는다.
 색인3979청크. HTTP200 10개 중 boundary8/source_navigation2. 답변 모델 호출 관측0.
 
