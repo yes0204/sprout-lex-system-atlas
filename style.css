@@ -3,3 +3,5 @@
 #diagram{min-width:850px}.map-caption:after{content:" · 지도 안에서 좌우로 이동할 수 있습니다."}
 
 .error-contract{background:white;padding:20px;border:1px solid var(--line);border-radius:7px;overflow:auto}table{border-collapse:collapse;width:100%;font-size:12px;margin-top:18px}td,th{text-align:left;padding:12px;border-bottom:1px solid var(--line)}th{color:var(--muted);font-weight:500}
+
+.team-status{margin:0 4vw 24px;padding:18px;border:1px solid var(--line);border-radius:8px;background:#fff}.team-status summary{font-weight:700;cursor:pointer}.team-status summary small{display:block;color:var(--muted);font-weight:400;margin-top:6px}.team-status p{font-size:13px;line-height:1.8}.team-status .change-grid{margin-top:16px}
