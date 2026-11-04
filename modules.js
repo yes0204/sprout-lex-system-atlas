@@ -25,6 +25,7 @@ const byId=Object.fromEntries(modules.map((m,i)=>[m.id,{...m,chapter:`01-${i+1}`
 const notebook=document.getElementById('module-notebook');if(!notebook)return;
 notebook.innerHTML='<header><p class="eyebrow">MODULE NOTES / 01</p><h2>모듈별 메모</h2><p>AI 조사 세션 실제 회신의 요약 · 조사 코드 <b>4b8241f</b> · 제품 실행·배포 확인과 별도</p><p>James·Robert·Alice·Emily·Michael: Codex / Grace·William·David: Claude Opus 회신. Anna 코드 대조·Sarah Fable 검수.</p><p>기존 지도 24e59d0d·과거 10개 실행 관측 0be706ba는 갱신하지 않았습니다.</p></header><nav class="module-index" aria-label="모듈 메모 챕터"></nav><div class="module-chapters"></div>';
 const index=notebook.querySelector('.module-index'),chapters=notebook.querySelector('.module-chapters');
+index.setAttribute('aria-label','모듈 메모 바로가기');document.getElementById('policy-note').insertAdjacentElement('afterend',index);
 for(const m of Object.values(byId)){
  const link=document.createElement('a');link.href='#node='+m.node+'&module='+m.id;link.className='module-chip';link.textContent=m.chapter+' '+m.name;index.append(link);
  const d=document.createElement('details');d.className='module-memo';d.id='module-'+m.id;
