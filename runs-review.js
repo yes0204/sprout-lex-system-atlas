@@ -104,6 +104,76 @@
     return box;
   }
 
+  // 답변 흐름 — 구간 상태 3종. 색만으로 구분하지 않고 상태 글자를 함께 쓴다.
+  var FLOW_STATE = {
+    ok: { label: '통과', fill: '#e7f4ee', stroke: '#14604f', ink: '#14604f' },
+    weak: { label: '약함', fill: '#fdf3df', stroke: '#9a6a00', ink: '#7a5300' },
+    fail: { label: '품질 미달', fill: '#fbe9e9', stroke: '#a32b2b', ink: '#8f2020' }
+  };
+  function wrapText(t, n) { var out = [], s = String(t); while (s.length > n) { var cut = s.lastIndexOf(' ', n); if (cut < n / 2) cut = n; out.push(s.slice(0, cut).trim()); s = s.slice(cut).trim(); } if (s) out.push(s); return out; }
+
+  function flowChart(f, tip) {
+    var st = f.stages, bw = 132, bh = 150, gap = 16, top = 10, W = st.length * bw + (st.length - 1) * gap + 4, H = top + bh + 12;
+    var svg = sv('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': '답변 흐름 그림. 질문에서 화면까지 구간별 연결과 품질 상태. 아래 표에 같은 내용이 있다.' });
+    svg.style.maxWidth = '1040px'; svg.style.minWidth = '720px';
+    st.forEach(function (s, i) {
+      var x = 2 + i * (bw + gap), c = FLOW_STATE[s.state] || FLOW_STATE.weak;
+      if (i > 0) {
+        var ax = x - gap, ay = top + 40;
+        svg.append(sv('line', { x1: ax + 1, y1: ay, x2: x - 4, y2: ay, stroke: '#65757b', 'stroke-width': 1.5 }));
+        svg.append(sv('path', { d: 'M' + (x - 4) + ' ' + (ay - 4) + ' L' + x + ' ' + ay + ' L' + (x - 4) + ' ' + (ay + 4) + ' Z', fill: '#65757b' }));
+      }
+      var g = sv('g', { tabindex: 0 });
+      g.append(sv('rect', { x: x, y: top, width: bw, height: bh, rx: 6, fill: c.fill, stroke: c.stroke, 'stroke-width': s.link.indexOf('미연결') >= 0 ? 1 : 1.5, 'stroke-dasharray': s.link.indexOf('미연결') >= 0 ? '4 3' : '' }));
+      g.append(sv('text', { x: x + 10, y: top + 22, 'font-size': 13, 'font-weight': 700, fill: '#192e35' }, s.name));
+      g.append(sv('text', { x: x + 10, y: top + 40, 'font-size': 10.5, fill: '#3d5158' }, s.link));
+      g.append(sv('text', { x: x + 10, y: top + 60, 'font-size': 11, 'font-weight': 700, fill: c.ink }, c.label));
+      wrapText(s.quality, 13).slice(0, 5).forEach(function (line, k) { g.append(sv('text', { x: x + 10, y: top + 80 + k * 15, 'font-size': 10.5, fill: '#192e35' }, line)); });
+      var msg = s.name + ' — ' + s.link + ' · ' + c.label + ': ' + s.evidence;
+      g.addEventListener('mousemove', function (ev) { tip.textContent = msg; tip.hidden = false; tip.style.left = (ev.clientX + 12) + 'px'; tip.style.top = (ev.clientY + 12) + 'px'; });
+      g.addEventListener('mouseleave', function () { tip.hidden = true; });
+      g.append(sv('title', {}, msg));
+      svg.append(g);
+    });
+    return svg;
+  }
+
+  function flowBlock(d, tip) {
+    var f = d.answer_flow; if (!f) return el('div');
+    var box = el('div', null, 'rr-card');
+    box.append(el('h4', f.title), el('p', f.as_of + ' · ' + f.note, 'rr-note'));
+    var lg = el('div', null, 'rr-legend');
+    ['ok', 'weak', 'fail'].forEach(function (k) { var s = el('span'); var i = el('i'); i.style.background = FLOW_STATE[k].fill; i.style.border = '1px solid ' + FLOW_STATE[k].stroke; s.append(i, document.createTextNode(FLOW_STATE[k].label)); lg.append(s); });
+    var dash = el('span', '점선 테두리: 제품에 연결되지 않은 진단 단계'); lg.append(dash);
+    var cw = el('div', null, 'rr-scroll'); cw.append(flowChart(f, tip));
+    box.append(lg, cw);
+    var wrap = el('div', null, 'rr-scroll'), tb = el('table'), hd = el('tr');
+    ['구간', '연결', '상태', '근거'].forEach(function (h) { hd.append(el('th', h)); }); tb.append(hd);
+    f.stages.forEach(function (s) { var tr = el('tr'); var c = FLOW_STATE[s.state] || FLOW_STATE.weak; var b = el('td'); b.append(el('span', c.label, 'rr-badge ' + (s.state === 'ok' ? 'yes' : 'no'))); var q = el('td'); q.append(el('div', s.quality, 'rr-q'), el('div', s.evidence, 'rr-note')); tr.append(el('td', s.name), el('td', s.link), b, q); tb.append(tr); });
+    wrap.append(tb); box.append(wrap);
+    if (f.next) box.append(el('p', '다음 — ' + f.next.state + ': ' + f.next.text));
+    if (f.limit) box.append(el('p', '한계: ' + f.limit, 'rr-note'));
+    return box;
+  }
+
+  function eveningBlock(d) {
+    var e = d.evening_tests; if (!e) return el('div');
+    var box = el('div', null, 'rr-card');
+    box.append(el('h4', e.title), el('p', e.note, 'rr-note'));
+    var wrap = el('div', null, 'rr-scroll'), tb = el('table'), hd = el('tr');
+    ['시각', '시험', '모델 호출', '결과', '결정', '판정'].forEach(function (h) { hd.append(el('th', h)); }); tb.append(hd);
+    e.rows.forEach(function (r) {
+      var tr = el('tr'), nm = el('td'); nm.append(el('div', r.name, 'rr-q'), el('div', r.what, 'rr-note'));
+      var dc = el('td'); dc.append(el('div', r.decision), el('div', '근거: ' + r.source, 'rr-note'));
+      var v = el('td'); v.append(el('span', r.verdict, 'rr-badge ' + (r.ok ? 'yes' : 'no')));
+      tr.append(el('td', r.at), nm, el('td', r.calls, 'num'), el('td', r.result), dc, v); tb.append(tr);
+    });
+    wrap.append(tb); box.append(wrap);
+    box.append(el('p', e.summary));
+    if (e.excluded) box.append(el('p', e.excluded, 'rr-note'));
+    return box;
+  }
+
   function stepChip(name, state) {
     var cls = 'rr-step';
     if (state === '통과') cls += ' ok'; else if (state === '멈춤') cls += ' stop'; else if (state.indexOf('오류') === 0) cls += ' err'; else if (state.indexOf('미기록') >= 0) cls += ' stop';
@@ -158,7 +228,9 @@
     var tip = el('div', null, 'rr-tip'); tip.hidden = true; root.append(tip);
     root.append(el('p', '갱신 ' + d.updated_at.replace('T', ' ').replace('+09:00', ' KST') + ' · 작성 ' + d.author, 'rr-note'));
     root.append(el('h3', '읽는 법'), (function () { var u = el('ul', null, 'rr-rules'); d.how_to_read.forEach(function (t) { u.append(el('li', t)); }); return u; })());
-    root.append(el('h3', '추이'), trendBlock(d, tip));
+    if (d.answer_flow) root.append(el('h3', '답변 흐름'), flowBlock(d, tip));
+    if (d.evening_tests) root.append(el('h3', '답변 연결 뒤 시험'), eveningBlock(d));
+    root.append(el('h3', '추이 — 실제 질문 10개'), trendBlock(d, tip));
     root.append(el('h3', '실행 기록'));
     var tabs = el('div', null, 'rr-tabs'), holder = el('div');
     function show(id) {
