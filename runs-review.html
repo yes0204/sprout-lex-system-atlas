@@ -25,7 +25,7 @@
     s.onerror = function () { root.textContent = '기록 파일을 불러오지 못했다: ' + src; root.className = 'fail'; };
     document.body.appendChild(s);
   }
-  load('runs-review-data.js', function () { load('runs-review.js', function () { window.RunsReview.mount(root); }); });
+  load('runs-review-data.js', function () { load('runs-review.js', function () { window.RunsReview.mount(root); load('updated-badge.js', function () {}); }); });
 })();
 </script>
 </body>
