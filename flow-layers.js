@@ -14,8 +14,14 @@
     plan: { label: '제안 · 구현 전', cls: 'plan' }
   };
   var LAYERS = [
-    { id: 'L-lexicon', x: 65, y: 60, state: 'live', title: '용어 사전 · 개념 갈래', sub: 'lexicon.yaml · 승인 5개념',
-      summary: '「로그」처럼 하나의 말이 여러 의무로 갈라지는 경우, 어느 갈래인지 되묻는 기준이다. 아래 「사전·범위 규칙」이 이 자료를 읽어 ② 용어 확인 분기를 만든다.',
+    { id: 'L-registry', x: 1380, y: 60, state: 'exp', title: 'James 신규 사전 · 등록부', sub: '등록 2,850 · 출처 726 · 정의 202',
+      summary: 'James 가 새로 만든 전체 사전 등록부다. 낱말·개념 항목 2,850개, 원문 출처 726개, 정의 연결 202개를 엄격 검사로 읽어 들인다. 왼쪽 위 「기존 되묻기 사전」(5개념)과 다른 객체이며, 전체 등록 수는 승인된 개념 수가 아니다.',
+      now: ['엄격 적재 2,850 / 726 / 202 유지(새 세대 root e64ca83d… 포함).', '격리 실행에서 실제 API 가 읽는 것까지 확인(신규 35건 실소비 회귀 HTTP 111건 · 모델 0 · 연결 확인이지 답변 성공이 아님).', '대부분 항목의 자격은 unknown — 답변 근거로 쓰이려면 자격 통과가 필요하다.', '제품(main) 답변 경로 전체 연결은 미완.'],
+      effect: ['지금 main 의 분기는 이 등록부를 읽지 않는다 — main 은 왼쪽 위 기존 되묻기 사전만 쓴다.', '연결되면 검색 뒤 근거 선별 단계에서 원문 출처·정의 연결을 쓰게 된다(격리 브랜치에서 진행 중).', '04 사전·범위 탭의 내용은 James 소유이며 별도로 갱신된다.'],
+      links: [['적재 검사 코드', 'a17ee1d97/harness_team/engine/cx01/registry_set.py'], ['격리 API', 'f377ba070/harness_team/engine/cx01/live_view.py'], ['사전 탭 내용 근거', 'f7af634ff/harness_team/engine/data/cx01/c1-remaining-batch04-261105/independent-intake/board/lexicon-content-copy.js']],
+      edge: { to: 'L-ledger', label: '같은 등록부의 새 세대', kind: 'side' } },
+    { id: 'L-lexicon', x: 65, y: 60, state: 'live', title: '기존 되묻기 사전 (main)', sub: '5개념 · 18갈래 · 09-30 승인',
+      summary: 'main 제품 코드가 지금 쓰는 「되묻기」 전용 사전이다. 「로그」처럼 하나의 말이 여러 의무로 갈라질 때 어느 갈래인지 되묻는다. 아래 「사전·범위 규칙」이 이 자료를 읽어 ② 용어 확인 분기를 만든다. James 의 신규 사전(오른쪽 위 「James 신규 사전 · 등록부」)과는 다른 객체다.',
       now: ['승인된 개념 5개 · 갈래 18개(2026-09-30 승인 · 10-19 원문 근거로 갈래 1개 추가). main 에 있던 기존 되묻기 사전이다.', '이것은 James 가 등록한 전체 사전 2,850 항목과 다른 것이다 — 「새 사전이 5개뿐」이라는 뜻이 아니다.', '갈래의 말은 자기 원문에 있어야 한다(지어낸 동의어 거부).', '공개 모드에서는 되묻기를 끈다.'],
       effect: ['② 용어 확인 분기(clarify)의 근거 자료다.', '사전에 없는 말로 물으면 되묻지 않는다 — 사각지대.'],
       links: [['사전 원본', 'main/data/seed/lexicon.yaml'], ['되묻기 코드', 'main/backend/core/lexicon_clarify.py']],
@@ -79,6 +85,7 @@
   function edgePath(L) {
     var e = L.edge, t, a = L;
     if (e.kind === 'down') { t = find(e.to); return 'M' + (a.x + 120) + ',' + (a.y + 84) + ' V' + t.y; }
+    if (e.kind === 'side') { t = find(e.to); return 'M' + (a.x + 240) + ',' + (a.y + 42) + ' H1650 V' + (t.y + 42) + ' H' + (t.x + 240); }
     if (e.kind === 'right') { t = find(e.from); return 'M' + (t.x + 240) + ',' + (t.y + 20) + ' H1325 V' + (a.y + 42) + ' H' + a.x; }
     t = find(e.to); var ty = e.y, sy = (Math.abs((a.y + 42) - ty) < 30) ? ty : a.y + 42;
     return sy === ty ? 'M' + a.x + ',' + ty + ' H' + (t.x + 240) : 'M' + a.x + ',' + sy + ' H1360 V' + ty + ' H' + (t.x + 240);
@@ -86,6 +93,7 @@
   function labelPos(L) {
     var e = L.edge;
     if (e.kind === 'down') return [L.x + 128, L.y + 84 + 24, 'start'];
+    if (e.kind === 'side') return [1640, L.y + 128, 'end'];
     if (e.kind === 'right') return [1352, L.y + 34, 'middle'];
     return [1345, e.y - 7, 'middle'];
   }
@@ -110,7 +118,7 @@
     var root = document.getElementById('diagram'); if (!root || document.getElementById('layer-root')) return;
     var g = s('g', { id: 'layer-root' });
     var defs = s('defs'); var m = s('marker', { id: 'layer-arrow', viewBox: '0 0 10 10', refX: 9, refY: 5, markerWidth: 7, markerHeight: 7, orient: 'auto-start-reverse' }); m.append(s('path', { d: 'M0 0 L10 5 L0 10 Z', fill: '#9c8bb8' })); defs.append(m); g.append(defs);
-    g.append(s('text', { x: 1380, y: 222, class: 'layer-caption' }, '지식·자료 층 — 11/6 기록 덧그림'));
+    g.append(s('text', { x: 1380, y: 40, class: 'layer-caption' }, '지식·자료 층 — 11/6 기록 덧그림'));
     LAYERS.forEach(function (L) {
       g.append(s('path', { d: edgePath(L), class: 'layer-edge' + (L.state === 'live' ? ' live' : '') }));
       var p = labelPos(L); g.append(s('text', { x: p[0], y: p[1], 'text-anchor': p[2], class: 'edge-label' }, L.edge.label));
@@ -140,7 +148,7 @@
   function init() {
     var root = document.getElementById('diagram'); if (!root) return;
     if (!document.getElementById('layer-style')) { var st = document.createElement('style'); st.id = 'layer-style'; st.textContent = CSS; document.head.append(st); }
-    root.setAttribute('viewBox', '0 0 1660 1090');
+    root.setAttribute('viewBox', '0 0 1680 1090');
     addLayer();
     new MutationObserver(function () { addLayer(); }).observe(root, { childList: true });
     document.addEventListener('atlas-node-select', extend);
