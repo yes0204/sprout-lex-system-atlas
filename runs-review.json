@@ -2,7 +2,7 @@
  "schema": "atlas.runs-review.v1",
  "tab": "02 실행 기록 따라가기",
  "author": "Sarah (Claude 검토 팀장)",
- "updated_at": "2026-11-07T15:01+09:00",
+ "updated_at": "2026-11-07T15:21+09:00",
  "how_to_read": [
   "HTTP 200은 「서버가 응답했다」는 뜻이다. 답변 성공으로 세지 않는다.",
   "단위 시험·가짜 모델 시험·실제 모델 실행은 서로 다른 증거다. 한 칸에 합치지 않는다.",
@@ -691,7 +691,7 @@
   {
    "id": "E-1105-real10-fourth",
    "label": "실제 질문 10개 — 4차 실행(최신 · 출력 형식 결속 실험)",
-   "period": "latest",
+   "period": "past",
    "evidence_class": "실제 검색 · 실제 자격 검사 · 실제 로컬 모델 · 실제 HTTP",
    "at": "2026-11-05 14:04~14:09 KST",
    "code_pin": "2c81a1030",
@@ -993,6 +993,262 @@
     "HTTP 오류 0건은 성과가 아니다 — 오류가 보류로 바뀐 것이다.",
     "Alice 의 독립 영수증 대조는 이 실행에 대해 받지 못했다."
    ]
+  },
+  {
+   "id": "F-1107-gb10-p1",
+   "label": "GB10 P1 — 생활 질문 5개 × 소형/대형",
+   "period": "latest",
+   "status": "완료",
+   "evidence_class": "실제 검색 · 실제 자격 검사 · 실제 모델(칸별) · 실제 HTTP",
+   "at": "2026-11-07 14:08 ~ 14:14 KST",
+   "run_conditions": {
+    "service": "서비스 로직: 이 PC 격리 프로세스(127.0.0.1:8359 · 운영 아님)",
+    "cells": [
+     {
+      "arm": "SS",
+      "selection_model": "exaone3.5:7.8b",
+      "selection_location": "이 PC 로컬 Ollama(RTX 4060 Ti 8GB)",
+      "explanation_model": "exaone3.5:7.8b",
+      "explanation_location": "이 PC 로컬 Ollama(RTX 4060 Ti 8GB)"
+     },
+     {
+      "arm": "LL",
+      "selection_model": "qwen3-235b",
+      "selection_location": "GB10 원격(사내 VPN · llama.cpp llama-server)",
+      "explanation_model": "qwen3-235b",
+      "explanation_location": "GB10 원격(사내 VPN · llama.cpp llama-server)"
+     }
+    ],
+    "settings": "온도 0 · ctx 8192 · 출력 1536 · 재시도 0 · 직렬"
+   },
+   "code_pin": "9e9e4b716",
+   "result_pin": "",
+   "denominator": 10,
+   "http_200": 10,
+   "model_posts": 8,
+   "embedding_calls": null,
+   "what_changed": "서비스 로직은 그대로 두고 선택·설명 모델만 SS(둘 다 소형) 대 LL(둘 다 GB10)로 바꿨다.",
+   "environment": "서비스 로직: 이 PC 격리 프로세스(127.0.0.1:8359 · 운영 아님) · 모델 위치는 「실행 조건」 표",
+   "independent_evaluation": {
+    "by": "Robert",
+    "positive_answered": "—",
+    "boundary_minimum_hold": "—",
+    "missing_condition_resolved": "—",
+    "status": "Robert 독립 평가 진행 · 칸별 판정은 P1 결과서(261107_1420) 참조"
+   },
+   "rows": [
+    {
+     "id": "GB10-01",
+     "group": "SS · 선택 exaone3.5:7.8b / 설명 exaone3.5:7.8b",
+     "question": "업무 때문에 고객 연락처를 일정한 규칙으로 모아 쉽게 찾아볼 수 있게 해 뒀어. 이런 묶음을 뭐라고 부르고, 단순히 자료가 여러 개 있다는 것과 무엇이 달라?",
+     "stopped_at": "설명 검사 거부(quote_mark)",
+     "stages": {
+      "질문": "통과",
+      "검색": "통과",
+      "원문·자격": "통과",
+      "모델": "오류: 설명 검사 거부",
+      "HTTP": "통과"
+     },
+     "http": 200,
+     "model_posts": 2,
+     "seconds": 79.4,
+     "why_stopped": "설명 검사 거부(quote_mark): 1/1",
+     "why_source": "원자료 actual_N.json(이 PC private-export)에서 계산",
+     "independent_verdict": "판정 대기",
+     "goal_met": false,
+     "note": ""
+    },
+    {
+     "id": "GB10-02",
+     "group": "SS · 선택 exaone3.5:7.8b / 설명 exaone3.5:7.8b",
+     "question": "고객 명단을 쓰던 업무는 끝났지만 다른 법 때문에 남겨 둬야 한대. 계속 쓰는 고객 명단과 한데 두어도 돼?",
+     "stopped_at": "검색(최고점 0.429 < 0.45)",
+     "stages": {
+      "질문": "통과",
+      "검색": "멈춤",
+      "원문·자격": "도달 안 함",
+      "모델": "도달 안 함",
+      "HTTP": "통과"
+     },
+     "http": 200,
+     "model_posts": 0,
+     "seconds": 27.0,
+     "why_stopped": "검색(최고점 0.429 < 0.45): 1/1",
+     "why_source": "원자료 actual_N.json(이 PC private-export)에서 계산",
+     "independent_verdict": "판정 대기",
+     "goal_met": false,
+     "note": ""
+    },
+    {
+     "id": "GB10-03",
+     "group": "SS · 선택 exaone3.5:7.8b / 설명 exaone3.5:7.8b",
+     "question": "고객 연락처를 동의 없이 다른 용도로 써도 돼?",
+     "stopped_at": "끝까지 감(설명 검사 통과)",
+     "stages": {
+      "질문": "통과",
+      "검색": "통과",
+      "원문·자격": "통과",
+      "모델": "통과",
+      "HTTP": "통과"
+     },
+     "http": 200,
+     "model_posts": 2,
+     "seconds": 35.5,
+     "why_stopped": "끝까지 감(설명 검사 통과): 1/1",
+     "why_source": "원자료 actual_N.json(이 PC private-export)에서 계산",
+     "independent_verdict": "판정 대기",
+     "goal_met": false,
+     "note": ""
+    },
+    {
+     "id": "GB10-04",
+     "group": "SS · 선택 exaone3.5:7.8b / 설명 exaone3.5:7.8b",
+     "question": "우리 회사가 정한 고객 명단 보관 기간은 정확히 몇 년이야?",
+     "stopped_at": "원문·자격(공급 무결성 미확인)",
+     "stages": {
+      "질문": "통과",
+      "검색": "통과",
+      "원문·자격": "멈춤",
+      "모델": "도달 안 함",
+      "HTTP": "통과"
+     },
+     "http": 200,
+     "model_posts": 0,
+     "seconds": 25.8,
+     "why_stopped": "원문·자격(공급 무결성 미확인): 1/1",
+     "why_source": "원자료 actual_N.json(이 PC private-export)에서 계산",
+     "independent_verdict": "판정 대기",
+     "goal_met": false,
+     "note": ""
+    },
+    {
+     "id": "GB10-05",
+     "group": "SS · 선택 exaone3.5:7.8b / 설명 exaone3.5:7.8b",
+     "question": "집 계약이 끝났는데 집주인이 보증금을 돌려주지 않아. 언제까지 돌려줘야 해?",
+     "stopped_at": "검색(최고점 0.299 < 0.45)",
+     "stages": {
+      "질문": "통과",
+      "검색": "멈춤",
+      "원문·자격": "도달 안 함",
+      "모델": "도달 안 함",
+      "HTTP": "통과"
+     },
+     "http": 200,
+     "model_posts": 0,
+     "seconds": 25.7,
+     "why_stopped": "검색(최고점 0.299 < 0.45): 1/1",
+     "why_source": "원자료 actual_N.json(이 PC private-export)에서 계산",
+     "independent_verdict": "판정 대기",
+     "goal_met": false,
+     "note": ""
+    },
+    {
+     "id": "GB10-01",
+     "group": "LL · 선택 qwen3-235b / 설명 qwen3-235b",
+     "question": "업무 때문에 고객 연락처를 일정한 규칙으로 모아 쉽게 찾아볼 수 있게 해 뒀어. 이런 묶음을 뭐라고 부르고, 단순히 자료가 여러 개 있다는 것과 무엇이 달라?",
+     "stopped_at": "끝까지 감(설명 검사 통과)",
+     "stages": {
+      "질문": "통과",
+      "검색": "통과",
+      "원문·자격": "통과",
+      "모델": "통과",
+      "HTTP": "통과"
+     },
+     "http": 200,
+     "model_posts": 2,
+     "seconds": 48.4,
+     "why_stopped": "끝까지 감(설명 검사 통과): 1/1",
+     "why_source": "원자료 actual_N.json(이 PC private-export)에서 계산",
+     "independent_verdict": "판정 대기",
+     "goal_met": false,
+     "note": ""
+    },
+    {
+     "id": "GB10-02",
+     "group": "LL · 선택 qwen3-235b / 설명 qwen3-235b",
+     "question": "고객 명단을 쓰던 업무는 끝났지만 다른 법 때문에 남겨 둬야 한대. 계속 쓰는 고객 명단과 한데 두어도 돼?",
+     "stopped_at": "검색(최고점 0.429 < 0.45)",
+     "stages": {
+      "질문": "통과",
+      "검색": "멈춤",
+      "원문·자격": "도달 안 함",
+      "모델": "도달 안 함",
+      "HTTP": "통과"
+     },
+     "http": 200,
+     "model_posts": 0,
+     "seconds": 25.2,
+     "why_stopped": "검색(최고점 0.429 < 0.45): 1/1",
+     "why_source": "원자료 actual_N.json(이 PC private-export)에서 계산",
+     "independent_verdict": "판정 대기",
+     "goal_met": false,
+     "note": ""
+    },
+    {
+     "id": "GB10-03",
+     "group": "LL · 선택 qwen3-235b / 설명 qwen3-235b",
+     "question": "고객 연락처를 동의 없이 다른 용도로 써도 돼?",
+     "stopped_at": "설명 모델 보류(근거 부족)",
+     "stages": {
+      "질문": "통과",
+      "검색": "통과",
+      "원문·자격": "통과",
+      "모델": "멈춤",
+      "HTTP": "통과"
+     },
+     "http": 200,
+     "model_posts": 2,
+     "seconds": 40.8,
+     "why_stopped": "설명 모델 보류(근거 부족): 1/1",
+     "why_source": "원자료 actual_N.json(이 PC private-export)에서 계산",
+     "independent_verdict": "판정 대기",
+     "goal_met": false,
+     "note": ""
+    },
+    {
+     "id": "GB10-04",
+     "group": "LL · 선택 qwen3-235b / 설명 qwen3-235b",
+     "question": "우리 회사가 정한 고객 명단 보관 기간은 정확히 몇 년이야?",
+     "stopped_at": "원문·자격(공급 무결성 미확인)",
+     "stages": {
+      "질문": "통과",
+      "검색": "통과",
+      "원문·자격": "멈춤",
+      "모델": "도달 안 함",
+      "HTTP": "통과"
+     },
+     "http": 200,
+     "model_posts": 0,
+     "seconds": 25.9,
+     "why_stopped": "원문·자격(공급 무결성 미확인): 1/1",
+     "why_source": "원자료 actual_N.json(이 PC private-export)에서 계산",
+     "independent_verdict": "판정 대기",
+     "goal_met": false,
+     "note": ""
+    },
+    {
+     "id": "GB10-05",
+     "group": "LL · 선택 qwen3-235b / 설명 qwen3-235b",
+     "question": "집 계약이 끝났는데 집주인이 보증금을 돌려주지 않아. 언제까지 돌려줘야 해?",
+     "stopped_at": "검색(최고점 0.299 < 0.45)",
+     "stages": {
+      "질문": "통과",
+      "검색": "멈춤",
+      "원문·자격": "도달 안 함",
+      "모델": "도달 안 함",
+      "HTTP": "통과"
+     },
+     "http": 200,
+     "model_posts": 0,
+     "seconds": 26.2,
+     "why_stopped": "검색(최고점 0.299 < 0.45): 1/1",
+     "why_source": "원자료 actual_N.json(이 PC private-export)에서 계산",
+     "independent_verdict": "판정 대기",
+     "goal_met": false,
+     "note": ""
+    }
+   ],
+   "source": "plan P1 · 폴더 gb10-p1-service-261107"
   }
  ],
  "evidence_classes": [
