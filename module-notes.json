@@ -1,6 +1,6 @@
 {
  "schema": "atlas.module-notes.v1",
- "updated_at": "2026-11-07 15:02",
+ "updated_at": "2026-11-07 15:10",
  "how_to_update": "작업이 끝나면 python tools/update_module_note.py --module <id> --latest \"한 문장\" --source \"핀\" [--fix \"다음 고칠 곳\"] [--status ok|weak|fail] → module-notes-data.js 가 다시 만들어진다.",
  "modules": [
   {
@@ -34,13 +34,18 @@
    "role": "사전·범위 규칙 · 온톨로지 기초",
    "node": "rules",
    "status": "weak",
-   "fix_now": "생활어 규칙 v2 반영(02) · 검색 보강 라벨 정밀도(01 잡음) · law_scope 범위 밖 구분(05). 온톨로지 운영 연결 단계안: P3 ON/OFF → 검색 보강부터 운영 옵션(퇴행 0일 때) → 의미 검수된 조건 구절 → 답 근거는 사람 승인 뒤.",
+   "fix_now": "생활어 규칙 v2(02) · 검색 보강 라벨 정밀도(01 잡음) · law_scope 범위 밖 구분(05). P3(P2 다음): A 검색 보강 OFF/ON · B 조건 문맥 OFF/ON 분리 — 통과 기준은 관련 적격 원문 실제 도달률 엄격 상승 · 퇴행 0. 단계 2 allowlist 후보 · 계약 · 계보 준비.",
    "latest": {
-    "at": "2026-11-07 14:43",
-    "text": "온톨로지 운영 연결 단계안 안건 상정(정본 1205 §2.6)",
-    "source": "Sarah §3-405"
+    "at": "2026-11-07 15:10",
+    "text": "온톨로지 단계안 Anna 처분: P3 위치 · 판정 기준 · allowlist 검수 담당 확정",
+    "source": "Anna 1210 15:09:15 · 정본 1205 §2.6-처분"
    },
    "history_log": [
+    {
+     "at": "2026-11-07 14:43",
+     "text": "온톨로지 운영 연결 단계안 안건 상정(정본 1205 §2.6)",
+     "source": "Sarah §3-405"
+    },
     {
      "at": "2026-11-07 14:33",
      "text": "GB10 P1(SS 대 LL · 5문항) 관측을 반영해 「지금 고칠 곳」을 갱신했다.",
