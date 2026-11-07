@@ -2,7 +2,7 @@
  "schema": "atlas.runs-review.v1",
  "tab": "02 실행 기록 따라가기",
  "author": "Sarah (Claude 검토 팀장)",
- "updated_at": "2026-11-07T15:21+09:00",
+ "updated_at": "2026-11-07T15:43+09:00",
  "how_to_read": [
   "HTTP 200은 「서버가 응답했다」는 뜻이다. 답변 성공으로 세지 않는다.",
   "단위 시험·가짜 모델 시험·실제 모델 실행은 서로 다른 증거다. 한 칸에 합치지 않는다.",
@@ -1253,7 +1253,7 @@
   {
    "id": "G-1107-gb10-p2",
    "label": "GB10 P2 — 선택/설명 2×2 × 3회(01·03)",
-   "period": "latest",
+   "period": "past",
    "status": "완료",
    "evidence_class": "실제 검색 · 실제 자격 검사 · 실제 모델(칸별) · 실제 HTTP",
    "at": "2026-11-07 14:40 ~ 14:55 KST",
@@ -1477,6 +1477,262 @@
     }
    ],
    "source": "plan P2 · 폴더 gb10-p2-service-261107"
+  },
+  {
+   "id": "H-1107-gb10-p3a",
+   "label": "GB10 P3-A — 질문 이해(발견) OFF/ON × 5문항 × 3회(LL)",
+   "period": "latest",
+   "status": "완료",
+   "evidence_class": "실제 검색 · 실제 자격 검사 · 실제 모델(칸별) · 실제 HTTP",
+   "at": "2026-11-07 15:18 ~ 15:33 KST",
+   "run_conditions": {
+    "service": "서비스 로직: 이 PC 격리 프로세스(127.0.0.1:8359 · 운영 아님)",
+    "cells": [
+     {
+      "arm": "OFF",
+      "selection_model": "qwen3-235b",
+      "selection_location": "GB10 원격(사내 VPN · llama.cpp llama-server)",
+      "explanation_model": "qwen3-235b",
+      "explanation_location": "GB10 원격(사내 VPN · llama.cpp llama-server)"
+     },
+     {
+      "arm": "ON",
+      "selection_model": "qwen3-235b",
+      "selection_location": "GB10 원격(사내 VPN · llama.cpp llama-server)",
+      "explanation_model": "qwen3-235b",
+      "explanation_location": "GB10 원격(사내 VPN · llama.cpp llama-server)"
+     }
+    ],
+    "settings": "온도 0 · ctx 8192 · 출력 1536 · 재시도 0 · 직렬"
+   },
+   "code_pin": "85114f4ac",
+   "result_pin": "",
+   "denominator": 30,
+   "http_200": 30,
+   "model_posts": 17,
+   "embedding_calls": null,
+   "what_changed": "모델은 선택·설명 모두 GB10(LL) 고정. 바뀐 것은 검색 보강(발견 기능) OFF↔ON 한 가지. 결과: 적격 근거 도달 OFF 3/9 → ON 6/9, 01 정의 질문 3/3 회복. 다만 무관 라벨 15건이 더해져 기본 켜기는 보류.",
+   "environment": "서비스 로직: 이 PC 격리 프로세스(127.0.0.1:8359 · 운영 아님) · 모델 위치는 「실행 조건」 표",
+   "independent_evaluation": {
+    "by": "Robert",
+    "positive_answered": "—",
+    "boundary_minimum_hold": "—",
+    "missing_condition_resolved": "—",
+    "status": "Robert e4fda751a — 적격 근거 도달 OFF 3/9 → ON 6/9 · 근거가 받치는 답 OFF 0 → ON 3 · 틀린 답 0 · 무관 라벨 15건(소음 기준 미충족)으로 기본 켜기 보류 · 03 회차1 확인 질문이 ON 에서 일반 보류로 바뀜(원인 미확정)"
+   },
+   "rows": [
+    {
+     "id": "GB10-01",
+     "group": "OFF · 선택 qwen3-235b / 설명 qwen3-235b",
+     "question": "업무 때문에 고객 연락처를 일정한 규칙으로 모아 쉽게 찾아볼 수 있게 해 뒀어. 이런 묶음을 뭐라고 부르고, 단순히 자료가 여러 개 있다는 것과 무엇이 달라?",
+     "stopped_at": "검색(최고점 0.382 < 0.45) 3회",
+     "stages": {
+      "질문": "통과",
+      "검색": "멈춤",
+      "원문·자격": "도달 안 함",
+      "모델": "도달 안 함",
+      "HTTP": "통과"
+     },
+     "http": 200,
+     "model_posts": 0,
+     "seconds": 26.6,
+     "why_stopped": "검색(최고점 0.382 < 0.45): 3/3",
+     "why_source": "원자료 actual_N.json(이 PC private-export)에서 계산",
+     "independent_verdict": "안전하지만 미완(근거 미도달 포함) 3/3 · 적격 근거 도달 0/3",
+     "goal_met": false,
+     "note": "Robert e4fda751a(261107_1530_robert_p3a_rows.jsonl)"
+    },
+    {
+     "id": "GB10-02",
+     "group": "OFF · 선택 qwen3-235b / 설명 qwen3-235b",
+     "question": "고객 명단을 쓰던 업무는 끝났지만 다른 법 때문에 남겨 둬야 한대. 계속 쓰는 고객 명단과 한데 두어도 돼?",
+     "stopped_at": "검색(최고점 0.429 < 0.45) 3회",
+     "stages": {
+      "질문": "통과",
+      "검색": "멈춤",
+      "원문·자격": "도달 안 함",
+      "모델": "도달 안 함",
+      "HTTP": "통과"
+     },
+     "http": 200,
+     "model_posts": 0,
+     "seconds": 25.1,
+     "why_stopped": "검색(최고점 0.429 < 0.45): 3/3",
+     "why_source": "원자료 actual_N.json(이 PC private-export)에서 계산",
+     "independent_verdict": "안전하지만 미완(근거 미도달 포함) 3/3 · 적격 근거 도달 0/3",
+     "goal_met": false,
+     "note": "Robert e4fda751a(261107_1530_robert_p3a_rows.jsonl)"
+    },
+    {
+     "id": "GB10-03",
+     "group": "OFF · 선택 qwen3-235b / 설명 qwen3-235b",
+     "question": "고객 연락처를 동의 없이 다른 용도로 써도 돼?",
+     "stopped_at": "선택 모델이 확인 질문(needs_context) 1회 · 설명 모델 보류(근거 부족) 2회",
+     "stages": {
+      "질문": "통과",
+      "검색": "통과",
+      "원문·자격": "통과",
+      "모델": "멈춤",
+      "HTTP": "통과"
+     },
+     "http": 200,
+     "model_posts": 5,
+     "seconds": 35.9,
+     "why_stopped": "선택 모델이 확인 질문(needs_context): 1/3 · 설명 모델 보류(근거 부족): 2/3",
+     "why_source": "원자료 actual_N.json(이 PC private-export)에서 계산",
+     "independent_verdict": "정당한 보류·확인 질문 1/3 · 안전하지만 미완(근거 미도달 포함) 2/3 · 적격 근거 도달 3/3",
+     "goal_met": false,
+     "note": "Robert e4fda751a(261107_1530_robert_p3a_rows.jsonl)"
+    },
+    {
+     "id": "GB10-04",
+     "group": "OFF · 선택 qwen3-235b / 설명 qwen3-235b",
+     "question": "우리 회사가 정한 고객 명단 보관 기간은 정확히 몇 년이야?",
+     "stopped_at": "모델 단계(세부 미기록) 3회",
+     "stages": {
+      "질문": "통과",
+      "검색": "통과",
+      "원문·자격": "통과",
+      "모델": "멈춤",
+      "HTTP": "통과"
+     },
+     "http": 200,
+     "model_posts": 0,
+     "seconds": 25.9,
+     "why_stopped": "모델 단계(세부 미기록): 3/3",
+     "why_source": "원자료 actual_N.json(이 PC private-export)에서 계산",
+     "independent_verdict": "안전하지만 미완(근거 미도달 포함) 3/3 · 적격 근거 도달 0/3",
+     "goal_met": false,
+     "note": "Robert e4fda751a(261107_1530_robert_p3a_rows.jsonl)"
+    },
+    {
+     "id": "GB10-05",
+     "group": "OFF · 선택 qwen3-235b / 설명 qwen3-235b",
+     "question": "집 계약이 끝났는데 집주인이 보증금을 돌려주지 않아. 언제까지 돌려줘야 해?",
+     "stopped_at": "검색(최고점 0.299 < 0.45) 3회",
+     "stages": {
+      "질문": "통과",
+      "검색": "멈춤",
+      "원문·자격": "도달 안 함",
+      "모델": "도달 안 함",
+      "HTTP": "통과"
+     },
+     "http": 200,
+     "model_posts": 0,
+     "seconds": 25.0,
+     "why_stopped": "검색(최고점 0.299 < 0.45): 3/3",
+     "why_source": "원자료 actual_N.json(이 PC private-export)에서 계산",
+     "independent_verdict": "정당한 보류·확인 질문 3/3 · 적격 근거 도달 0/3",
+     "goal_met": false,
+     "note": "Robert e4fda751a(261107_1530_robert_p3a_rows.jsonl)"
+    },
+    {
+     "id": "GB10-01",
+     "group": "ON · 선택 qwen3-235b / 설명 qwen3-235b",
+     "question": "업무 때문에 고객 연락처를 일정한 규칙으로 모아 쉽게 찾아볼 수 있게 해 뒀어. 이런 묶음을 뭐라고 부르고, 단순히 자료가 여러 개 있다는 것과 무엇이 달라?",
+     "stopped_at": "끝까지 감(설명 검사 통과) 3회",
+     "stages": {
+      "질문": "통과",
+      "검색": "통과",
+      "원문·자격": "통과",
+      "모델": "통과",
+      "HTTP": "통과"
+     },
+     "http": 200,
+     "model_posts": 6,
+     "seconds": 43.8,
+     "why_stopped": "끝까지 감(설명 검사 통과): 3/3",
+     "why_source": "원자료 actual_N.json(이 PC private-export)에서 계산",
+     "independent_verdict": "근거가 받치는 답 3/3 · 적격 근거 도달 3/3 · 무관 라벨 6건",
+     "goal_met": true,
+     "note": "Robert e4fda751a(261107_1530_robert_p3a_rows.jsonl)"
+    },
+    {
+     "id": "GB10-02",
+     "group": "ON · 선택 qwen3-235b / 설명 qwen3-235b",
+     "question": "고객 명단을 쓰던 업무는 끝났지만 다른 법 때문에 남겨 둬야 한대. 계속 쓰는 고객 명단과 한데 두어도 돼?",
+     "stopped_at": "검색(최고점 0.429 < 0.45) 3회",
+     "stages": {
+      "질문": "통과",
+      "검색": "멈춤",
+      "원문·자격": "도달 안 함",
+      "모델": "도달 안 함",
+      "HTTP": "통과"
+     },
+     "http": 200,
+     "model_posts": 0,
+     "seconds": 25.5,
+     "why_stopped": "검색(최고점 0.429 < 0.45): 3/3",
+     "why_source": "원자료 actual_N.json(이 PC private-export)에서 계산",
+     "independent_verdict": "안전하지만 미완(근거 미도달 포함) 3/3 · 적격 근거 도달 0/3",
+     "goal_met": false,
+     "note": "Robert e4fda751a(261107_1530_robert_p3a_rows.jsonl)"
+    },
+    {
+     "id": "GB10-03",
+     "group": "ON · 선택 qwen3-235b / 설명 qwen3-235b",
+     "question": "고객 연락처를 동의 없이 다른 용도로 써도 돼?",
+     "stopped_at": "설명 모델 보류(근거 부족) 3회",
+     "stages": {
+      "질문": "통과",
+      "검색": "통과",
+      "원문·자격": "통과",
+      "모델": "멈춤",
+      "HTTP": "통과"
+     },
+     "http": 200,
+     "model_posts": 6,
+     "seconds": 40.0,
+     "why_stopped": "설명 모델 보류(근거 부족): 3/3",
+     "why_source": "원자료 actual_N.json(이 PC private-export)에서 계산",
+     "independent_verdict": "안전하지만 미완(근거 미도달 포함) 3/3 · 적격 근거 도달 3/3 · 무관 라벨 3건",
+     "goal_met": false,
+     "note": "Robert e4fda751a(261107_1530_robert_p3a_rows.jsonl)"
+    },
+    {
+     "id": "GB10-04",
+     "group": "ON · 선택 qwen3-235b / 설명 qwen3-235b",
+     "question": "우리 회사가 정한 고객 명단 보관 기간은 정확히 몇 년이야?",
+     "stopped_at": "원문·자격(공급 무결성 미확인) 3회",
+     "stages": {
+      "질문": "통과",
+      "검색": "통과",
+      "원문·자격": "멈춤",
+      "모델": "도달 안 함",
+      "HTTP": "통과"
+     },
+     "http": 200,
+     "model_posts": 0,
+     "seconds": 25.5,
+     "why_stopped": "원문·자격(공급 무결성 미확인): 3/3",
+     "why_source": "원자료 actual_N.json(이 PC private-export)에서 계산",
+     "independent_verdict": "안전하지만 미완(근거 미도달 포함) 3/3 · 적격 근거 도달 0/3 · 무관 라벨 6건",
+     "goal_met": false,
+     "note": "Robert e4fda751a(261107_1530_robert_p3a_rows.jsonl)"
+    },
+    {
+     "id": "GB10-05",
+     "group": "ON · 선택 qwen3-235b / 설명 qwen3-235b",
+     "question": "집 계약이 끝났는데 집주인이 보증금을 돌려주지 않아. 언제까지 돌려줘야 해?",
+     "stopped_at": "검색(최고점 0.299 < 0.45) 3회",
+     "stages": {
+      "질문": "통과",
+      "검색": "멈춤",
+      "원문·자격": "도달 안 함",
+      "모델": "도달 안 함",
+      "HTTP": "통과"
+     },
+     "http": 200,
+     "model_posts": 0,
+     "seconds": 25.1,
+     "why_stopped": "검색(최고점 0.299 < 0.45): 3/3",
+     "why_source": "원자료 actual_N.json(이 PC private-export)에서 계산",
+     "independent_verdict": "정당한 보류·확인 질문 3/3 · 적격 근거 도달 0/3",
+     "goal_met": false,
+     "note": "Robert e4fda751a(261107_1530_robert_p3a_rows.jsonl)"
+    }
+   ],
+   "source": "plan P3-A · 폴더 gb10-p3a-service-261107"
   }
  ],
  "evidence_classes": [
