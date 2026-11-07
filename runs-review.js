@@ -149,9 +149,9 @@
     box.append(lg, cw);
     var wrap = el('div', null, 'rr-scroll'), tb = el('table'), hd = el('tr');
     var hasFix = f.stages.some(function (s) { return s.fix; });
-    (hasFix ? ['구간 · 노드', '상태', '막힌 이유와 근거', '모델 교체 효과', '고칠 곳'] : ['구간', '연결', '상태', '근거']).forEach(function (h) { hd.append(el('th', h)); }); tb.append(hd);
+    (hasFix ? ['구간 · 노드', '상태', '고칠 곳', '막힌 이유와 근거', '모델 교체 효과'] : ['구간', '연결', '상태', '근거']).forEach(function (h) { hd.append(el('th', h)); }); tb.append(hd);
     f.stages.forEach(function (s) { var tr = el('tr'); var c = FLOW_STATE[s.state] || FLOW_STATE.weak; var b = el('td'); b.append(el('span', c.label, 'rr-badge ' + (s.state === 'ok' ? 'yes' : 'no'))); var q = el('td'); q.append(el('div', s.quality, 'rr-q'), el('div', s.evidence, 'rr-note'));
-      if (hasFix) { var n = el('td'); n.append(el('div', s.name, 'rr-q'), el('div', (s.node || '') + ' · ' + s.link, 'rr-note')); var fx = el('td'); fx.append(el('strong', s.fix || '—')); tr.append(n, b, q, el('td', s.model_effect || '—'), fx); }
+      if (hasFix) { var n = el('td'); n.append(el('div', s.name, 'rr-q'), el('div', (s.node || '') + ' · ' + s.link, 'rr-note')); var fx = el('td'); fx.append(el('strong', s.fix || '—')); tr.append(n, b, fx, q, el('td', s.model_effect || '—')); }
       else tr.append(el('td', s.name), el('td', s.link), b, q);
       tb.append(tr); });
     wrap.append(tb); box.append(wrap);
