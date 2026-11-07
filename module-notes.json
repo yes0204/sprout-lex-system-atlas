@@ -1,6 +1,6 @@
 {
  "schema": "atlas.module-notes.v1",
- "updated_at": "2026-11-07 15:10",
+ "updated_at": "2026-11-07 15:42",
  "how_to_update": "작업이 끝나면 python tools/update_module_note.py --module <id> --latest \"한 문장\" --source \"핀\" [--fix \"다음 고칠 곳\"] [--status ok|weak|fail] → module-notes-data.js 가 다시 만들어진다.",
  "modules": [
   {
@@ -146,13 +146,18 @@
    "role": "답변 경로 결정 · LangGraph",
    "node": "route",
    "status": "weak",
-   "fix_now": "설명 보류의 원인을 모델 성향·과업 지시·근거 구성과 분리해 검토. 따옴표·숫자 검사 차단은 의미 타당성과 따로 평가. 기존 strict를 임의 완화하지 않음.",
+   "fix_now": "D1 원인분리 평가 → 검수된 조건주석 P3-B → 입력길이 L1. 필수원문·Q·strict 보존.",
    "latest": {
-    "at": "2026-11-07 15:02",
-    "text": "Anna 대행 P2 실제24요청·47모델호출/3반복 완료. 정의는 L설명6/6 완료·S설명6/6 차단, 업무문항 설명완성0·정당 확인1. Robert 독립 전건 평가 완료.",
-    "source": "P2 d7f2c1c57 / Robert c47547c19 / plan6318644c"
+    "at": "2026-11-07 15:42",
+    "text": "P3-A 실제30요청·17모델 완료: 관련 적격근거3/9→6/9, 정의3회 회복. 라벨잡음15건 추가로 기본승격 보류. D1은 같은 근거·GB10에서 설명 지시만 바꾸는12요청 실행 중(선택 재생 진단).",
+    "source": "Anna P3A 85114f4ac / Robert e4fda751a / D1 a42ef8125"
    },
    "history_log": [
+    {
+     "at": "2026-11-07 15:02",
+     "text": "Anna 대행 P2 실제24요청·47모델호출/3반복 완료. 정의는 L설명6/6 완료·S설명6/6 차단, 업무문항 설명완성0·정당 확인1. Robert 독립 전건 평가 완료.",
+     "source": "P2 d7f2c1c57 / Robert c47547c19 / plan6318644c"
+    },
     {
      "at": "2026-11-07 14:59",
      "text": "P2 실행 완료(Anna 대행) · Robert 전건 채점",
