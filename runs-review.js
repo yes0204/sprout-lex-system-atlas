@@ -17,6 +17,11 @@
     '.rr h4{font-size:13px;margin:16px 0 6px}',
     '.rr p{margin:6px 0}',
     '.rr .rr-note{color:#65757b;font-size:12px}',
+    '.rr .rr-help{border:1px solid #e6ecec;border-radius:6px;padding:6px 10px;margin:8px 0;background:#fafcfc}',
+    '.rr .rr-help summary{cursor:pointer;font-size:12px;color:#3d5158}',
+    '.rr .rr-help .rr-rules{margin-top:6px}',
+    '.rr .rr-when{font-size:13px;font-weight:600;color:#203c48;margin:4px 0}',
+    '.rr .rr-cond td .rr-q{font-weight:600}',
     '.rr .rr-rules{margin:0;padding-left:18px;color:#3d5158;font-size:12px}',
     '.rr .rr-card{border:1px solid #dce3e4;border-radius:7px;background:#fff;padding:16px 18px;margin:10px 0}',
     '.rr .rr-legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;margin:4px 0 10px}',
@@ -188,7 +193,14 @@
   function runDetail(s, stages) {
     var box = el('div', null, 'rr-card');
     box.append(el('h4', s.label));
+    box.append(el('p', '실행 일시 ' + (s.at || '기록 없음') + (s.status ? ' · ' + s.status : ''), 'rr-when'));
     box.append(el('p', s.evidence_class + (s.what_changed ? ' · 바뀐 점: ' + s.what_changed : ''), 'rr-note'));
+    var rc = s.run_conditions, cw = el('div', null, 'rr-scroll'), ct = el('table', null, 'rr-cond'), chd = el('tr');
+    ['칸', '선택 모델 · 실행 위치', '설명 모델 · 실행 위치'].forEach(function (h) { chd.append(el('th', h)); }); ct.append(chd);
+    if (rc && rc.cells) { rc.cells.forEach(function (c) { var tr = el('tr'); var a1 = el('td'); a1.append(el('div', c.selection_model, 'rr-q'), el('div', c.selection_location, 'rr-note')); var a2 = el('td'); a2.append(el('div', c.explanation_model, 'rr-q'), el('div', c.explanation_location, 'rr-note')); tr.append(el('td', c.arm), a1, a2); ct.append(tr); }); }
+    else { var tr0 = el('tr'); var m0 = el('td'); m0.append(el('div', s.model || '기록 없음', 'rr-q'), el('div', '실행 위치: 로컬 Ollama(PC 미기재)', 'rr-note')); tr0.append(el('td', '단일'), m0, el('td', '선택과 같은 모델(설명 단계는 기록상 꺼짐 또는 미분리)')); ct.append(tr0); }
+    cw.append(ct); box.append(el('h4', '실행 조건 — 모델 · 실행 위치'), cw);
+    if (rc) box.append(el('p', rc.service + ' · ' + rc.settings, 'rr-note'));
     var m = el('div', null, 'rr-meta');
     var ev = s.independent_evaluation;
     [['실행 시각', s.at], ['코드', s.code_pin + (s.result_pin ? ' / 결과 ' + s.result_pin : '')], ['질문 수(분모)', s.denominator], ['HTTP 200', s.http_200 + (s.http_error ? ' (오류 ' + s.http_error + ')' : '')],
@@ -231,7 +243,7 @@
     root.replaceChildren(); root.classList.add('rr');
     var tip = el('div', null, 'rr-tip'); tip.hidden = true; root.append(tip);
     root.append(el('p', '갱신 ' + d.updated_at.replace('T', ' ').replace('+09:00', ' KST') + ' · 작성 ' + d.author, 'rr-note'));
-    root.append(el('h3', '읽는 법'), (function () { var u = el('ul', null, 'rr-rules'); d.how_to_read.forEach(function (t) { u.append(el('li', t)); }); return u; })());
+    root.append((function () { var dt = el('details', null, 'rr-help'); dt.append(el('summary', '읽는 법 · 도움말(펼치기)')); var u = el('ul', null, 'rr-rules'); d.how_to_read.forEach(function (t) { u.append(el('li', t)); }); dt.append(u); return dt; })());
     if (d.answer_flow) root.append(el('h3', '답변 흐름'), flowBlock(d, tip));
     if (d.evening_tests) root.append(el('h3', '답변 연결 뒤 시험'), eveningBlock(d));
     root.append(el('h3', '추이 — 실제 질문 10개'), trendBlock(d, tip));
@@ -241,7 +253,7 @@
       Array.prototype.forEach.call(tabs.children, function (b) { b.setAttribute('aria-pressed', String(b.dataset.id === id)); });
       holder.replaceChildren(runDetail(d.run_sets.filter(function (s) { return s.id === id; })[0], d.stages));
     }
-    d.run_sets.slice().reverse().forEach(function (s) { var b = el('button', (s.period === 'latest' ? '최신 · ' : '') + s.label); b.dataset.id = s.id; b.type = 'button'; b.onclick = function () { show(s.id); }; tabs.append(b); });
+    d.run_sets.slice().reverse().forEach(function (s) { var when = String(s.at || '').replace(/^2026-/, '').replace(' KST', ''); var b = el('button', (s.period === 'latest' ? '최신 · ' : '') + when + ' · ' + s.label + (s.status && s.status !== '완료' ? ' (' + s.status + ')' : '')); b.dataset.id = s.id; b.type = 'button'; b.onclick = function () { show(s.id); }; tabs.append(b); });
     root.append(tabs, holder);
     var latest = d.run_sets.filter(function (s) { return s.period === 'latest'; })[0] || d.run_sets[d.run_sets.length - 1];
     show(latest.id);
