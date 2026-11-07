@@ -1,6 +1,6 @@
 {
  "schema": "atlas.module-notes.v1",
- "updated_at": "2026-11-07 20:31",
+ "updated_at": "2026-11-07 20:59",
  "how_to_update": "작업이 끝나면 python tools/update_module_note.py --module <id> --latest \"한 문장\" --source \"핀\" [--fix \"다음 고칠 곳\"] [--status ok|weak|fail] → module-notes-data.js 가 다시 만들어진다.",
  "modules": [
   {
@@ -146,13 +146,18 @@
    "role": "답변 경로 결정 · LangGraph",
    "node": "route",
    "status": "weak",
-   "fix_now": "고정 수정판 검수 통과후 실제6HTTP/최대12POST·retry0. 검색/공급/전송/답변을 따로 비교하고 부품검수에서 멈추지 않음.",
+   "fix_now": "숫자 계약과 조건 보존을 분리 진단; 통지 질문의 실제 첫 차단 지점 확인. 전역 guard 완화 금지.",
    "latest": {
-    "at": "2026-11-07 20:31",
-    "text": "KG 수정24관측 통과. 통합 a79f0fb21: 첨부/실제POST·불명표시와 Q관측 caller분리 수정. 사용자승인 Opus5.5 후속검수중, 3생활어6요청 준비/생성0.",
-    "source": "PR357 a79f0fb21 / plan2fe734e5 / Robert be10cab66 / Alice b7a0531c9"
+    "at": "2026-11-07 20:59",
+    "text": "KG 생활어 6HTTP200·GB10 4응답. 모델 노출 1쌍 개선0/1, 설명2 digit 제외. 통지 목표 검색됨/앞단 차단 진단 중.",
+    "source": "https://github.com/yes0204/sprout-lex/blob/b63db0cdd/harness_team/worklog/261107_2044_anna_kg_e2e_result.md"
    },
    "history_log": [
+    {
+     "at": "2026-11-07 20:31",
+     "text": "KG 수정24관측 통과. 통합 a79f0fb21: 첨부/실제POST·불명표시와 Q관측 caller분리 수정. 사용자승인 Opus5.5 후속검수중, 3생활어6요청 준비/생성0.",
+     "source": "PR357 a79f0fb21 / plan2fe734e5 / Robert be10cab66 / Alice b7a0531c9"
+    },
     {
      "at": "2026-11-07 20:23",
      "text": "KG 수정·Alice 독립24관측 통과. 새8361 KG구조안내 ON/OFF 3생활어·6HTTP 계획/서버준비, 생성0. Fable 코드검수 한도소진·대체검수 결정대기.",
