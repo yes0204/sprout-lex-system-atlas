@@ -1,6 +1,6 @@
 {
  "schema": "atlas.module-notes.v1",
- "updated_at": "2026-11-07 18:07",
+ "updated_at": "2026-11-07 18:15",
  "how_to_update": "작업이 끝나면 python tools/update_module_note.py --module <id> --latest \"한 문장\" --source \"핀\" [--fix \"다음 고칠 곳\"] [--status ok|weak|fail] → module-notes-data.js 가 다시 만들어진다.",
  "modules": [
   {
@@ -146,13 +146,18 @@
    "role": "답변 경로 결정 · LangGraph",
    "node": "route",
    "status": "weak",
-   "fix_now": "문장 삭제만으로 완전답 회복되지 않음. KG 참조 결속 재검수 후 근거 조립·주장 지지 대조. 새 평가17기준/3범위증빙대기, 제품미반영.",
+   "fix_now": "이미 끝난 판독 반복 없이 근거 조립·주장 지지 개선으로 이동. KG 잔존 날짜 경계 수정·재검수 후 소비. 새 평가17기준/3범위증빙대기.",
    "latest": {
-    "at": "2026-11-07 18:07",
-    "text": "WP5 저장35응답 재생·독립 의미판독 완료: 신규 표시6행(질문1/raw2) 완전0·부분4·지지미확인2, 기본적용HOLD. KG필수2 수정핀 Alice재검수 중.",
-    "source": "PR314 2c0dfba54 · Robert b5b3904c1 · KG Alice db841fb4e · William 84f39ce83/bc31fa5af"
+    "at": "2026-11-07 18:15",
+    "text": "WP5 시험·독립판독 단락 완료: 완전0·부분4·지지미확인2(질문1/raw2반복). 문장삭제 기본적용HOLD. KG 대상결속 해소·날짜목록 경계 잔존 수정중.",
+    "source": "WP5 Robert b5b3904c1 · 1804 Anna처분 · KG Alice a2639cd39"
    },
    "history_log": [
+    {
+     "at": "2026-11-07 18:07",
+     "text": "WP5 저장35응답 재생·독립 의미판독 완료: 신규 표시6행(질문1/raw2) 완전0·부분4·지지미확인2, 기본적용HOLD. KG필수2 수정핀 Alice재검수 중.",
+     "source": "PR314 2c0dfba54 · Robert b5b3904c1 · KG Alice db841fb4e · William 84f39ce83/bc31fa5af"
+    },
     {
      "at": "2026-11-07 17:23",
      "text": "새 평가20 작성·Robert17개 기준 고정/3개 범위증빙 대기, 실행0. 재생306참조와지연표 독립대조 완료. William 별도작업폴더 생성·추출기 작업 진행.",
