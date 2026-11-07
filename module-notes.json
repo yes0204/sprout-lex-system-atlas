@@ -1,6 +1,6 @@
 {
  "schema": "atlas.module-notes.v1",
- "updated_at": "2026-11-07 15:01",
+ "updated_at": "2026-11-07 15:02",
  "how_to_update": "작업이 끝나면 python tools/update_module_note.py --module <id> --latest \"한 문장\" --source \"핀\" [--fix \"다음 고칠 곳\"] [--status ok|weak|fail] → module-notes-data.js 가 다시 만들어진다.",
  "modules": [
   {
@@ -141,13 +141,18 @@
    "role": "답변 경로 결정 · LangGraph",
    "node": "route",
    "status": "weak",
-   "fix_now": "P2 완료(24요청). 다음: P3 온톨로지 ON/OFF · P4 GB10 비결정성(03 L 선택 1/6 변동) 측정. 화면 순서 미리보기는 Michael 과.",
+   "fix_now": "설명 보류의 원인을 모델 성향·과업 지시·근거 구성과 분리해 검토. 따옴표·숫자 검사 차단은 의미 타당성과 따로 평가. 기존 strict를 임의 완화하지 않음.",
    "latest": {
-    "at": "2026-11-07 14:59",
-    "text": "P2 실행 완료(Anna 대행) · Robert 전건 채점",
-    "source": "P2 plan 6318644c"
+    "at": "2026-11-07 15:02",
+    "text": "Anna 대행 P2 실제24요청·47모델호출/3반복 완료. 정의는 L설명6/6 완료·S설명6/6 차단, 업무문항 설명완성0·정당 확인1. Robert 독립 전건 평가 완료.",
+    "source": "P2 d7f2c1c57 / Robert c47547c19 / plan6318644c"
    },
    "history_log": [
+    {
+     "at": "2026-11-07 14:59",
+     "text": "P2 실행 완료(Anna 대행) · Robert 전건 채점",
+     "source": "P2 plan 6318644c"
+    },
     {
      "at": "2026-11-07 14:33",
      "text": "Anna 회의 처분(14:32) 반영",
