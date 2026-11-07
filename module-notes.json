@@ -1,6 +1,6 @@
 {
  "schema": "atlas.module-notes.v1",
- "updated_at": "2026-11-07 22:29",
+ "updated_at": "2026-11-07 23:33",
  "how_to_update": "작업이 끝나면 python tools/update_module_note.py --module <id> --latest \"한 문장\" --source \"핀\" [--fix \"다음 고칠 곳\"] [--status ok|weak|fail] → module-notes-data.js 가 다시 만들어진다.",
  "modules": [
   {
@@ -146,13 +146,18 @@
    "role": "답변 경로 결정 · LangGraph",
    "node": "route",
    "status": "weak",
-   "fix_now": "공식 원문·색인 대장 인수 후 벡터·등록부·발견·개념·Q 전체 경로를 같은 사전 범위로 결속하고 재검수. 키 파일 저장은 승인 취소·생성 0.",
+   "fix_now": "동일 새 설명입력 GPT 비교: 12unit 원문 결속·새 public-scope gate 및 sender 증분 독립검수 후 실행. 숫자 계약 실패와 의미 범위 모호는 분리 진단.",
    "latest": {
-    "at": "2026-11-07 22:29",
-    "text": "Sarah: 수정 송신기·James 범위 모듈 필수 0. 공개 법령 전용 신규 비교 연결 중, 실제 GPT 호출 0.",
-    "source": "Sarah §3-437 bea6980d4 · sender 17c838771 · James 91f5f2c31 · 기록 be8f27cc2"
+    "at": "2026-11-07 23:33",
+    "text": "공개 법령 범위 r3 실검색→GB10 선택1·설명1→HTTP200. 설명3문장 digit 거부·원문 fallback, Robert 부분답 판정. 키 사용자 준비 완료·GPT0.",
+    "source": "acce070f4 / actual78eb4e2c / Robert f27f9d228 / Anna2104"
    },
    "history_log": [
+    {
+     "at": "2026-11-07 22:29",
+     "text": "Sarah: 수정 송신기·James 범위 모듈 필수 0. 공개 법령 전용 신규 비교 연결 중, 실제 GPT 호출 0.",
+     "source": "Sarah §3-437 bea6980d4 · sender 17c838771 · James 91f5f2c31 · 기록 be8f27cc2"
+    },
     {
      "at": "2026-11-07 22:17",
      "text": "전량 후보 관측 3질문 완료: 모두 설명 모델 직전 도달, 내부·미분류 후보 혼입 확인. GPT 생성 0회.",
