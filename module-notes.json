@@ -1,6 +1,6 @@
 {
  "schema": "atlas.module-notes.v1",
- "updated_at": "2026-11-07 16:57",
+ "updated_at": "2026-11-07 17:03",
  "how_to_update": "작업이 끝나면 python tools/update_module_note.py --module <id> --latest \"한 문장\" --source \"핀\" [--fix \"다음 고칠 곳\"] [--status ok|weak|fail] → module-notes-data.js 가 다시 만들어진다.",
  "modules": [
   {
@@ -146,13 +146,18 @@
    "role": "답변 경로 결정 · LangGraph",
    "node": "route",
    "status": "weak",
-   "fix_now": "새 평가 20문항은 미작성·미봉인. 과거 결과 노출 작성자 제외 후 clean 원문으로 재배정. Anna receipt 재생·문장 표시→검수 KG 근거 조립은 오프라인, 제품 미연결.",
+   "fix_now": "공개원문 전용 입력 준비 후 새 평가20 작성·봉인. 다음은 오프라인 경로·문장 제외/필수조건 보존 측정. KG 실추출·근거조립·제품연결은 미완료, 신규 모델 호출0.",
    "latest": {
-    "at": "2026-11-07 16:57",
-    "text": "단계 A 착수: W5 원논문·반대증거 3갈래 조사 완료, James kg01 계약 작성 중. Alice 공개원문 평가입력 분리·Robert 경로/문장 손실 기준 고정 배정. 신규 모델 호출 0.",
-    "source": "Anna 261107_1655_anna_stage_a_dispatch.md · W5 261107_1641_ethan_small_model_legal_rag_deepdive.md · PR314"
+    "at": "2026-11-07 17:03",
+    "text": "W5 원논문 조사·Sarah 독립대조 후 교정 완료. James kg01 계약 초안 고정·Alice 대조 대기. Anna 재생 입력 76요청+별도B32 30요청 해시대장 실행, Robert 기준 고정.",
+    "source": "PR314 f2bd0e19c · W5 1641보고서 · 1655실행배정 · Robert163bbfb68 · KG01 PR356"
    },
    "history_log": [
+    {
+     "at": "2026-11-07 16:57",
+     "text": "단계 A 착수: W5 원논문·반대증거 3갈래 조사 완료, James kg01 계약 작성 중. Alice 공개원문 평가입력 분리·Robert 경로/문장 손실 기준 고정 배정. 신규 모델 호출 0.",
+     "source": "Anna 261107_1655_anna_stage_a_dispatch.md · W5 261107_1641_ethan_small_model_legal_rag_deepdive.md · PR314"
+    },
     {
      "at": "2026-11-07 16:38",
      "text": "B32 완료: 30HTTP200·GB10실18호출·재시도0. ON 선택6/설명3회 주석전달 확인, 정확한 배달답변0. OFF 오답통과1(조건누락), 두arm 부당보류3씩. ENF주석은 앞단에서 미노출이라 효과판정불가·기본적용보류.",
