@@ -129,7 +129,7 @@
       g.append(sv('text', { x: x + 10, y: top + 40, 'font-size': 10.5, fill: '#3d5158' }, s.link));
       g.append(sv('text', { x: x + 10, y: top + 60, 'font-size': 11, 'font-weight': 700, fill: c.ink }, c.label));
       wrapText(s.quality, 13).slice(0, 5).forEach(function (line, k) { g.append(sv('text', { x: x + 10, y: top + 80 + k * 15, 'font-size': 10.5, fill: '#192e35' }, line)); });
-      var msg = s.name + ' — ' + s.link + ' · ' + c.label + ': ' + s.evidence;
+      var msg = s.name + ' — ' + s.link + ' · ' + c.label + ': ' + s.evidence + (s.fix ? ' · 고칠 곳: ' + s.fix : '');
       g.addEventListener('mousemove', function (ev) { tip.textContent = msg; tip.hidden = false; tip.style.left = (ev.clientX + 12) + 'px'; tip.style.top = (ev.clientY + 12) + 'px'; });
       g.addEventListener('mouseleave', function () { tip.hidden = true; });
       g.append(sv('title', {}, msg));
@@ -148,8 +148,12 @@
     var cw = el('div', null, 'rr-scroll'); cw.append(flowChart(f, tip));
     box.append(lg, cw);
     var wrap = el('div', null, 'rr-scroll'), tb = el('table'), hd = el('tr');
-    ['구간', '연결', '상태', '근거'].forEach(function (h) { hd.append(el('th', h)); }); tb.append(hd);
-    f.stages.forEach(function (s) { var tr = el('tr'); var c = FLOW_STATE[s.state] || FLOW_STATE.weak; var b = el('td'); b.append(el('span', c.label, 'rr-badge ' + (s.state === 'ok' ? 'yes' : 'no'))); var q = el('td'); q.append(el('div', s.quality, 'rr-q'), el('div', s.evidence, 'rr-note')); tr.append(el('td', s.name), el('td', s.link), b, q); tb.append(tr); });
+    var hasFix = f.stages.some(function (s) { return s.fix; });
+    (hasFix ? ['구간 · 노드', '상태', '막힌 이유와 근거', '모델 교체 효과', '고칠 곳'] : ['구간', '연결', '상태', '근거']).forEach(function (h) { hd.append(el('th', h)); }); tb.append(hd);
+    f.stages.forEach(function (s) { var tr = el('tr'); var c = FLOW_STATE[s.state] || FLOW_STATE.weak; var b = el('td'); b.append(el('span', c.label, 'rr-badge ' + (s.state === 'ok' ? 'yes' : 'no'))); var q = el('td'); q.append(el('div', s.quality, 'rr-q'), el('div', s.evidence, 'rr-note'));
+      if (hasFix) { var n = el('td'); n.append(el('div', s.name, 'rr-q'), el('div', (s.node || '') + ' · ' + s.link, 'rr-note')); var fx = el('td'); fx.append(el('strong', s.fix || '—')); tr.append(n, b, q, el('td', s.model_effect || '—'), fx); }
+      else tr.append(el('td', s.name), el('td', s.link), b, q);
+      tb.append(tr); });
     wrap.append(tb); box.append(wrap);
     if (f.next) box.append(el('p', '다음 — ' + f.next.state + ': ' + f.next.text));
     if (f.limit) box.append(el('p', '한계: ' + f.limit, 'rr-note'));
