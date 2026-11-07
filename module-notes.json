@@ -1,6 +1,6 @@
 {
  "schema": "atlas.module-notes.v1",
- "updated_at": "2026-11-07 14:36",
+ "updated_at": "2026-11-07 14:43",
  "how_to_update": "작업이 끝나면 python tools/update_module_note.py --module <id> --latest \"한 문장\" --source \"핀\" [--fix \"다음 고칠 곳\"] [--status ok|weak|fail] → module-notes-data.js 가 다시 만들어진다.",
  "modules": [
   {
@@ -34,13 +34,19 @@
    "role": "사전·범위 규칙 · 온톨로지 기초",
    "node": "rules",
    "status": "weak",
-   "fix_now": "생활어 규칙 v2(4/4 · 미반영)를 check/retrieve 에 반영(P1-02 0.429 미달). 검색 보강 라벨 정밀도 점검(01 에 「웹서버 · 집적정보통신시설」). law_scope 로 범위 밖 질문 구분(05).",
+   "fix_now": "생활어 규칙 v2 반영(02) · 검색 보강 라벨 정밀도(01 잡음) · law_scope 범위 밖 구분(05). 온톨로지 운영 연결 단계안: P3 ON/OFF → 검색 보강부터 운영 옵션(퇴행 0일 때) → 의미 검수된 조건 구절 → 답 근거는 사람 승인 뒤.",
    "latest": {
-    "at": "2026-11-07 14:33",
-    "text": "GB10 P1(SS 대 LL · 5문항) 관측을 반영해 「지금 고칠 곳」을 갱신했다.",
-    "source": "GB10 P1 결과서 261107_1420 · 9e9e4b716"
+    "at": "2026-11-07 14:43",
+    "text": "온톨로지 운영 연결 단계안 안건 상정(정본 1205 §2.6)",
+    "source": "Sarah §3-405"
    },
-   "history_log": [],
+   "history_log": [
+    {
+     "at": "2026-11-07 14:33",
+     "text": "GB10 P1(SS 대 LL · 5문항) 관측을 반영해 「지금 고칠 곳」을 갱신했다.",
+     "source": "GB10 P1 결과서 261107_1420 · 9e9e4b716"
+    }
+   ],
    "current": "신규 사전 등록부는 <strong class=\"keyword\">출처별 항목 2,850개·출처 726개·정의 연결 202개</strong>입니다. <mark>격리 API의 실제 소비를 확인했지만 전체 항목의 의미 승인이나 LLM 답변 성공을 뜻하지는 않습니다.</mark> 최신 상세는 04 탭, 별도 관계 지도는 02 탭에서 확인하세요. 이전 되묻기 사전 기록은 04 탭의 접힌 이전 기록으로 옮겼습니다.",
    "plan": "<strong class=\"keyword\">표현·개념·의미 갈래·정의 근거·관계·질문 후보</strong>를 분리한 공통 어댑터를 만듭니다. <mark>원문 정의·정책 원칙·유사도 후보의 기원(origin)을 구별합니다.</mark> 사전 버전 식별자는 신규 계약 제안입니다. William의 단일 판 선택·본문/위치 정합 계약이 J1 완료의 선행 조건입니다.",
    "extension": "형태소 분석·LLM 해석 후보·관계 추론·저장소 확장은 실패 유형을 측정한 뒤 선택합니다. <strong class=\"keyword\">미등록 표현</strong>은 unresolved로 남기되 일반 검색을 막지 않습니다. 사전에 완성 해설·키워드 전용 답변을 넣지 않습니다.",
