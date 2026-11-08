@@ -2,7 +2,7 @@
   "schema": "atlas.runs-review.v1",
   "tab": "02 실행 기록 따라가기",
   "author": "Sarah (Claude 검토 팀장)",
-  "updated_at": "2026-11-08T13:40+09:00",
+  "updated_at": "2026-11-08T14:50+09:00",
   "how_to_read": [
     "HTTP 200은 「서버가 응답했다」는 뜻이다. 답변 성공으로 세지 않는다.",
     "단위 시험·가짜 모델 시험·실제 모델 실행은 서로 다른 증거다. 한 칸에 합치지 않는다.",
@@ -1737,7 +1737,7 @@
     {
       "id": "I-1107-public-scope-r3-gpt",
       "label": "공개 법령 범위 1문항 — GB10 서비스 경로(r3) + GPT-6 Astra 설명 재생",
-      "period": "latest",
+      "period": "past",
       "status": "완료",
       "evidence_class": "실제 검색 · 실제 자격 검사(공개 법령 510조문 봉인 범위) · 실제 모델(GB10 2회 · GPT 2회) · 실제 HTTP(GB10 만)",
       "at": "2026-11-07 23:21 (GB10 r3) · 23:50 (GPT) KST",
@@ -1828,6 +1828,168 @@
       ],
       "caveat": "GB10 r3 의 실행 코드 핀(b8d5fb626)과 plan 코드 핀(acce070f4)이 달라 David 가 실행 code_files 전수 대조(mismatch 0 · 08537581…)로 결속했다. 전체 HEAD 동일성 인증은 아니다.",
       "source": "private-export/public-scope-gb10-pilot-r3-261107 · openai-astra-261107-pilot/journal · Sarah §3-440~449"
+    },
+    {
+      "id": "J-1108-kgc04-live-r2",
+      "label": "K1 시범 1문항(KGC-04) — OFF/ON 두 arm · 필수 문맥 producer 없이",
+      "period": "past",
+      "status": "완료(닫힘)",
+      "evidence_class": "실제 검색 · 실제 자격 검사(공개 범위) · 실제 모델(GB10 2회) · 실제 HTTP · 모델 0 사전 r3 선행",
+      "at": "2026-11-08 13:46 KST",
+      "run_conditions": {
+        "service": "격리 프로세스 · 공개 범위 v2 · DB 1473 스냅샷 · 운영 아님",
+        "settings": "선택 1회(두 arm 공유 · ON 은 exact 재생) · 설명 OFF 1회 · ON 은 필수 문맥 target 이 적격 풀 밖이라 설명 생략",
+        "cells": [
+          {
+            "arm": "GB10 (서비스 경로)",
+            "selection_model": "qwen3-235b",
+            "selection_location": "GB10 원격(SSH · llama-server qwen3-235b Q5_K_M · ctx 32768 · 출력 1536 · thinking off · 온도 0)",
+            "explanation_model": "qwen3-235b",
+            "explanation_location": "같은 GB10"
+          },
+          {
+            "arm": "ON (문맥 조립)",
+            "selection_model": "OFF 선택 exact 재생(POST 0)",
+            "selection_location": "signature 86bfe638 동일",
+            "explanation_model": "생략",
+            "explanation_location": "blocked_unknown — ENF-14-2 가 최종 풀 밖"
+          }
+        ]
+      },
+      "code_pin": "3ad6764c2",
+      "result_pin": "plan 470ae0f5 · summary bb853724 · Sarah §3-491 대조",
+      "denominator": 1,
+      "http_200": 2,
+      "http_error": 0,
+      "model_posts": 2,
+      "embedding_calls": null,
+      "what_changed": "처음으로 「선택된 조문의 필수 문맥」 관계(Alice v4 · PIPA-15 ③ → 시행령 14조의2)를 실행 경로에 연결했다. 필요한 시행령이 검색 상위 20 안에는 있었지만 최종 5 밖이라 공급되지 않았다는 사실을 실측했다(예상대로).",
+      "environment": "이 PC 격리 · GB10 SSH 1회 · GPT 0 · DB/색인 전후 동일",
+      "independent_evaluation": {
+        "by": "Robert 4a31583f(블라인드 X/Y · 기준 7d875d7da)",
+        "positive_answered": "0/1",
+        "boundary_minimum_hold": "—",
+        "missing_condition_resolved": "0/1",
+        "status": "OFF 설명 2문장 = wrong_delivered(p1 「법령 등에서 정하는·불가피한」 조건어 소실 · 수탁사 역할 미응답) · ON = 설명 없음(채점 불가). 명시적 주체 전이 발언은 아님."
+      },
+      "rows": [
+        {
+          "id": "KGC-04 · OFF",
+          "group": "공공 SI 개발 질문 · 수탁사의 추가 이용",
+          "question": "공공기관 민원시스템을 운영하는 수탁회사야. 발주처가 민원 처리용으로 모은 자료를 대기시간 개선 분석에도 이용하려고 해. 원래 업무와 관련 있어 보이면 추가 동의 없이 해도 돼? 우리도 발주처가 공공기관이라는 이유로 그렇게 판단해도 되는지, 무엇을 확인해야 하는지 알고 싶어.",
+          "stopped_at": "끝까지 감 — 설명 2문장 strict 수락 · HTTP 배달",
+          "stages": {
+            "질문": "통과",
+            "검색": "통과",
+            "원문·자격": "통과",
+            "모델": "통과(설명 2문장)",
+            "HTTP": "통과"
+          },
+          "http": 200,
+          "model_posts": 2,
+          "seconds": null,
+          "why_stopped": "문장 1 이 p1 의 한정어(법령 등에서 정하는 소관 업무 · 불가피한 경우)를 지워 허용을 넓혔다. 형식 검사는 통과 — v1 은 조건어 소실을 못 본다.",
+          "why_source": "live-r2 actual_1 ffa0e5f1 · http-1 29e92727 · Robert 4a31583f",
+          "independent_verdict": "wrong_delivered",
+          "goal_met": false,
+          "note": "B(문장 단위 판정 v2) 첫 회귀 표본 후보."
+        },
+        {
+          "id": "KGC-04 · ON",
+          "group": "같은 선택 exact 재생 · 필수 문맥 조립 시도",
+          "question": "공공기관 민원시스템을 운영하는 수탁회사야. 발주처가 민원 처리용으로 모은 자료를 대기시간 개선 분석에도 이용하려고 해. 원래 업무와 관련 있어 보이면 추가 동의 없이 해도 돼? 우리도 발주처가 공공기관이라는 이유로 그렇게 판단해도 되는지, 무엇을 확인해야 하는지 알고 싶어.",
+          "stopped_at": "필수 문맥 target(ENF-14-2)이 최종 적격 풀 밖 → blocked_unknown · 설명 생략 · 원문 안내",
+          "stages": {
+            "질문": "통과",
+            "검색": "통과(ENF-14-2 상위 20 안)",
+            "원문·자격": "통과(최종 5 에서 절단)",
+            "모델": "생략",
+            "HTTP": "통과(원문 안내)"
+          },
+          "http": 200,
+          "model_posts": 0,
+          "seconds": null,
+          "why_stopped": "required 6 / supplied 4 / missing 2. 후보 절단이 필수 문맥 공급을 막는다는 실측.",
+          "why_source": "live-r2 actual_2 62ced99b · http-2 2b6cfd7e",
+          "independent_verdict": "설명 없음 · 채점 불가",
+          "goal_met": false,
+          "note": "§3-490 에 미리 적은 예상(POST 2 · blocked_unknown)과 정확히 일치."
+        }
+      ],
+      "not_proven": [
+        "문맥 조립이 답을 개선한다는 것(비교 쌍 없음)",
+        "저작 관계의 법률적 의미(authored_pending)",
+        "다른 질문에서 절단이 얼마나 자주 필수 문맥을 막는지"
+      ],
+      "caveat": "ON 의 설명이 없으므로 효과 비교 아님. 이 결과의 값은 K1 파이프라인 완주와 절단 폭 수치다.",
+      "source": "private-export/KGC04-context-live-261108-r2 · Sarah §3-490~492"
+    },
+    {
+      "id": "K-1108-kgc04-followup-on1",
+      "label": "K1 후속 — 관측된 필수 문맥을 별도 producer 로 공급 · ON 1회만",
+      "period": "latest",
+      "status": "완료",
+      "evidence_class": "실제 검색 · 실제 자격 검사 · 실제 모델(GB10 1회 · 선택은 역사 exact 재생) · 실제 HTTP · 모델 0 사전 선행",
+      "at": "2026-11-08 14:29 KST",
+      "run_conditions": {
+        "service": "격리 프로세스 · 공개 범위 v2 · DB 1473 · 운영 아님",
+        "settings": "선택 신규 0(역사 raw 4207d058 재생) · OFF 신규 0(역사 재사용) · ON 설명 1회 · model_limit 1 · retry 0 · GPT 0",
+        "cells": [
+          {
+            "arm": "ON (producer 켬)",
+            "selection_model": "역사 선택 exact 재생(POST 0)",
+            "selection_location": "wire 279ea239 동일",
+            "explanation_model": "qwen3-235b",
+            "explanation_location": "GB10 원격 · 공급 5unit(PIPA-15 p1~p3 + ENF-14-2 p1·p2)"
+          }
+        ]
+      },
+      "code_pin": "78cfe9dfa",
+      "result_pin": "plan 65dd6418 · summary b5118a7d · actual 0935c105 · Sarah §3-499",
+      "denominator": 1,
+      "http_200": 1,
+      "http_error": 0,
+      "model_posts": 1,
+      "embedding_calls": null,
+      "what_changed": "같은 요청에서 이미 관측된(상위 20 안) 필수 문맥을, 원 검색 순위·Q 를 건드리지 않고 별도 producer 가 자기 fresh Q 를 거쳐 공급했다. 공급은 6/6 성공했고 모델은 시행령 내용을 실제로 받아 썼다. 그러나 설명 검사 v1 이 조문 번호 숫자 하나로 4문장 전체를 버려 사용자에게는 원문 안내만 갔다.",
+      "environment": "이 PC 격리 · GB10 SSH 1회 · 전송 바이트 = 사전 검증 wire(9f3a343f) · DB/색인 전후 동일 · 누적 GB10 9/20",
+      "independent_evaluation": {
+        "by": "Robert 80398948(비맹검 — OFF 기지 · 기준 7d875d7da · 새 ON 단독)",
+        "positive_answered": "0/1",
+        "boundary_minimum_hold": "—",
+        "missing_condition_resolved": "부분",
+        "status": "raw = partial(시행령 네 고려사항·지속 조건 반영 · 수탁사 권한·위탁범위 핵심 미해결) · strict rejected(digit) · 생성설명 배달 0 · 오답 배달 0 · 인과 귀속 0."
+      },
+      "rows": [
+        {
+          "id": "KGC-04 · ON 후속",
+          "group": "공공 SI 개발 질문 · 필수 문맥 공급 성공",
+          "question": "공공기관 민원시스템을 운영하는 수탁회사야. 발주처가 민원 처리용으로 모은 자료를 대기시간 개선 분석에도 이용하려고 해. 원래 업무와 관련 있어 보이면 추가 동의 없이 해도 돼? 우리도 발주처가 공공기관이라는 이유로 그렇게 판단해도 되는지, 무엇을 확인해야 하는지 알고 싶어.",
+          "stopped_at": "설명 4문장 생성 뒤 strict(digit) 거부 → 원문 안내 배달",
+          "stages": {
+            "질문": "통과",
+            "검색": "통과",
+            "원문·자격": "통과(추가 2 unit fresh Q)",
+            "모델": "오류: 설명 검사 거부(digit)",
+            "HTTP": "통과(원문 안내)"
+          },
+          "http": 200,
+          "model_posts": 1,
+          "seconds": null,
+          "why_stopped": "raw 문장 ①「… 법 제15조제1항제3호에 따라 …」의 조문 번호가 숫자 규칙에 걸려 4문장 전체 거부. ③④ 는 새 시행령 내용(예측가능성·안전조치·지속 시 기준 공개)을 담고 있었다.",
+          "why_source": "followup-live r1 actual_1 0935c105 · http 239700a2 · raw LF 69a420f4 · Robert 0edf28d93",
+          "independent_verdict": "raw partial · 배달 0",
+          "goal_met": false,
+          "note": "B 두 번째 회귀 표본 후보 — 「조문 번호 인용」을 숫자 규칙에서 가를 것."
+        }
+      ],
+      "not_proven": [
+        "ON 이 OFF 보다 낫다(두 시점 · 1문항 · 비맹검 · 배달 0)",
+        "저작 관계의 법률적 의미",
+        "숫자 규칙을 바꾸면 배달됐을 것이라는 추정"
+      ],
+      "caveat": "효과 측정이 아니라 「공급은 되는데 검사가 버린다」는 사실의 기록. 기존 OFF 와의 쌍은 시간상 비대칭.",
+      "source": "private-export/KGC04-context-followup-live-261108-r1 · results 16ef2c25 · Sarah §3-497~499"
     }
   ],
   "evidence_classes": [
@@ -1859,6 +2021,8 @@
   ],
   "status_split": {
     "current": [
+      "11/8: 필수 문맥 조립(K1) 1문항 완주 — 공급 6/6 성공 · 설명 배달 0(strict digit). 모델 POST 3 · GPT 0 · 누적 GB10 9/20.",
+      "11/8: 검색 절단(상위 20 안·최종 5 밖)과 설명 검사 v1 전체 거부가 실측으로 잡혔다 — B·K3 의 근거.",
       "실제 질문이 검색 → 선택 모델 → 설명 모델 → HTTP → 화면까지 이어진다(격리 서버 · 설명 기본 꺼짐). 연결 완료 · 인용 정확성 미완.",
       "실제 질문 10개는 4차(11/5 14:04) 이후 다시 돌리지 않았다. 4차 독립 평가: 양성 1/6 · 경계 3/4 · 조건 0/4.",
       "생성 단계 품질 시도 다섯 가지 모두 기각: 선택 지시문 B · 설명 지시문 · 같은 모델 판정자 · 모델 교체(qwen 0/4) · 원문 정리표 A/B(음성에서 지어낸 답).",
@@ -1973,7 +2137,7 @@
         "evidence": "P1 5문항 모두 통과. 05(보증금 · 주택임대차)는 수록 범위 밖인데 화면 문구가 02와 같은 「찾지 못함」이다.",
         "model_effect": "없음(모델 앞 단계)",
         "fix": "수록 범위 밖 질문(05)은 안전한 보류를 유지하고 「다루지 않는 법」 안내 문구만 구분(law_scope 연결)",
-        "progress": "11/7 목표 범위 밖 안내 구분 · 진행 0/1"
+        "progress": "11/7 목표 범위 밖 안내 구분 · 진행 0/1 │ 11/8 변경 0 · 0/1"
       },
       {
         "id": "G2",
@@ -1985,7 +2149,7 @@
         "evidence": "P1-02 「업무 끝났지만 다른 법 때문에 남겨야 하는 명단」 0.429 < 0.45 → SS·LL 모두 모델 전 보류(답은 개보법 제21조). 11/6 DEV5-02(PIPA-21 65위)와 같은 모양. 검색 보강이 01에 「웹서버 · 집적정보통신시설」 같은 엉뚱한 라벨을 붙였다.",
         "model_effect": "없음 — 5문항 중 2문항이 여기서 끝난다",
         "fix": "생활어 규칙 v2(4/4 · 미반영)를 check/retrieve 에 반영 · 검색 보강 라벨 정밀도 점검",
-        "progress": "11/7 목표 근거 도달 9/9 · 진행 6/9 · 소음 15건 → 기본 OFF"
+        "progress": "11/7 목표 근거 도달 9/9 · 진행 6/9 · 소음 15건 → 기본 OFF │ 11/8 목표 절단 실측 1/1(ENF-14-2 상위20 안·Q 입력 4 밖)"
       },
       {
         "id": "G4",
@@ -1997,7 +2161,7 @@
         "evidence": "P1-04 「우리 회사가 정한 보관 기간」 점수 0.668(최고)인데 공급 무결성(publication_integrity_not_verified)으로 SS·LL 모두 모델 전 보류. 01·03 에서도 자격 미확인 1~2건 제외 · 모델에 간 사규 0건.",
         "model_effect": "없음 — 회사 규정 질문은 모델과 무관하게 답할 수 없다",
         "fix": "사규 자격·공급 경로 설계 · 제외 후보와 사유 trace 남기기",
-        "progress": "11/7 목표 공개 원문 봉인 · 진행 510/520 · 사규 경로 0/1"
+        "progress": "11/7 목표 공개 원문 봉인 · 진행 510/520 · 사규 경로 0/1 │ 11/8 목표 재결속 64/64 · fresh Q 1/1"
       },
       {
         "id": "G5",
@@ -2009,7 +2173,7 @@
         "evidence": "01: SS·LL 모두 PIPA-2:p0(제2조 정의 전체)을 골랐다 — 답인 제4호를 짚지 못한다. 03: SS 2단위(18②·15③) · LL 4단위(18①②·15①·영14-2①). P2: 01 은 S·L 모두 6/6 같은 선택. 03 L 선택은 같은 요청에서 6번 중 1번 needs_context(목적·처리 근거 확인 질문)로 바뀜 — 온도 0 에서도 GB10 출력이 흔들린다.",
         "model_effect": "03 에서 대형이 원칙+예외를 넓게 고름 · 단 결과(설명)를 바꾸지 못함",
         "fix": "정의 조문처럼 호가 많은 조문의 공급 단위(호 단위 unit) 설계 검토",
-        "progress": "11/7 목표 선택 적합 · 진행 1/3(r3 적합)"
+        "progress": "11/7 목표 선택 적합 · 진행 1/3(r3 적합) │ 11/8 목표 선택 1 + exact 재생 2"
       },
       {
         "id": "EXP",
@@ -2021,7 +2185,7 @@
         "evidence": "P2: 01 설명 L 6/6 통과(선택 S/L 무관) · S 6/6 따옴표 거부(S 도 핵심은 알았음). 03 L 설명은 S 입력(SL)·L 입력(LL) 모두 3/3 보류 → P1 의 「추가 공급 차이만이 원인」은 배제, 선택 효과 전체는 미증명. 설명 지시문(cl03 explanation.py:83-96)은 조건부 답을 금지하지 않는다(Anna 확인). 03 S 숫자 거부 4건 = 근거 ID 노출 2(정당) + 「제3자」 2(과잉 거부 후보).",
         "model_effect": "01 형식 통과(6/6) — 확인된 유일한 모델 효과. 업무 문항 해결 0",
         "fix": "① 03 보류 원인 분리(모델 성향 · 지시문 해석 · 근거와 검사의 상호작용 — 추가 실호출은 별도 결정) ② 따옴표·숫자 규칙 그림자 검토(「제3자」 같은 법률 용어 포함 · 계약 변경은 사용자 판단)",
-        "progress": "11/7 목표 정확 설명 배달 · 진행 0/1 · GPT API 재생 1/1"
+        "progress": "11/7 목표 정확 설명 배달 · 진행 0/1 · GPT API 재생 1/1 │ 11/8 목표 ON 공급 1/1 · 배달 0/1(strict digit)"
       },
       {
         "id": "JUDGE",
@@ -2033,7 +2197,7 @@
         "evidence": "11/6 10쌍 진단에서 틀린 통과 4건으로 기각. P1 에서는 쓰지 않았다 — 결정적 설명 검사와 Robert 채점이 대신한다.",
         "model_effect": "측정 안 함",
         "fix": "당장 없음(대형 판정자 여부는 P2 이후 결정)",
-        "progress": "11/7 목표 제품 연결 · 진행 0 · 그림자 완전 0/6"
+        "progress": "11/7 목표 제품 연결 · 진행 0 · 그림자 완전 0/6 │ 11/8 목표 v2 근거 표본 2/2 · 구현 0/1"
       },
       {
         "id": "HTTP",
@@ -2045,7 +2209,7 @@
         "evidence": "P1 10건 HTTP 200 · 화면 기록 남음. 주 답이 「원문 인용 + 조문 전체 + 면책 3줄」이고 모델 설명은 별도 「의미 미검증」 패널.",
         "model_effect": "없음",
         "fix": "P2 뒤 저장된 실응답으로 요지 → 결속 근거 → 필요한 확인 질문 순서의 미리보기(모델 재호출 0) · 전체 원문 펼침 유지 · 조문 일부를 임의로 잘라 인용하지 않음",
-        "progress": "11/7 목표 생성문·원문 분리 표시 · 진행 1/1(단일 문항)"
+        "progress": "11/7 목표 생성문·원문 분리 표시 · 진행 1/1(단일 문항) │ 11/8 목표 결과 화면 6축 1/1"
       }
     ],
     "next": {
@@ -2256,15 +2420,16 @@
         "source": "§3-449 · 7ecdf6209"
       }
     ],
-    "excluded": "11월 8일 새벽(결정 2 설계서 · GB10 모델 변경 점검표 · 10문항 비교 준비 · Alice 표기 정리 팩)은 이 기록에 넣지 않았다."
+    "excluded": "11월 8일 새벽(결정 2 설계서 · GB10 모델 변경 점검표 · 10문항 비교 준비 · Alice 표기 정리 팩)은 이 기록에 넣지 않았다.",
+    "date_label": "11/7"
   },
   "onepage": {
     "title": "한 페이지 — 흐름 × 구조 × 진행",
     "as_of": "2026-11-08",
-    "note": "흐름 칸의 목표·진행은 day_log_1107 단계 기록에서, 구조 모듈은 atlas data.js 노드(index.html#node=)에서, 보드는 아래 tracks 에서 읽는다. TO-BE 는 제안(v2.2)이며 제품 반영 아님.",
+    "note": "흐름 칸의 목표·진행은 최신 일지(day_log_1108)에서, 구조 모듈은 atlas data.js 노드(index.html#node=)에서, 보드는 tracks 에서 읽는다. TO-BE 는 제안(v2.2)이며 제품 반영 아님 — K1 만 시범 1회 완료.",
     "stage_meta": {
       "Q": {
-        "goal": "범위 안내 문구·되묻기",
+        "goal": "(11/8 변경 없음) 범위 안내 문구·되묻기",
         "ratio": [
           0,
           1
@@ -2280,10 +2445,10 @@
         ]
       },
       "G2": {
-        "goal": "근거 등록부 9/9 도달·임계 0.45 유지",
+        "goal": "후보 절단이 필수 문맥을 막는지 실측",
         "ratio": [
-          6,
-          9
+          1,
+          1
         ],
         "asis": "현행",
         "tobe": {
@@ -2294,13 +2459,14 @@
           "retrieve",
           "vector",
           "rules"
-        ]
+        ],
+        "extra": "ENF-14-2 상위20 안·Q 입력 4 밖"
       },
       "G4": {
-        "goal": "게시 무결성 전수·개정 꼬리 처리",
+        "goal": "게시 좌표 재결속 64 span · 추가 문맥 fresh Q",
         "ratio": [
-          510,
-          520
+          64,
+          64
         ],
         "asis": "현행",
         "tobe": {
@@ -2310,13 +2476,14 @@
         "modules": [
           "enrich",
           "db"
-        ]
+        ],
+        "extra": "fresh Q 1/1"
       },
       "G5": {
-        "goal": "자연 선택 1회·raw 보존",
+        "goal": "자연 선택 1회 · exact 재생",
         "ratio": [
           1,
-          3
+          1
         ],
         "asis": "현행",
         "tobe": {
@@ -2326,15 +2493,16 @@
         "modules": [
           "generate",
           "llm"
-        ]
+        ],
+        "extra": "재생 2(POST 0)"
       },
       "EXP": {
-        "goal": "정확 설명 · GPT는 비교 측정만",
+        "goal": "필수 문맥 공급 ON 1회 · 설명 배달",
         "ratio": [
-          0,
-          1
+          1,
+          2
         ],
-        "extra": "GPT 비교 1/1",
+        "extra": "공급 1/1 · 배달 0/1(strict digit)",
         "asis": "현행",
         "tobe": {
           "tag": "B-2 공급",
@@ -2346,22 +2514,23 @@
         ]
       },
       "JUDGE": {
-        "goal": "문장 단위 판정 v2 그림자 6건",
+        "goal": "문장 단위 판정 v2 근거 표본",
         "ratio": [
-          0,
-          6
+          2,
+          3
         ],
-        "asis": "v1: 숫자·인용 어긋나면 전체 거부",
+        "asis": "v1: 조건어 소실은 통과 · 조문 번호 숫자는 전체 거부",
         "tobe": {
           "tag": "B 그림자",
           "text": "문장 단위 판정 v2 — 보여주지 않고 옆에서 측정"
         },
         "modules": [
           "quotes"
-        ]
+        ],
+        "extra": "표본 2/2 · v2 구현 0/1"
       },
       "HTTP": {
-        "goal": "응답 유형 분리 표시",
+        "goal": "결과 화면 6축 분리 표시",
         "ratio": [
           1,
           1
@@ -2551,8 +2720,8 @@
       {
         "id": "B",
         "title": "B 문장 판정 v2",
-        "status": "합의 · 미착수",
-        "desc": "그림자 6건 목표 · 0/6",
+        "status": "근거 2건 확보 · 미착수",
+        "desc": "표본: 조건어 소실 통과 · digit 전체 거부(§3-492·499)",
         "stages": [
           "JUDGE"
         ]
@@ -2560,8 +2729,8 @@
       {
         "id": "B2",
         "title": "B-2 공급 문맥",
-        "status": "= K1",
-        "desc": "계약 수락 · runner 검수 전",
+        "status": "= K1 시범 완료",
+        "desc": "producer·runner 봉인 → ON 1 공급 6/6",
         "stages": [
           "G5",
           "EXP"
@@ -2588,17 +2757,18 @@
       {
         "id": "K0",
         "title": "K0 측정",
-        "status": "진행",
-        "desc": "KGA 재생 · 좌표 감사 완료",
+        "status": "완료",
+        "desc": "KGA 재생·좌표 감사·KGC-04 2회 실측",
         "k": true,
-        "run": "I-1107-public-scope-r3-gpt"
+        "run": "K-1108-kgc04-followup-on1"
       },
       {
         "id": "K1",
         "title": "K1 KG→필수 문맥",
-        "status": "시범 직전",
-        "desc": "v4 결속 ✓ · 조립 36 ✓ · KGC-04 3 POST 미실행",
-        "k": true
+        "status": "시범 1회 완료",
+        "desc": "공급 6/6 · 설명 배달 0(strict) · 효과 주장 0 · 누적 9/20",
+        "k": true,
+        "run": "K-1108-kgc04-followup-on1"
       },
       {
         "id": "K2",
@@ -2610,8 +2780,8 @@
       {
         "id": "K3",
         "title": "K3 사전→검색 힌트",
-        "status": "미착수",
-        "desc": "K4 법령↔사규는 장기",
+        "status": "근거 확보 · 미착수",
+        "desc": "절단 상위20 안·최종5 밖 실측 → 사전→검색 힌트 설계",
         "k": true
       }
     ],
@@ -2622,8 +2792,134 @@
       },
       {
         "day": "11/8",
-        "text": "Alice v4 게시 재결속(64/64) · James 36 조립(161/0/0 · 미해소 8) · Emily 확장 계약·순서 결함 수정 · KGC-04 draft(3 POST · 미실행) · GB10 read-only 확인"
+        "text": "Alice v4 재결속 64/64 · James 조립 36(161/0/0) · Emily producer/runner 봉인 · KGC-04 live r2(POST 2·ON 차단) · 후속 ON 1(POST 1·공급 6/6·strict digit) · Robert 채점 2회 · 결과 화면 두 case · Henry 재대조 권고 4"
       }
     ]
+  },
+  "day_log_1108": {
+    "title": "11월 8일 — 단계별 목표와 진행률(필수 문맥 조립 K1 시범)",
+    "date_label": "11/8",
+    "note": "11/8 목표는 「선택된 조문의 필수 문맥(시행령)을 검색 결과 밖에서 찾아 같은 자격 검사로 공급할 수 있는가」 한 문항(KGC-04)을 끝까지 실측하는 것. 수치는 실행 영수증(live r2 · followup r1)과 Sarah §3-480~500 기록에서 옮겼다. 모델 POST 합 3(선택 1 · OFF 설명 1 · ON 설명 1) · GPT 0 · 재기동 0.",
+    "stages": [
+      {
+        "stage": "질문 · 범위",
+        "owner": "Michael · James",
+        "target": "변경 없음(범위 안내는 11/7 과제 그대로)",
+        "measured": "0/1",
+        "percent": 0,
+        "work": "KGC-04 질문 1(수탁회사의 추가 이용)을 고정 · 공개 범위 v2 그대로.",
+        "remaining": "law_scope 연결 · 문구 결정(사용자)"
+      },
+      {
+        "stage": "검색",
+        "owner": "Grace · William",
+        "target": "후보 절단이 필수 문맥을 막는지 실측",
+        "measured": "1/1",
+        "percent": 100,
+        "work": "ENF-14-2 가 vector 20 · rerank 20 · parent 16 안에 있으나 Q 입력 4(retrieve 반환 5)에서 잘림을 원장(call 3~31)으로 확인. 순위·임계 조작 0.",
+        "remaining": "K3 사전→검색 힌트 설계 · 절단 폭(5) 재검토"
+      },
+      {
+        "stage": "원문 · 자격",
+        "owner": "Alice · Emily",
+        "target": "게시 좌표 재결속 64 span · 추가 문맥 자기 fresh Q",
+        "measured": "64/64 · Q 1/1",
+        "percent": 100,
+        "work": "Alice v4 재결속(span 64 · 역할 81 · 부모 44 보존) · Emily producer: 관측 결속(call_id·SHA)·부정 우선·fresh Q text_matched·게시 검사 passed · PIPA-35 제외 보존.",
+        "remaining": "저작 관계 독립 의미 검수(pending) · negatives producer 목록 일반화"
+      },
+      {
+        "stage": "선택 모델",
+        "owner": "Emily",
+        "target": "자연 선택 1회 · exact 재생",
+        "measured": "1 + 재생 2",
+        "percent": 100,
+        "work": "GB10 선택 1회(p1·p3) · ON 두 번은 signature·wire 바이트 동일로 재생(POST 0).",
+        "remaining": "—"
+      },
+      {
+        "stage": "설명 모델",
+        "owner": "Emily",
+        "target": "필수 문맥 공급 ON 1회 · 설명 배달",
+        "measured": "공급 1/1 · 배달 0/1",
+        "percent": 50,
+        "work": "ON 1 POST: 공급 6/6(ENF-14-2 p1·p2 추가) · 모델 raw 4문장이 시행령 내용(예측가능성·안전조치·지속 조건)을 반영 · strict v1 digit(「제15조제1항제3호」)로 전체 거부 → 원문 안내 배달.",
+        "remaining": "B 문장 단위 판정 v2(그림자) — 조문 번호 인용을 숫자 규칙에서 가르기"
+      },
+      {
+        "stage": "문장↔근거 판정",
+        "owner": "Robert · Sarah",
+        "target": "문장 단위 판정 v2 의 실측 근거 표본",
+        "measured": "표본 2/2 · v2 구현 0/1",
+        "percent": 50,
+        "work": "표본 ① OFF 설명이 p1 조건어(법령 등에서 정하는·불가피한) 소실 → Robert wrong_delivered ② ON raw 부분답이 digit 하나로 전체 거부. 둘 다 v1 전체 거부 규칙과 얽힘.",
+        "remaining": "B 설계 · 그림자 6건 · 첫 회귀 표본 2건 등록(사용자 확인)"
+      },
+      {
+        "stage": "HTTP · 화면",
+        "owner": "James",
+        "target": "결과 화면 6축 분리(비교기·입력 비교·관계·효과·답변 채점·원 HTTP)",
+        "measured": "1/1",
+        "percent": 100,
+        "work": "8374 결과 화면: 판정 상단 · raw/strict/HTTP/화면답 분리 · 두 case(원 시범 · ON 후속) · 효과 미판정 명시.",
+        "remaining": "no_op 라벨 부정 한정 · reviewed 영수증 schema"
+      }
+    ],
+    "summary": [
+      "K1 파이프라인(검색 → 선택 → 필수 문맥 producer → fresh Q → 설명)이 실데이터 1문항에서 끝까지 돌았다 — 공급은 6/6 성공, 설명 배달은 0(strict digit).",
+      "병목 둘을 수치로 잡았다: ⑴ 검색 절단(상위 20 안 · 최종 5 밖) ⑵ 설명 검사 v1 의 전체 거부(조건어 소실은 통과시키고, 조문 번호 숫자는 전체를 버림).",
+      "모델 교체·순위 조작·Q 완화 0. 모델 POST 3 · GPT 0 · 누적 GB10 9/20. 효과(ON 이 OFF 보다 낫다) 주장은 하지 않는다 — 두 시점 · 1문항 · 비맹검."
+    ],
+    "timeline": [
+      {
+        "at": "03:51~04:33",
+        "item": "Alice v4 게시 좌표 재결속 · Emily 확장 계약 · James 분모 정정 검수",
+        "result": "span 64/64 · 역할 81 · 부모 44 보존 · 계약 수락(조건 2) · 물리 161/0/0 · 미해소 8",
+        "source": "§3-481·482 · 624c17eea 영수증"
+      },
+      {
+        "at": "12:5x",
+        "item": "runner 94da→2ce8→3ad6 증분 · preflight r2/r3",
+        "result": "34→37→38 PASS · embedding 오프라인 핀(bge-m3 5617) · r3 선택 직전 422 · POST 0",
+        "source": "§3-486~490"
+      },
+      {
+        "at": "13:4x",
+        "item": "KGC-04 live r2(OFF/ON)",
+        "result": "POST 2 · OFF 설명 2문장 explained · ON blocked_unknown(ENF-14-2 풀 밖) · 예상과 일치",
+        "source": "§3-491 · live-r2 470ae0f5"
+      },
+      {
+        "at": "13:5x",
+        "item": "Robert 블라인드 채점 · James 결과 화면 8374",
+        "result": "OFF wrong_delivered(조건어 소실) · ON 채점 불가 · 화면 5축 분리 · 15/15",
+        "source": "§3-492·493 · 4a31583f"
+      },
+      {
+        "at": "14:0x",
+        "item": "producer 계약 V1 + 문구 증분 · 제외 사유 원장 대조",
+        "result": "PIPA-35 편집 투영 미검증 제외 · ENF-14-2 Q 미심사 · A안 수락(조건 7) · final5 정정",
+        "source": "§3-494·495 · 14c036f0a·879cddba8"
+      },
+      {
+        "at": "14:15~14:22",
+        "item": "producer 구현 997e · ON-only runner 78cf · RO 공급 영수증",
+        "result": "59→66 PASS · 원 admission 불변 · ENF-14-2 fresh Q 2/2 공급 · 분모 5→4→4→3",
+        "source": "§3-496·497 · afede7a0"
+      },
+      {
+        "at": "14:29",
+        "item": "ON 1 live 실행(followup r1)",
+        "result": "POST 1 · 공급 6/6 · raw 4문장 · strict digit 거부 → 원문 안내 · 누적 9/20",
+        "source": "§3-499 · 65dd6418 · b5118a7d"
+      },
+      {
+        "at": "14:32~14:36",
+        "item": "Robert 후속 채점 · results 16ef 두 case · Henry 재대조",
+        "result": "raw partial · 비맹검 명시 · 인과 0 · 원 case 80ea 바이트 보존 · Henry 권고 4(approved 선행 검사) 채택",
+        "source": "§3-499·500 · 0edf28d93 · 261108_1436_henry"
+      }
+    ],
+    "excluded": "GPT 호출 0 · GB10 재기동/모델 교체 0 · 순위·임계·Q 완화 0 · 다른 코호트와 분모 합산 0."
   }
 }

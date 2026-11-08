@@ -56,7 +56,7 @@
     var bAs = el('button', 'AS-IS'), bTo = el('button', 'TO-BE 겹쳐 보기'); bAs.type = bTo.type = 'button';
     function set(t) { root.classList.toggle('tobe', t); bAs.setAttribute('aria-pressed', String(!t)); bTo.setAttribute('aria-pressed', String(t)); history.replaceState(null, '', t ? '#view=tobe' : '#view=asis'); }
     bAs.onclick = function () { set(false); }; bTo.onclick = function () { set(true); }; tg.append(bAs, bTo);
-    var lg = el('div', null, 'legend'); lg.append(el('span', '실선 = 지금 있는 것'), el('span', '색 테두리 = TO-BE A~D 덧씌움', 'l-tobe'), el('span', '빗금 = Track K(온톨로지·KG)', 'l-k'), el('span', '막대 = ' + (d.day_log_1107 ? '11/7 목표 대비 진행' : '목표 대비 진행'), 'l-prog'));
+    var lg = el('div', null, 'legend'); lg.append(el('span', '실선 = 지금 있는 것'), el('span', '색 테두리 = TO-BE A~D 덧씌움', 'l-tobe'), el('span', '빗금 = Track K(온톨로지·KG)', 'l-k'), el('span', '막대 = ' + (d.day_log_1108 ? '11/8 목표 대비 진행' : d.day_log_1107 ? '11/7 목표 대비 진행' : '목표 대비 진행'), 'l-prog'));
     if (window.ATLAS_MODEL) { var M = window.ATLAS_MODEL, ltr = el('span', null, 'truth'); Object.keys(TRUTH).forEach(function (k) { var i = el('i', TRUTH[k] + ' ' + (M.counts.by_truth[k] || 0), k); ltr.append(i); }); var wrap = el('span', '표지(엔티티 ' + M.counts.entities + ' · 관계 ' + M.counts.relations + '): '); wrap.append(ltr); lg.append(wrap); }
     top.append(tg, lg); root.append(el('p', '갱신 ' + d.updated_at.replace('T', ' ').replace('+09:00', ' KST') + ' · 기준일 ' + op.as_of + ' · ' + op.note, 'sub'), top);
 

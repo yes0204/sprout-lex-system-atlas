@@ -2,7 +2,7 @@
   "schema": "atlas.model.v0",
   "built_from": {
     "data_js": "24e59d0d63f0d6c31964410e4bcda70f0d01fd00",
-    "runs_review_updated_at": "2026-11-08T13:40+09:00"
+    "runs_review_updated_at": "2026-11-08T14:50+09:00"
   },
   "truth_legend": {
     "observed": "실행 기록으로 관측",
@@ -240,7 +240,7 @@
       "id": "stage:Q",
       "title": "질문",
       "state": "ok",
-      "goal": "범위 안내 문구·되묻기",
+      "goal": "(11/8 변경 없음) 범위 안내 문구·되묻기",
       "ratio": [
         0,
         1
@@ -249,7 +249,7 @@
       "truth": "observed",
       "evidence": {
         "run_sets": [
-          "I-1107-public-scope-r3-gpt"
+          "K-1108-kgc04-followup-on1"
         ],
         "note": "P1 5문항 모두 통과. 05(보증금 · 주택임대차)는 수록 범위 밖인데 화면 문구가 02와 같은 「찾지 못함」이다."
       },
@@ -271,16 +271,16 @@
       "id": "stage:G2",
       "title": "검색",
       "state": "weak",
-      "goal": "근거 등록부 9/9 도달·임계 0.45 유지",
+      "goal": "후보 절단이 필수 문맥을 막는지 실측",
       "ratio": [
-        6,
-        9
+        1,
+        1
       ],
       "as_of": "2026-11-07",
       "truth": "observed",
       "evidence": {
         "run_sets": [
-          "I-1107-public-scope-r3-gpt"
+          "K-1108-kgc04-followup-on1"
         ],
         "note": "P1-02 「업무 끝났지만 다른 법 때문에 남겨야 하는 명단」 0.429 < 0.45 → SS·LL 모두 모델 전 보류(답은 개보법 제21조). 11/6 DEV5-02(PIPA-21 65위)와 같은 모양. 검색 보강"
       },
@@ -302,16 +302,16 @@
       "id": "stage:G4",
       "title": "원문·자격",
       "state": "weak",
-      "goal": "게시 무결성 전수·개정 꼬리 처리",
+      "goal": "게시 좌표 재결속 64 span · 추가 문맥 fresh Q",
       "ratio": [
-        510,
-        520
+        64,
+        64
       ],
       "as_of": "2026-11-07",
       "truth": "observed",
       "evidence": {
         "run_sets": [
-          "I-1107-public-scope-r3-gpt"
+          "K-1108-kgc04-followup-on1"
         ],
         "note": "P1-04 「우리 회사가 정한 보관 기간」 점수 0.668(최고)인데 공급 무결성(publication_integrity_not_verified)으로 SS·LL 모두 모델 전 보류. 01·03 에서도 자격 미확인 1"
       },
@@ -333,16 +333,16 @@
       "id": "stage:G5",
       "title": "선택 모델",
       "state": "weak",
-      "goal": "자연 선택 1회·raw 보존",
+      "goal": "자연 선택 1회 · exact 재생",
       "ratio": [
         1,
-        3
+        1
       ],
       "as_of": "2026-11-07",
       "truth": "observed",
       "evidence": {
         "run_sets": [
-          "I-1107-public-scope-r3-gpt"
+          "K-1108-kgc04-followup-on1"
         ],
         "note": "01: SS·LL 모두 PIPA-2:p0(제2조 정의 전체)을 골랐다 — 답인 제4호를 짚지 못한다. 03: SS 2단위(18②·15③) · LL 4단위(18①②·15①·영14-2①). P2: 01 은 S·L 모두 "
       },
@@ -364,16 +364,16 @@
       "id": "stage:EXP",
       "title": "설명 모델",
       "state": "fail",
-      "goal": "정확 설명 · GPT는 비교 측정만",
+      "goal": "필수 문맥 공급 ON 1회 · 설명 배달",
       "ratio": [
-        0,
-        1
+        1,
+        2
       ],
       "as_of": "2026-11-07",
       "truth": "observed",
       "evidence": {
         "run_sets": [
-          "I-1107-public-scope-r3-gpt"
+          "K-1108-kgc04-followup-on1"
         ],
         "note": "P2: 01 설명 L 6/6 통과(선택 S/L 무관) · S 6/6 따옴표 거부(S 도 핵심은 알았음). 03 L 설명은 S 입력(SL)·L 입력(LL) 모두 3/3 보류 → P1 의 「추가 공급 차이만이 원인」은 "
       },
@@ -395,16 +395,16 @@
       "id": "stage:JUDGE",
       "title": "문장↔근거 판정",
       "state": "fail",
-      "goal": "문장 단위 판정 v2 그림자 6건",
+      "goal": "문장 단위 판정 v2 근거 표본",
       "ratio": [
-        0,
-        6
+        2,
+        3
       ],
       "as_of": "2026-11-07",
       "truth": "observed",
       "evidence": {
         "run_sets": [
-          "I-1107-public-scope-r3-gpt"
+          "K-1108-kgc04-followup-on1"
         ],
         "note": "11/6 10쌍 진단에서 틀린 통과 4건으로 기각. P1 에서는 쓰지 않았다 — 결정적 설명 검사와 Robert 채점이 대신한다."
       },
@@ -426,7 +426,7 @@
       "id": "stage:HTTP",
       "title": "HTTP·화면",
       "state": "weak",
-      "goal": "응답 유형 분리 표시",
+      "goal": "결과 화면 6축 분리 표시",
       "ratio": [
         1,
         1
@@ -435,7 +435,7 @@
       "truth": "observed",
       "evidence": {
         "run_sets": [
-          "I-1107-public-scope-r3-gpt"
+          "K-1108-kgc04-followup-on1"
         ],
         "note": "P1 10건 HTTP 200 · 화면 기록 남음. 주 답이 「원문 인용 + 조문 전체 + 면책 3줄」이고 모델 설명은 별도 「의미 미검증」 패널."
       },
@@ -593,7 +593,7 @@
       "id": "run_set:I-1107-public-scope-r3-gpt",
       "title": "공개 법령 범위 1문항 — GB10 서비스 경로(r3) + GPT-6 Astra 설명 재생",
       "at": "2026-11-07 23:21 (GB10 r3) · 23:50 (GPT) KST",
-      "period": "latest",
+      "period": "past",
       "evidence_class": "실제 검색 · 실제 자격 검사(공개 법령 510조문 봉인 범위) · 실제 모델(GB10 2회 · GPT 2회) · 실제 HTTP(GB10 만)",
       "code_pin": "acce070f4(GB10 plan) · 71032874b(GPT plan)",
       "as_of": "2026-11-07",
@@ -604,6 +604,40 @@
         "denominator": 1
       },
       "link": "runs-review.html#run=I-1107-public-scope-r3-gpt"
+    },
+    {
+      "kind": "run_set",
+      "id": "run_set:J-1108-kgc04-live-r2",
+      "title": "K1 시범 1문항(KGC-04) — OFF/ON 두 arm · 필수 문맥 producer 없이",
+      "at": "2026-11-08 13:46 KST",
+      "period": "past",
+      "evidence_class": "실제 검색 · 실제 자격 검사(공개 범위) · 실제 모델(GB10 2회) · 실제 HTTP · 모델 0 사전 r3 선행",
+      "code_pin": "3ad6764c2",
+      "as_of": "2026-11-08",
+      "truth": "observed",
+      "evidence": {
+        "code_pin": "3ad6764c2",
+        "http_200": 2,
+        "denominator": 1
+      },
+      "link": "runs-review.html#run=J-1108-kgc04-live-r2"
+    },
+    {
+      "kind": "run_set",
+      "id": "run_set:K-1108-kgc04-followup-on1",
+      "title": "K1 후속 — 관측된 필수 문맥을 별도 producer 로 공급 · ON 1회만",
+      "at": "2026-11-08 14:29 KST",
+      "period": "latest",
+      "evidence_class": "실제 검색 · 실제 자격 검사 · 실제 모델(GB10 1회 · 선택은 역사 exact 재생) · 실제 HTTP · 모델 0 사전 선행",
+      "code_pin": "78cfe9dfa",
+      "as_of": "2026-11-08",
+      "truth": "observed",
+      "evidence": {
+        "code_pin": "78cfe9dfa",
+        "http_200": 1,
+        "denominator": 1
+      },
+      "link": "runs-review.html#run=K-1108-kgc04-followup-on1"
     },
     {
       "kind": "module",
@@ -843,8 +877,8 @@
       "kind": "track",
       "id": "track:B",
       "title": "B 문장 판정 v2",
-      "status": "합의 · 미착수",
-      "desc": "그림자 6건 목표 · 0/6",
+      "status": "근거 2건 확보 · 미착수",
+      "desc": "표본: 조건어 소실 통과 · digit 전체 거부(§3-492·499)",
       "k": false,
       "as_of": "2026-11-08",
       "truth": "agreed",
@@ -858,8 +892,8 @@
       "kind": "track",
       "id": "track:B2",
       "title": "B-2 공급 문맥",
-      "status": "= K1",
-      "desc": "계약 수락 · runner 검수 전",
+      "status": "= K1 시범 완료",
+      "desc": "producer·runner 봉인 → ON 1 공급 6/6",
       "k": false,
       "as_of": "2026-11-08",
       "truth": "agreed",
@@ -903,31 +937,31 @@
       "kind": "track",
       "id": "track:K0",
       "title": "K0 측정",
-      "status": "진행",
-      "desc": "KGA 재생 · 좌표 감사 완료",
+      "status": "완료",
+      "desc": "KGA 재생·좌표 감사·KGC-04 2회 실측",
       "k": true,
       "as_of": "2026-11-08",
       "truth": "proposed",
       "evidence": {
-        "run_set": "I-1107-public-scope-r3-gpt",
+        "run_set": "K-1108-kgc04-followup-on1",
         "doc": "261108_sarah_flow_asis_tobe.html"
       },
-      "link": "runs-review.html#run=I-1107-public-scope-r3-gpt"
+      "link": "runs-review.html#run=K-1108-kgc04-followup-on1"
     },
     {
       "kind": "track",
       "id": "track:K1",
       "title": "K1 KG→필수 문맥",
-      "status": "시범 직전",
-      "desc": "v4 결속 ✓ · 조립 36 ✓ · KGC-04 3 POST 미실행",
+      "status": "시범 1회 완료",
+      "desc": "공급 6/6 · 설명 배달 0(strict) · 효과 주장 0 · 누적 9/20",
       "k": true,
       "as_of": "2026-11-08",
       "truth": "proposed",
       "evidence": {
-        "run_set": null,
+        "run_set": "K-1108-kgc04-followup-on1",
         "doc": "261108_sarah_flow_asis_tobe.html"
       },
-      "link": "index.html#tab=kanban"
+      "link": "runs-review.html#run=K-1108-kgc04-followup-on1"
     },
     {
       "kind": "track",
@@ -948,8 +982,8 @@
       "kind": "track",
       "id": "track:K3",
       "title": "K3 사전→검색 힌트",
-      "status": "미착수",
-      "desc": "K4 법령↔사규는 장기",
+      "status": "근거 확보 · 미착수",
+      "desc": "절단 상위20 안·최종5 밖 실측 → 사전→검색 힌트 설계",
       "k": true,
       "as_of": "2026-11-08",
       "truth": "proposed",
@@ -1694,6 +1728,90 @@
       "weak": true
     },
     {
+      "type": "measured_by",
+      "src": "stage:Q",
+      "dst": "run_set:J-1108-kgc04-live-r2",
+      "weak": true
+    },
+    {
+      "type": "measured_by",
+      "src": "stage:G2",
+      "dst": "run_set:J-1108-kgc04-live-r2",
+      "weak": true
+    },
+    {
+      "type": "measured_by",
+      "src": "stage:G4",
+      "dst": "run_set:J-1108-kgc04-live-r2",
+      "weak": true
+    },
+    {
+      "type": "measured_by",
+      "src": "stage:G5",
+      "dst": "run_set:J-1108-kgc04-live-r2",
+      "weak": true
+    },
+    {
+      "type": "measured_by",
+      "src": "stage:EXP",
+      "dst": "run_set:J-1108-kgc04-live-r2",
+      "weak": true
+    },
+    {
+      "type": "measured_by",
+      "src": "stage:JUDGE",
+      "dst": "run_set:J-1108-kgc04-live-r2",
+      "weak": true
+    },
+    {
+      "type": "measured_by",
+      "src": "stage:HTTP",
+      "dst": "run_set:J-1108-kgc04-live-r2",
+      "weak": true
+    },
+    {
+      "type": "measured_by",
+      "src": "stage:Q",
+      "dst": "run_set:K-1108-kgc04-followup-on1",
+      "weak": true
+    },
+    {
+      "type": "measured_by",
+      "src": "stage:G2",
+      "dst": "run_set:K-1108-kgc04-followup-on1",
+      "weak": true
+    },
+    {
+      "type": "measured_by",
+      "src": "stage:G4",
+      "dst": "run_set:K-1108-kgc04-followup-on1",
+      "weak": true
+    },
+    {
+      "type": "measured_by",
+      "src": "stage:G5",
+      "dst": "run_set:K-1108-kgc04-followup-on1",
+      "weak": true
+    },
+    {
+      "type": "measured_by",
+      "src": "stage:EXP",
+      "dst": "run_set:K-1108-kgc04-followup-on1",
+      "weak": true
+    },
+    {
+      "type": "measured_by",
+      "src": "stage:JUDGE",
+      "dst": "run_set:K-1108-kgc04-followup-on1",
+      "weak": true
+    },
+    {
+      "type": "measured_by",
+      "src": "stage:HTTP",
+      "dst": "run_set:K-1108-kgc04-followup-on1",
+      "weak": true
+    },
+    {
       "type": "implements",
       "src": "module:사전-범위-규칙",
       "dst": "node:rules"
@@ -1906,23 +2024,28 @@
     {
       "type": "measured_by",
       "src": "track:K0",
-      "dst": "run_set:I-1107-public-scope-r3-gpt"
+      "dst": "run_set:K-1108-kgc04-followup-on1"
+    },
+    {
+      "type": "measured_by",
+      "src": "track:K1",
+      "dst": "run_set:K-1108-kgc04-followup-on1"
     }
   ],
   "counts": {
-    "entities": 68,
-    "relations": 143,
+    "entities": 70,
+    "relations": 158,
     "by_kind": {
       "change": 7,
       "module": 14,
       "node": 14,
       "note": 8,
-      "run_set": 9,
+      "run_set": 11,
       "stage": 7,
       "track": 9
     },
     "by_truth": {
-      "observed": 24,
+      "observed": 26,
       "pinned": 23,
       "agreed": 8,
       "proposed": 13

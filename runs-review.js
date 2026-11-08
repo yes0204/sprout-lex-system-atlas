@@ -177,12 +177,12 @@
   }
 
   // 11월 7일 — 단계별 목표치 · 진행률 · 작업 내용. 진행률 막대는 글자(분수)를 항상 함께 쓴다(색 단독 금지).
-  function dayLogBlock(d) {
-    var g = d.day_log_1107; if (!g) return el('div');
+  function dayLogBlock(d, g) {
+    g = g || d.day_log_1107; if (!g) return el('div');
     var box = el('div', null, 'rr-card');
     box.append(el('h4', g.title), el('p', g.note, 'rr-note'));
     var wrap = el('div', null, 'rr-scroll'), tb = el('table'), hd = el('tr');
-    ['단계 · 담당', '11/7 목표치', '진행률(측정값)', '11/7 작업 내용', '남은 것'].forEach(function (h) { hd.append(el('th', h)); }); tb.append(hd);
+    ['단계 · 담당', (g.date_label || '11/7') + ' 목표치', '진행률(측정값)', (g.date_label || '11/7') + ' 작업 내용', '남은 것'].forEach(function (h) { hd.append(el('th', h)); }); tb.append(hd);
     g.stages.forEach(function (s) {
       var tr = el('tr'), n = el('td'); n.append(el('div', s.stage, 'rr-q'), el('div', s.owner, 'rr-note'));
       var pc = el('td'); var bar = el('div', null, 'rr-bar'); var fill = el('i'); fill.style.width = Math.max(0, Math.min(100, s.percent)) + '%'; bar.append(fill);
@@ -194,9 +194,9 @@
     return box;
   }
 
-  function dayLogDetail(d) {
-    var g = d.day_log_1107; if (!g || !g.timeline) return el('div');
-    var dt = el('details', null, 'rr-help rr-daylog'); dt.append(el('summary', '11월 7일 작업 상세 기록(펼치기) — ' + g.timeline.length + '건 · KST'));
+  function dayLogDetail(d, g) {
+    g = g || d.day_log_1107; if (!g || !g.timeline) return el('div');
+    var dt = el('details', null, 'rr-help rr-daylog'); dt.append(el('summary', (g.date_label || '11/7') + ' 작업 상세 기록(펼치기) — ' + g.timeline.length + '건 · KST'));
     var wrap = el('div', null, 'rr-scroll'), tb = el('table'), hd = el('tr');
     ['시각', '항목', '결과', '출처'].forEach(function (h) { hd.append(el('th', h)); }); tb.append(hd);
     g.timeline.forEach(function (r) { var tr = el('tr'); tr.append(el('td', r.at), el('td', r.item, 'rr-q'), el('td', r.result), el('td', r.source, 'rr-note')); tb.append(tr); });
@@ -285,7 +285,8 @@
     root.append(el('p', '갱신 ' + d.updated_at.replace('T', ' ').replace('+09:00', ' KST') + ' · 작성 ' + d.author, 'rr-note'));
     root.append((function () { var dt = el('details', null, 'rr-help'); dt.append(el('summary', '읽는 법 · 도움말(펼치기)')); var u = el('ul', null, 'rr-rules'); d.how_to_read.forEach(function (t) { u.append(el('li', t)); }); dt.append(u); return dt; })());
     if (d.answer_flow) root.append(el('h3', '답변 흐름'), flowBlock(d, tip));
-    if (d.day_log_1107) root.append(el('h3', '11월 7일 — 단계별 목표와 진행률'), dayLogBlock(d));
+    if (d.day_log_1108) root.append(el('h3', '11월 8일 — 단계별 목표와 진행률'), dayLogBlock(d, d.day_log_1108));
+    if (d.day_log_1107) root.append(el('h3', '11월 7일 — 단계별 목표와 진행률'), dayLogBlock(d, d.day_log_1107));
     if (d.evening_tests) root.append(el('h3', '답변 연결 뒤 시험'), eveningBlock(d));
     root.append(el('h3', '추이 — 실제 질문 10개'), trendBlock(d, tip));
     root.append(el('h3', '실행 기록'));
@@ -308,7 +309,9 @@
     var sp = el('div', null, 'rr-split');
     [['지금 확인된 것', 'current'], ['계획(구현·평가 전)', 'planned'], ['확장 대상', 'expansion'], ['실험(효용 미입증)', 'experiment']].forEach(function (p) { var c = el('div', null, 'rr-card'); c.append(el('h4', p[0]), list(d.status_split[p[1]])); sp.append(c); });
     root.append(sp, el('p', d.excluded_from_public, 'rr-note'));
-    if (d.day_log_1107) root.append(el('h3', '작업 상세 기록'), dayLogDetail(d));
+    if (d.day_log_1108 || d.day_log_1107) root.append(el('h3', '작업 상세 기록'));
+    if (d.day_log_1108) root.append(dayLogDetail(d, d.day_log_1108));
+    if (d.day_log_1107) root.append(dayLogDetail(d, d.day_log_1107));
   }
 
   window.RunsReview = { mount: mount };
