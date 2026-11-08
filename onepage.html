@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Sprout Lex · 한 페이지 — 흐름 × 구조 × 진행</title>
+<style>body{margin:0;background:#f7f9f9;font-family:system-ui,-apple-system,"Segoe UI","Malgun Gothic",sans-serif}main{max-width:1280px;margin:0 auto;padding:20px 16px 60px}h1{font-size:18px;color:#192e35;margin:8px 0 2px}.sub{color:#65757b;font-size:12px;margin:0 0 12px}.back{font-size:12px;color:#147360}.fail{color:#8f2020;font-size:13px}</style>
+</head>
+<body>
+<main>
+<p><a class="back" href="./">← 시스템 보드로</a> · <a class="back" href="runs-review.html">실행 기록 따라가기 →</a></p>
+<h1>한 페이지 — 흐름 × 구조 × 진행</h1>
+<p class="sub">위: 질문이 답이 되는 7단계(목표·진행). 가운데: 그 단계를 떠받치는 모듈(이름 칩으로 대응). 아래: TO-BE A~D·Track K 진행. 기록을 그릴 뿐 질문을 다시 실행하거나 모델을 호출하지 않는다.</p>
+<div id="onepage-root"></div>
+<noscript><p class="fail">이 화면은 스크립트가 켜져 있어야 보인다.</p></noscript>
+</main>
+<script>
+/* 같은 폴더의 세 파일만 읽는다(외부 호출 없음). 캐시로 낡은 기록이 보이지 않게 매번 새로 받는다. */
+(function () {
+  var root = document.getElementById('onepage-root'), stamp = Date.now();
+  function load(src, next) {
+    var s = document.createElement('script'); s.src = src + '?t=' + stamp; s.onload = next;
+    s.onerror = function () { root.textContent = '파일을 불러오지 못했다: ' + src; root.className = 'fail'; };
+    document.body.appendChild(s);
+  }
+  load('data.js', function () { load('runs-review-data.js', function () { load('onepage.js', function () { window.OnePage.mount(root); load('updated-badge.js', function () {}); }); }); });
+})();
+</script>
+</body>
+</html>

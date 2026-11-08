@@ -297,7 +297,8 @@
     d.run_sets.slice().reverse().forEach(function (s) { var when = String(s.at || '').replace(/^2026-/, '').replace(' KST', ''); var b = el('button', (s.period === 'latest' ? '최신 · ' : '') + when + ' · ' + s.label + (s.status && s.status !== '완료' ? ' (' + s.status + ')' : '')); b.dataset.id = s.id; b.type = 'button'; b.onclick = function () { show(s.id); }; tabs.append(b); });
     root.append(tabs, holder);
     var latest = d.run_sets.filter(function (s) { return s.period === 'latest'; })[0] || d.run_sets[d.run_sets.length - 1];
-    show(latest.id);
+    var want = (location.hash.match(/run=([^&]+)/) || [])[1];
+    show(want && d.run_sets.some(function (s) { return s.id === want; }) ? want : latest.id);
     root.append(el('h3', '증거의 종류 — 섞어 세지 않는다'));
     var wrap = el('div', null, 'rr-scroll'), tb = el('table'), hd = el('tr');
     ['종류', '무엇을 보는가', '예', '보여 주지 못하는 것'].forEach(function (h) { hd.append(el('th', h)); }); tb.append(hd);
