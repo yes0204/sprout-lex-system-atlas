@@ -50,7 +50,10 @@
     '.rr .rr-badge.no{background:#f4f5f5;color:#52514e}',
     '.rr .rr-q{font-weight:600}',
     '.rr .rr-split{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}',
-    '.rr ul{margin:4px 0;padding-left:18px}'
+    '.rr ul{margin:4px 0;padding-left:18px}',
+    '.rr .rr-bar{height:8px;border-radius:4px;background:#e6ecec;margin-top:4px;min-width:90px;overflow:hidden}',
+    '.rr .rr-bar i{display:block;height:100%;background:#2a78d6}',
+    '.rr .rr-daylog summary{font-size:13px;font-weight:600;color:#203c48}'
   ].join('\n');
 
   function el(tag, text, cls) { var e = document.createElement(tag); if (text != null) e.textContent = text; if (cls) e.className = cls; return e; }
@@ -117,8 +120,11 @@
   };
   function wrapText(t, n) { var out = [], s = String(t); while (s.length > n) { var cut = s.lastIndexOf(' ', n); if (cut < n / 2) cut = n; out.push(s.slice(0, cut).trim()); s = s.slice(cut).trim(); } if (s) out.push(s); return out; }
 
+  function st0(f) { return (f.stages || []).some(function (s) { return s.progress; }); }
+
   function flowChart(f, tip) {
-    var st = f.stages, bw = 132, bh = 150, gap = 16, top = 10, W = st.length * bw + (st.length - 1) * gap + 4, H = top + bh + 12;
+    var hasProg = st0(f);
+    var st = f.stages, bw = 132, bh = hasProg ? 214 : 150, gap = 16, top = 10, W = st.length * bw + (st.length - 1) * gap + 4, H = top + bh + 12;
     var svg = sv('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': '답변 흐름 그림. 질문에서 화면까지 구간별 연결과 품질 상태. 아래 표에 같은 내용이 있다.' });
     svg.style.maxWidth = '1040px'; svg.style.minWidth = '720px';
     st.forEach(function (s, i) {
@@ -134,7 +140,11 @@
       g.append(sv('text', { x: x + 10, y: top + 40, 'font-size': 10.5, fill: '#3d5158' }, s.link));
       g.append(sv('text', { x: x + 10, y: top + 60, 'font-size': 11, 'font-weight': 700, fill: c.ink }, c.label));
       wrapText(s.quality, 13).slice(0, 5).forEach(function (line, k) { g.append(sv('text', { x: x + 10, y: top + 80 + k * 15, 'font-size': 10.5, fill: '#192e35' }, line)); });
-      var msg = s.name + ' — ' + s.link + ' · ' + c.label + ': ' + s.evidence + (s.fix ? ' · 고칠 곳: ' + s.fix : '');
+      if (hasProg) { // 11/7 진행 — 칸 아래쪽에 구분선 + 최대 4줄(목표 · 측정값). 색이 아니라 글자로 구분한다.
+        g.append(sv('line', { x1: x + 8, y1: top + 156, x2: x + bw - 8, y2: top + 156, stroke: '#b4bfc2', 'stroke-width': 1 }));
+        wrapText(s.progress || '11/7 기록 없음', 13).slice(0, 4).forEach(function (line, k) { g.append(sv('text', { x: x + 10, y: top + 170 + k * 13, 'font-size': 10, 'font-weight': k === 0 ? 700 : 400, fill: '#203c48' }, line)); });
+      }
+      var msg = s.name + ' — ' + s.link + ' · ' + c.label + ': ' + s.evidence + (s.fix ? ' · 고칠 곳: ' + s.fix : '') + (s.progress ? ' · ' + s.progress : '');
       g.addEventListener('mousemove', function (ev) { tip.textContent = msg; tip.hidden = false; tip.style.left = (ev.clientX + 12) + 'px'; tip.style.top = (ev.clientY + 12) + 'px'; });
       g.addEventListener('mouseleave', function () { tip.hidden = true; });
       g.append(sv('title', {}, msg));
@@ -153,16 +163,46 @@
     var cw = el('div', null, 'rr-scroll'); cw.append(flowChart(f, tip));
     box.append(lg, cw);
     var wrap = el('div', null, 'rr-scroll'), tb = el('table'), hd = el('tr');
-    var hasFix = f.stages.some(function (s) { return s.fix; });
-    (hasFix ? ['구간 · 노드', '상태', '고칠 곳', '막힌 이유와 근거', '모델 교체 효과'] : ['구간', '연결', '상태', '근거']).forEach(function (h) { hd.append(el('th', h)); }); tb.append(hd);
+    var hasFix = f.stages.some(function (s) { return s.fix; }), hasProg = st0(f);
+    if (hasProg && f.progress_note) box.append(el('p', f.progress_note, 'rr-note'));
+    (hasFix ? ['구간 · 노드', '상태', '고칠 곳', '막힌 이유와 근거', '모델 교체 효과'].concat(hasProg ? ['11/7 목표 · 진행'] : []) : ['구간', '연결', '상태', '근거']).forEach(function (h) { hd.append(el('th', h)); }); tb.append(hd);
     f.stages.forEach(function (s) { var tr = el('tr'); var c = FLOW_STATE[s.state] || FLOW_STATE.weak; var b = el('td'); b.append(el('span', c.label, 'rr-badge ' + (s.state === 'ok' ? 'yes' : 'no'))); var q = el('td'); q.append(el('div', s.quality, 'rr-q'), el('div', s.evidence, 'rr-note'));
-      if (hasFix) { var n = el('td'); n.append(el('div', s.name, 'rr-q'), el('div', (s.node || '') + ' · ' + s.link, 'rr-note')); var fx = el('td'); fx.append(el('strong', s.fix || '—')); tr.append(n, b, fx, q, el('td', s.model_effect || '—')); }
+      if (hasFix) { var n = el('td'); n.append(el('div', s.name, 'rr-q'), el('div', (s.node || '') + ' · ' + s.link, 'rr-note')); var fx = el('td'); fx.append(el('strong', s.fix || '—')); tr.append(n, b, fx, q, el('td', s.model_effect || '—')); if (hasProg) tr.append(el('td', s.progress || '—')); }
       else tr.append(el('td', s.name), el('td', s.link), b, q);
       tb.append(tr); });
     wrap.append(tb); box.append(wrap);
     if (f.next) box.append(el('p', '다음 — ' + f.next.state + ': ' + f.next.text));
     if (f.limit) box.append(el('p', '한계: ' + f.limit, 'rr-note'));
     return box;
+  }
+
+  // 11월 7일 — 단계별 목표치 · 진행률 · 작업 내용. 진행률 막대는 글자(분수)를 항상 함께 쓴다(색 단독 금지).
+  function dayLogBlock(d) {
+    var g = d.day_log_1107; if (!g) return el('div');
+    var box = el('div', null, 'rr-card');
+    box.append(el('h4', g.title), el('p', g.note, 'rr-note'));
+    var wrap = el('div', null, 'rr-scroll'), tb = el('table'), hd = el('tr');
+    ['단계 · 담당', '11/7 목표치', '진행률(측정값)', '11/7 작업 내용', '남은 것'].forEach(function (h) { hd.append(el('th', h)); }); tb.append(hd);
+    g.stages.forEach(function (s) {
+      var tr = el('tr'), n = el('td'); n.append(el('div', s.stage, 'rr-q'), el('div', s.owner, 'rr-note'));
+      var pc = el('td'); var bar = el('div', null, 'rr-bar'); var fill = el('i'); fill.style.width = Math.max(0, Math.min(100, s.percent)) + '%'; bar.append(fill);
+      pc.append(el('div', s.measured + ' · ' + s.percent + '%', 'rr-q'), bar);
+      tr.append(n, el('td', s.target), pc, el('td', s.work), el('td', s.remaining, 'rr-note')); tb.append(tr);
+    });
+    wrap.append(tb); box.append(wrap);
+    box.append(list(g.summary));
+    return box;
+  }
+
+  function dayLogDetail(d) {
+    var g = d.day_log_1107; if (!g || !g.timeline) return el('div');
+    var dt = el('details', null, 'rr-help rr-daylog'); dt.append(el('summary', '11월 7일 작업 상세 기록(펼치기) — ' + g.timeline.length + '건 · KST'));
+    var wrap = el('div', null, 'rr-scroll'), tb = el('table'), hd = el('tr');
+    ['시각', '항목', '결과', '출처'].forEach(function (h) { hd.append(el('th', h)); }); tb.append(hd);
+    g.timeline.forEach(function (r) { var tr = el('tr'); tr.append(el('td', r.at), el('td', r.item, 'rr-q'), el('td', r.result), el('td', r.source, 'rr-note')); tb.append(tr); });
+    wrap.append(tb); dt.append(wrap);
+    if (g.excluded) dt.append(el('p', g.excluded, 'rr-note'));
+    return dt;
   }
 
   function eveningBlock(d) {
@@ -245,6 +285,7 @@
     root.append(el('p', '갱신 ' + d.updated_at.replace('T', ' ').replace('+09:00', ' KST') + ' · 작성 ' + d.author, 'rr-note'));
     root.append((function () { var dt = el('details', null, 'rr-help'); dt.append(el('summary', '읽는 법 · 도움말(펼치기)')); var u = el('ul', null, 'rr-rules'); d.how_to_read.forEach(function (t) { u.append(el('li', t)); }); dt.append(u); return dt; })());
     if (d.answer_flow) root.append(el('h3', '답변 흐름'), flowBlock(d, tip));
+    if (d.day_log_1107) root.append(el('h3', '11월 7일 — 단계별 목표와 진행률'), dayLogBlock(d));
     if (d.evening_tests) root.append(el('h3', '답변 연결 뒤 시험'), eveningBlock(d));
     root.append(el('h3', '추이 — 실제 질문 10개'), trendBlock(d, tip));
     root.append(el('h3', '실행 기록'));
@@ -266,6 +307,7 @@
     var sp = el('div', null, 'rr-split');
     [['지금 확인된 것', 'current'], ['계획(구현·평가 전)', 'planned'], ['확장 대상', 'expansion'], ['실험(효용 미입증)', 'experiment']].forEach(function (p) { var c = el('div', null, 'rr-card'); c.append(el('h4', p[0]), list(d.status_split[p[1]])); sp.append(c); });
     root.append(sp, el('p', d.excluded_from_public, 'rr-note'));
+    if (d.day_log_1107) root.append(el('h3', '작업 상세 기록'), dayLogDetail(d));
   }
 
   window.RunsReview = { mount: mount };
