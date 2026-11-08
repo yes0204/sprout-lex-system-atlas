@@ -25,12 +25,24 @@
     '.op .hl .stage,.op .hl .mod{opacity:.35}.op .hl .stage.on,.op .hl .mod.on{opacity:1;box-shadow:0 0 0 2px #345 inset}',
     '.op .board{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:6px}.op .card{display:block;border:1px solid var(--ink);border-radius:4px;padding:6px;min-height:92px;font-size:12px;background:#fff;text-decoration:none;color:inherit}.op .card .t{font-weight:700}.op .card .s{display:inline-block;font-size:10px;border:1px solid var(--line);padding:0 4px;margin:4px 0;background:var(--soft);border-radius:2px}.op .card .d{font-size:11px;color:var(--mute)}.op .card.k{background:repeating-linear-gradient(45deg,#fff 0 6px,#f1f4f4 6px 12px)}',
     '.op .foot{font-size:11px;color:var(--mute);margin-top:8px}.op details{margin-top:8px;font-size:12px}.op summary{cursor:pointer;color:#345}',
+    '.op .truth{display:inline-flex;gap:4px;flex-wrap:wrap;margin-top:4px}.op .truth i{font-style:normal;font-size:9px;padding:0 4px;border:1px solid var(--line);border-radius:2px;color:#333;background:#fff}.op .truth i.observed{border-color:#345;color:#345}.op .truth i.pinned{border-color:#147360;color:#147360}.op .truth i.agreed{border-color:#8a6d1f;color:#8a6d1f}.op .truth i.proposed{border-style:dashed;color:var(--tobe);border-color:var(--tobe)}',
     '@media (max-width:1100px){.op .flow{grid-template-columns:repeat(4,1fr)}.op .arch{grid-template-columns:1fr 1fr}.op .board{grid-template-columns:repeat(3,1fr)}}',
     '@media (max-width:600px){.op .flow{grid-template-columns:1fr 1fr}.op .arch{grid-template-columns:1fr}.op .board{grid-template-columns:1fr 1fr}}'
   ].join('\n');
 
   function el(tag, text, cls) { var e = document.createElement(tag); if (text != null) e.textContent = text; if (cls) e.className = cls; return e; }
   function chip(t) { return el('b', t); }
+  // R3 표지 칩: as_of · truth · evidence — atlas-model.js(기계 생성)에서 읽는다. 없으면 그리지 않는다.
+  var TRUTH = { observed: '관측', pinned: '코드 고정', agreed: '합의', proposed: '제안' };
+  function modelEntity(id) { var M = window.ATLAS_MODEL; if (!M) return null; for (var i = 0; i < M.entities.length; i++) if (M.entities[i].id === id) return M.entities[i]; return null; }
+  function truthChips(id) {
+    var e = modelEntity(id); if (!e) return null;
+    var box = el('span', null, 'truth'), t = el('i', TRUTH[e.truth] || e.truth, e.truth); t.title = 'truth: ' + e.truth; box.append(t);
+    if (e.as_of) box.append(el('i', e.as_of));
+    var ev = e.evidence || {}, label = ev.commit ? 'commit ' + String(ev.commit).slice(0, 7) + (ev.file ? ' · ' + ev.file.split('/').pop() + (ev.line ? ':' + ev.line : '') : '') : ev.code_pin ? 'pin ' + ev.code_pin : ev.run_set ? 'run ' + ev.run_set : ev.run_sets && ev.run_sets.length ? 'run ' + ev.run_sets[0] : ev.doc ? ev.doc : '';
+    if (label) { var v = el('i', label); v.title = JSON.stringify(ev); box.append(v); }
+    return box;
+  }
 
   function mount(root) {
     var d = window.RUNS_REVIEW, A = window.ATLAS, op = d && d.onepage; if (!root || !op) { if (root) root.textContent = '한 페이지 데이터(onepage)가 기록 파일에 없다.'; return; }
@@ -45,6 +57,7 @@
     function set(t) { root.classList.toggle('tobe', t); bAs.setAttribute('aria-pressed', String(!t)); bTo.setAttribute('aria-pressed', String(t)); history.replaceState(null, '', t ? '#view=tobe' : '#view=asis'); }
     bAs.onclick = function () { set(false); }; bTo.onclick = function () { set(true); }; tg.append(bAs, bTo);
     var lg = el('div', null, 'legend'); lg.append(el('span', '실선 = 지금 있는 것'), el('span', '색 테두리 = TO-BE A~D 덧씌움', 'l-tobe'), el('span', '빗금 = Track K(온톨로지·KG)', 'l-k'), el('span', '막대 = ' + (d.day_log_1107 ? '11/7 목표 대비 진행' : '목표 대비 진행'), 'l-prog'));
+    if (window.ATLAS_MODEL) { var M = window.ATLAS_MODEL, ltr = el('span', null, 'truth'); Object.keys(TRUTH).forEach(function (k) { var i = el('i', TRUTH[k] + ' ' + (M.counts.by_truth[k] || 0), k); ltr.append(i); }); var wrap = el('span', '표지(엔티티 ' + M.counts.entities + ' · 관계 ' + M.counts.relations + '): '); wrap.append(ltr); lg.append(wrap); }
     top.append(tg, lg); root.append(el('p', '갱신 ' + d.updated_at.replace('T', ' ').replace('+09:00', ' KST') + ' · 기준일 ' + op.as_of + ' · ' + op.note, 'sub'), top);
 
     // 하이라이트: 단계 ↔ 모듈 ↔ 보드 칸을 이름으로 잇는다
@@ -68,6 +81,7 @@
       var mods = el('div', null, 'mods'); (m.modules || []).forEach(function (id) { mods.append(chip(nodeTitle[id] || id)); }); a.append(mods);
       if (m.tobe) a.append(el('div', m.tobe.tag.split(' ')[0] + ': ' + m.tobe.text, 'shadow'));
       if (m.asis && m.asis !== '현행') a.append(el('div', m.asis, 'note-asis'));
+      var tc = truthChips('stage:' + s.id); if (tc) a.append(tc);
       a.append(el('span', '상태 ' + ({ ok: '정상', weak: '약함', fail: '실패' }[s.state] || s.state || ''), 'st'));
       a.onmouseenter = function () { highlight([s.id]); }; a.onmouseleave = function () { highlight(null); };
       stageEls[s.id] = a; flow.append(a);
@@ -86,6 +100,7 @@
         if (m.tag) a.append(el('span', m.tag, 'tag'));
         a.append(el('div', m.label, 'nm'), el('div', m.desc + (m.node && nodeTitle[m.node] ? ' · atlas: ' + nodeTitle[m.node] : ''), 'ds'));
         var st = el('div', null, 'st'); m.stages.forEach(function (s) { st.append(chip(s)); }); a.append(st);
+        var mc = truthChips('module:' + m.label.replace(/[^0-9A-Za-z가-힣]+/g, '-').replace(/^-|-$/g, '')); if (mc) a.append(mc);
         a.onmouseenter = function () { highlight(m.stages); }; a.onmouseleave = function () { highlight(null); };
         modEls.push({ el: a, stages: m.stages }); col.append(a);
       });
@@ -100,6 +115,7 @@
     op.tracks.forEach(function (t) {
       var a = el('a', null, 'card' + (t.k ? ' k' : '')); a.href = t.run ? 'runs-review.html#run=' + t.run : 'index.html#tab=kanban';
       a.append(el('div', t.title, 't'), el('span', t.status, 's'), el('div', t.desc, 'd'));
+      var kc = truthChips('track:' + t.id); if (kc) a.append(kc);
       if (t.stages) { a.onmouseenter = function () { highlight(t.stages); }; a.onmouseleave = function () { highlight(null); }; }
       board.append(a);
     });
