@@ -1,0 +1,45 @@
+/* 공통 상단 내비(2차 정리 · 2026-11-09) — 정적 마크업 전용, 스크립트 없음.
+   모든 페이지의 <header class="masthead"> 안 .header-links 구조를 이 파일 하나로 그린다.
+   updated-badge.js 가 header.masthead .header-links 를 찾아 갱신 배지를 끼운다. */
+header.masthead{position:relative;z-index:20;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 18px;height:auto;min-height:0;margin:0;padding:10px 4vw;background:#fff;border-bottom:1px solid #dce3e4;color:#192e35;font:13px/1.4 system-ui,-apple-system,"Segoe UI","Malgun Gothic",sans-serif;text-align:left}
+header.masthead .brand{display:flex;align-items:center;gap:10px;margin:0;color:#192e35;font-weight:800;font-size:14px;letter-spacing:.08em;text-decoration:none;white-space:nowrap}
+header.masthead .brandmark{display:inline-block;width:30px;height:30px;border-radius:7px;background:#147360;color:#fff;font-size:21px;line-height:30px;text-align:center}
+header.masthead .brand-sub{display:inline;border-left:1px solid #dce3e4;padding-left:12px;color:#65757b;font-size:10px;font-weight:500;letter-spacing:.06em}
+header.masthead .owner-tag{color:#65757b;font-size:11px;letter-spacing:.08em;white-space:nowrap}
+header.masthead .header-links{display:flex;flex-wrap:wrap;flex-direction:row;align-items:center;gap:2px 14px;margin:0;padding:0;font-size:13px;line-height:1.4}
+header.masthead .header-links>a,header.masthead .nav-group>summary{display:inline-block;padding:6px 4px;color:#192e35;font-weight:600;text-decoration:none;white-space:nowrap;cursor:pointer;list-style:none;border-radius:5px}
+header.masthead .header-links>a:hover,header.masthead .nav-group>summary:hover,header.masthead .nav-group[open]>summary{background:#eef3f3;color:#147360}
+header.masthead .header-links>a[aria-current="page"],header.masthead .nav-group.here>summary{box-shadow:inset 0 -2px 0 #147360}
+header.masthead .nav-group{position:relative;margin:0}
+header.masthead .nav-group>summary::-webkit-details-marker{display:none}
+header.masthead .nav-group>summary::after{content:" ▾";color:#65757b;font-size:11px}
+header.masthead .nav-group[open]>summary::after{content:" ▴"}
+header.masthead .nav-menu{position:absolute;top:100%;left:0;z-index:40;display:flex;flex-direction:column;min-width:210px;margin:4px 0 0;padding:6px;background:#fff;border:1px solid #dce3e4;border-radius:8px;box-shadow:0 6px 18px rgba(25,46,53,.12)}
+header.masthead .nav-menu a{display:block;padding:6px 10px;border-radius:5px;color:#147360;font-size:13px;font-weight:500;text-decoration:none;white-space:nowrap}
+header.masthead .nav-menu a:hover{background:#e7f4ee}
+header.masthead .nav-menu a small{color:#65757b;font-size:11px;margin-left:4px}
+header.masthead #updated-badge{order:99}
+@media(max-width:700px){
+header.masthead{padding:10px 16px;gap:6px 12px;align-items:flex-start}
+header.masthead .brand{font-size:13px}
+header.masthead .brand-sub{display:none}
+header.masthead .header-links{width:100%;gap:0 8px;font-size:12px}
+header.masthead .header-links>a,header.masthead .nav-group>summary{padding:5px 3px}
+header.masthead .nav-group[open]{width:100%}
+header.masthead .nav-menu{position:static;min-width:0;margin:2px 0 6px;padding:2px 0 2px 10px;border:0;border-left:2px solid #dce3e4;border-radius:0;box-shadow:none}
+header.masthead .nav-menu a{white-space:normal;padding:5px 6px}
+}
+/* 페이지 보조 링크(상단 내비에 없는 그 페이지만의 원본·내려받기) */
+.page-sub-links{margin:8px 0 0;font-size:12px;color:#65757b}
+.page-sub-links a{color:#147360}
+/* 본문 끝 「기록·근거 N건」 묶음 — 평면 나열하던 GitHub blob/PR/commit 링크를 접어 둔다 */
+details.refs{margin:12px 0 0;padding:0;font-size:12px;line-height:1.6}
+details.refs>summary{display:inline-block;cursor:pointer;color:#65757b;font-weight:600;padding:2px 0}
+details.refs>summary:hover{color:#147360}
+details.refs ul{margin:6px 0 2px;padding-left:18px}
+details.refs li{margin:3px 0;overflow-wrap:anywhere}
+details.refs li a{color:#147360;font-weight:500}
+details.refs li small{color:#65757b;margin-left:6px}
+/* 로컬 전용 주소 — 링크가 아니라 표시만 한다(원 주소는 data-local-url) */
+.local-only{color:#65757b;text-decoration:underline dotted;cursor:help;overflow-wrap:anywhere}
+.local-only .local-badge{display:inline-block;margin-left:6px;padding:0 7px;border:1px solid #9fb0b5;border-radius:10px;background:#f4f6f6;color:#65757b;font-size:11px;font-weight:600;white-space:nowrap;text-decoration:none}
