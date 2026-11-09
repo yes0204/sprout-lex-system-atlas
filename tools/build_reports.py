@@ -40,7 +40,7 @@ def render(md):
     return '\n'.join(output)
 
 def page(title,body):
-    return '<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>'+title+'</title><link rel="stylesheet" href="reports.css"></head><body><header><a href="./">통합보드</a><a href="reports.html">작업 결과 보고</a><a href="runs-review.html">런리뷰</a><a href="atlas-browser.html">아틀라스</a><a href="./#tab=lexicon">개념·사전</a></header><main>'+body+'</main><footer>고정 기록 · 실시간 현황이나 운영 배포를 뜻하지 않습니다. 모델/API 호출 없는 읽기 화면입니다.</footer></body></html>'
+    return '<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>'+title+'</title><link rel="stylesheet" href="reports.css"></head><body><header><a href="./">통합 보드</a><a href="reports.html">결과 보고</a><a href="runs-review.html">실행 기록</a><a href="atlas-browser.html">구조 데이터 열람</a><a href="./#tab=lexicon">개념·사전</a></header><main>'+body+'</main><footer>고정 기록 · 실시간 현황이나 운영 배포를 뜻하지 않습니다. 모델/API 호출 없는 읽기 화면입니다.</footer></body></html>'
 
 for date in ['2026-11-07','2026-11-08']:
     md=(ROOT/f'report-{date}.md').read_text(encoding='utf-8-sig')
