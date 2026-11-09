@@ -2,7 +2,7 @@
   "schema": "atlas.runs-review.v1",
   "tab": "02 실행 기록 따라가기",
   "author": "Sarah (Claude 검토 팀장)",
-  "updated_at": "2026-11-08T14:50+09:00",
+  "updated_at": "2026-11-09T15:39+09:00",
   "how_to_read": [
     "HTTP 200은 「서버가 응답했다」는 뜻이다. 답변 성공으로 세지 않는다.",
     "단위 시험·가짜 모델 시험·실제 모델 실행은 서로 다른 증거다. 한 칸에 합치지 않는다.",
@@ -1990,6 +1990,516 @@
       ],
       "caveat": "효과 측정이 아니라 「공급은 되는데 검사가 버린다」는 사실의 기록. 기존 OFF 와의 쌍은 시간상 비대칭.",
       "source": "private-export/KGC04-context-followup-live-261108-r1 · results 16ef2c25 · Sarah §3-497~499"
+    },
+    {
+      "id": "L-1109-si6-segment-control-r1r2",
+      "label": "질문 구간 결속 — 대조군 SI6-01 선택 1회 × 2회차(r1·r2) · 둘 다 선택 계약 위반 502",
+      "period": "past",
+      "status": "완료(실패 기록)",
+      "evidence_class": "실제 검색 · 실제 자격 검사(공개 범위) · 실제 모델(GB10 선택 1회씩 · 총 2) · 실제 HTTP(502) · 설명 도달 안 함",
+      "at": "2026-11-09 09:38 (r1) · 10:26 (r2) KST",
+      "run_conditions": {
+        "service": "격리 프로세스 · 공개 범위 v2 · DB 1473 스냅샷 · 운영 아님",
+        "settings": "선택 1회 · 설명 0(선택 실패로 도달 안 함) · model_limit 2 · retry 0 · GPT 0 · 코호트 상한 6 POST",
+        "cells": [
+          {
+            "arm": "r1 대조군(SI6-01 ON)",
+            "selection_model": "qwen3-235b",
+            "selection_location": "GB10 원격(SSH · llama-server qwen3-235b Q5_K_M · ctx 32768 · 출력 1536 · thinking off · 온도 0)",
+            "explanation_model": "도달 안 함",
+            "explanation_location": "—"
+          },
+          {
+            "arm": "r2 대조군(같은 질문 · 스키마 인코딩만 동치 개정)",
+            "selection_model": "qwen3-235b",
+            "selection_location": "GB10 원격(SSH · llama-server qwen3-235b Q5_K_M · ctx 32768 · 출력 1536 · thinking off · 온도 0) · 캐시 3136",
+            "explanation_model": "도달 안 함",
+            "explanation_location": "—"
+          }
+        ]
+      },
+      "code_pin": "f09a52763(r1) · 08f90a67d(r2)",
+      "result_pin": "r1 actual a89be67d · r2 actual 52812568 · summary 각 1행",
+      "denominator": 2,
+      "http_200": 0,
+      "http_error": 2,
+      "model_posts": 2,
+      "embedding_calls": 4,
+      "what_changed": "처음으로 질문의 사실 구간(subject_role 등)을 선택 모델 출력에 결속하는 세그먼트 계약을 실제 전송으로 쟀다. 두 회차 모두 선택 모델 출력이 계약(selection_contract)을 통과하지 못해 502 로 끝났고, 설명 단계에는 도달하지 않았다.",
+      "environment": "이 PC 격리 · GB10 SSH 각 1회 · GPT 0 · DB/색인 전후 동일 · 재시도 0",
+      "independent_evaluation": {
+        "by": "Robert — 미확인(폴더 요약은 independent_review pending)",
+        "positive_answered": "0/2",
+        "boundary_minimum_hold": "—",
+        "missing_condition_resolved": "—",
+        "status": "답변이 없어 채점 대상 아님. 선택 계약 위반(model_invalid_output) 2/2 · 생성 설명 0 · 오답 배달 0."
+      },
+      "rows": [
+        {
+          "id": "SI6-01 · r1",
+          "group": "공공 SI 개발 질문 · 수탁사의 제3자 전달",
+          "question": "공공기관 민원시스템을 운영하는 수탁회사야. 발주처 담당자가 다른 업체에 민원인 명단을 보내 달라고 했어. 그 업체가 어떤 일을 맡았는지는 아직 몰라. 담당자가 요청했으니 바로 보내도 돼?",
+          "stopped_at": "선택 모델 출력이 세그먼트 선택 계약에 안 맞음 → 502",
+          "stages": {
+            "질문": "통과",
+            "검색": "통과",
+            "원문·자격": "통과",
+            "모델": "오류: 선택 계약 위반",
+            "HTTP": "오류(502)"
+          },
+          "http": 502,
+          "model_posts": 1,
+          "seconds": 67,
+          "why_stopped": "선택 POST 1(prompt 3137 · 출력 212) 뒤 selection_contract:invalid_output. 설명 도달 안 함.",
+          "why_source": "segment r1 actual_1 a89be67d · summary · stdout",
+          "independent_verdict": "채점 불가(답변 없음)",
+          "goal_met": false,
+          "note": "초는 요청 시작~종료(모델 대기 포함)."
+        },
+        {
+          "id": "SI6-01 · r2",
+          "group": "같은 질문 · 스키마 인코딩 동치 개정 뒤 재측정",
+          "question": "공공기관 민원시스템을 운영하는 수탁회사야. 발주처 담당자가 다른 업체에 민원인 명단을 보내 달라고 했어. 그 업체가 어떤 일을 맡았는지는 아직 몰라. 담당자가 요청했으니 바로 보내도 돼?",
+          "stopped_at": "같은 자리(선택 계약 위반) → 502",
+          "stages": {
+            "질문": "통과",
+            "검색": "통과",
+            "원문·자격": "통과",
+            "모델": "오류: 선택 계약 위반",
+            "HTTP": "오류(502)"
+          },
+          "http": 502,
+          "model_posts": 1,
+          "seconds": 71,
+          "why_stopped": "선택 POST 1(prompt 3137 · 출력 357) 뒤 같은 사유. SYSTEM·질문·셀 불변 · 역사 wire 재생 아님.",
+          "why_source": "segment r2 actual_1 52812568 · summary · stdout",
+          "independent_verdict": "채점 불가(답변 없음)",
+          "goal_met": false,
+          "note": "r3 에서 B 수신 계약을 바꾼 뒤에야 200 이 났다(다음 run_set)."
+        }
+      ],
+      "not_proven": [
+        "세그먼트 결속이 답을 개선한다는 것(생성 0)",
+        "두 실패의 원인이 같다는 것(출력만 다르고 사유 코드가 같다)"
+      ],
+      "caveat": "지어낸 개발 질문 1개 · 대조군 2회 · 인과 주장 없음. 실패 기록을 보존하려고 올린 run_set 이다.",
+      "source": "private-export/SI6-segment-live-root-261109-r1 · -r2 (control)"
+    },
+    {
+      "id": "M-1109-si6-segment-live-r3",
+      "label": "질문 구간 결속 r3 — 대조군 SI6-01 200 · 대상 SI6-03/04 각 2 POST",
+      "period": "past",
+      "status": "완료",
+      "evidence_class": "실제 검색 · 실제 자격 검사(공개 범위) · 실제 모델(GB10 6회 = 선택 3 + 설명 3) · 실제 HTTP(200 ×3)",
+      "at": "2026-11-09 11:06 (대조군) · 11:33~11:37 (대상) KST",
+      "run_conditions": {
+        "service": "격리 프로세스 · 공개 범위 v2 · DB 1473 스냅샷 · 운영 아님",
+        "settings": "선택 1 + 설명 1(요청당) · 대조군 먼저 멈춤 뒤 사람 승인 후 대상 2문항 · retry 0 · GPT 0 · 코호트 상한 6 POST 소진",
+        "cells": [
+          {
+            "arm": "대조군(SI6-01 ON)",
+            "selection_model": "qwen3-235b",
+            "selection_location": "GB10 원격(SSH · llama-server qwen3-235b Q5_K_M · ctx 32768 · 출력 1536 · thinking off · 온도 0) · r2 와 같은 선택 wire(캐시 3136)",
+            "explanation_model": "qwen3-235b",
+            "explanation_location": "같은 GB10 · 공급 PIPA-26 8단위"
+          },
+          {
+            "arm": "대상(SI6-03 · SI6-04 ON)",
+            "selection_model": "qwen3-235b",
+            "selection_location": "GB10 원격(SSH · llama-server qwen3-235b Q5_K_M · ctx 32768 · 출력 1536 · thinking off · 온도 0)",
+            "explanation_model": "qwen3-235b",
+            "explanation_location": "같은 GB10"
+          }
+        ]
+      },
+      "code_pin": "5b4900365(대조군) · e8dd117d7(대상)",
+      "result_pin": "control actual 519c69a5 · targets actual d77f5593 / 88b12b68 · summary 각 1+2행",
+      "denominator": 3,
+      "http_200": 3,
+      "http_error": 0,
+      "model_posts": 6,
+      "embedding_calls": 6,
+      "what_changed": "B 수신 계약을 바꾸자 같은 선택 wire 가 200 으로 끝까지 갔다(r1·r2 는 502). 대조군 설명은 보류(근거 부족), 대상 SI6-03 은 설명 5문장 + 질문 3 이 배달됐고 SI6-04 는 보류 + 질문 2. 사실 구간 결속(segment_binding)이 세 요청 모두에 기록됐다.",
+      "environment": "이 PC 격리 · GB10 SSH 6회 · GPT 0 · DB/색인 전후 동일 · 누적 생성 26 → 32",
+      "independent_evaluation": {
+        "by": "Robert — 대상 241fb6ea8 · 대조군 5e4dcd805(sprout-lex 커밋 · 블라인드 여부 미확인)",
+        "positive_answered": "미확인",
+        "boundary_minimum_hold": "—",
+        "missing_condition_resolved": "미확인",
+        "status": "판정 파일 요지는 이 보드에 옮기지 않았다(커밋으로만 인용). 대조군 설명 0 · SI6-03 설명 5문장 배달 · SI6-04 설명 0 · 인과 귀속 0."
+      },
+      "rows": [
+        {
+          "id": "SI6-01 · 대조군",
+          "group": "공공 SI 개발 질문 · 수탁사의 제3자 전달",
+          "question": "공공기관 민원시스템을 운영하는 수탁회사야. 발주처 담당자가 다른 업체에 민원인 명단을 보내 달라고 했어. 그 업체가 어떤 일을 맡았는지는 아직 몰라. 담당자가 요청했으니 바로 보내도 돼?",
+          "stopped_at": "선택 200 · 설명 모델 보류(model_abstained) → 원문 + 질문 1 안내",
+          "stages": {
+            "질문": "통과",
+            "검색": "통과",
+            "원문·자격": "통과",
+            "모델": "멈춤(설명 보류)",
+            "HTTP": "통과(원문 안내)"
+          },
+          "http": 200,
+          "model_posts": 2,
+          "seconds": 88,
+          "why_stopped": "선택은 PIPA-26 1건(needs_context · 미확인 outsourcing_relationship). 설명 POST 는 16토큰 보류 응답.",
+          "why_source": "segment r3 control actual_1 519c69a5 · summary · Robert 5e4dcd805",
+          "independent_verdict": "Robert 5e4dcd805(요지 미전사)",
+          "goal_met": false,
+          "note": "선택 wire 는 r2 와 byte 동일(payload 241b454a) — 달라진 것은 B 수신 계약뿐."
+        },
+        {
+          "id": "SI6-03 · 대상",
+          "group": "테스트 로그 공유 · 개인정보 해당 여부",
+          "question": "공공시스템 장애를 외주 개발자와 확인하려고 해. 실제 운영자료가 아니라 테스트용으로 만든 로그이고, 사람의 이름이나 계정 등 개인을 알아볼 정보는 전혀 없어. 이 로그를 공유할 때도 민원인 동의를 받아야 해?",
+          "stopped_at": "끝까지 감 — 설명 5문장 + 확인 질문 3 배달",
+          "stages": {
+            "질문": "통과",
+            "검색": "통과",
+            "원문·자격": "통과",
+            "모델": "통과(설명 5문장)",
+            "HTTP": "통과"
+          },
+          "http": 200,
+          "model_posts": 2,
+          "seconds": 130,
+          "why_stopped": "선택 prompt 4360 · 설명 prompt 2148/출력 349. 의미 적합성은 미검증(semantic_verified false).",
+          "why_source": "segment r3 targets actual_1 d77f5593 · summary · Robert 241fb6ea8",
+          "independent_verdict": "Robert 241fb6ea8(요지 미전사)",
+          "goal_met": false,
+          "note": "이 날 유일하게 생성 설명이 사용자에게 배달된 요청."
+        },
+        {
+          "id": "SI6-04 · 대상",
+          "group": "협력업체 DB 계정 · 재위탁",
+          "question": "공공기관 개인정보 시스템 운영을 수탁한 회사야. 우리 협력업체 개발자에게 일부 운영 작업을 맡기려는데, 발주처에는 따로 알리지 않고 DB 계정을 줘도 돼?",
+          "stopped_at": "선택 200 · 설명 모델 보류 → 원문 + 질문 2 안내",
+          "stages": {
+            "질문": "통과",
+            "검색": "통과",
+            "원문·자격": "통과",
+            "모델": "멈춤(설명 보류)",
+            "HTTP": "통과(원문 안내)"
+          },
+          "http": 200,
+          "model_posts": 2,
+          "seconds": 99,
+          "why_stopped": "선택 prompt 4796 · 설명 19토큰 보류 응답. 미확인 outsourcing_relationship · processing_basis.",
+          "why_source": "segment r3 targets actual_2 88b12b68 · summary · Robert 241fb6ea8",
+          "independent_verdict": "Robert 241fb6ea8(요지 미전사)",
+          "goal_met": false,
+          "note": ""
+        }
+      ],
+      "not_proven": [
+        "B 수신 계약 변경이 200 의 원인이라는 것(1문항 · 모델 출력도 달랐다)",
+        "배달된 5문장의 법률적 정확성(의미 미검증)",
+        "대조군→대상 사이 인과 효과(causal_effect_claim false)"
+      ],
+      "caveat": "지어낸 개발 질문 3개 · 각 1회 · 대조군이 먼저 멈추고 사람이 대상 시작을 승인했다. 효과 측정이 아니라 「구간 결속 파이프라인이 끝까지 돈다」는 기록.",
+      "source": "private-export/SI6-segment-live-root-261109-r3 (control · targets)"
+    },
+    {
+      "id": "N-1109-si6-task-v3-model0",
+      "label": "과업분리 v3 — 모델 0 사전 캡처 3문항(선택 계수·캡슐 준비 · 전송 전 정지)",
+      "period": "past",
+      "status": "완료(모델 0)",
+      "evidence_class": "실제 검색 · 실제 자격 검사(공개 범위) · 모델 0(전송 전 정지 · 422 ×3) · 실제 HTTP(격리 · 경계 응답)",
+      "at": "2026-11-09 12:36 ~ 12:38 KST",
+      "run_conditions": {
+        "service": "격리 프로세스 · 공개 범위 v2 · DB 1473 스냅샷 · 운영 아님",
+        "settings": "preflight 모드 · 선택 wire 3개 · v1 투영 3개 · 계수 증서 3개 생성 · 모델 POST 0 · GPT 0 · 계수 상속 불허",
+        "cells": [
+          {
+            "arm": "ON ×3(SI6-01 · 03 · 04)",
+            "selection_model": "전송 안 함(wire 만 구성)",
+            "selection_location": "이 PC — GB10 프로필로 wire 구성 · API 호출 0",
+            "explanation_model": "도달 안 함",
+            "explanation_location": "—"
+          }
+        ]
+      },
+      "code_pin": "44d0b9b69",
+      "result_pin": "actual c94d6863 / f9e853d9 / dd573abb · context-summary 3행 · task-measured-inputs",
+      "denominator": 3,
+      "http_200": 0,
+      "http_error": 3,
+      "model_posts": 0,
+      "embedding_calls": 6,
+      "what_changed": "과업분리 v3(일반 원칙 ↔ 개별 사안 판단을 분리한 계약)의 선택 wire 를 세 질문에 대해 모델 없이 구성하고, 입력 토큰 계수·투영 증서를 캡슐로 남겼다. 모델 POST 는 0 이고 HTTP 422 는 「전송 전 정지」 경계 응답이다(오류가 아니라 설계).",
+      "environment": "이 PC 격리 · GB10 호출 0 · GPT 0 · DB/색인 전후 동일",
+      "independent_evaluation": null,
+      "rows": [
+        {
+          "id": "SI6-01 · 사전",
+          "group": "수탁사의 제3자 전달 · wire 준비",
+          "question": "공공기관 민원시스템을 운영하는 수탁회사야. 발주처 담당자가 다른 업체에 민원인 명단을 보내 달라고 했어. 그 업체가 어떤 일을 맡았는지는 아직 몰라. 담당자가 요청했으니 바로 보내도 돼?",
+          "stopped_at": "선택 전송 전 정지(422 · 설계된 경계) · 후보 PIPA-26 8단위",
+          "stages": {
+            "질문": "통과",
+            "검색": "통과",
+            "원문·자격": "통과",
+            "모델": "도달 안 함(전송 0)",
+            "HTTP": "경계(422)"
+          },
+          "http": 422,
+          "model_posts": 0,
+          "seconds": 48,
+          "why_stopped": "preflight 모드가 선택 wire · v1 투영 · 계수 증서를 만들고 멈춘다. 생성 0.",
+          "why_source": "model0 actual_1 c94d6863 · segment-selection-1 · context-summary",
+          "independent_verdict": "해당 없음(생성 0)",
+          "goal_met": false,
+          "note": ""
+        },
+        {
+          "id": "SI6-03 · 사전",
+          "group": "테스트 로그 공유 · wire 준비",
+          "question": "공공시스템 장애를 외주 개발자와 확인하려고 해. 실제 운영자료가 아니라 테스트용으로 만든 로그이고, 사람의 이름이나 계정 등 개인을 알아볼 정보는 전혀 없어. 이 로그를 공유할 때도 민원인 동의를 받아야 해?",
+          "stopped_at": "선택 전송 전 정지(422) · 후보 PIPA-28-2 · 28-4 · 28-5 계열",
+          "stages": {
+            "질문": "통과",
+            "검색": "통과",
+            "원문·자격": "통과",
+            "모델": "도달 안 함(전송 0)",
+            "HTTP": "경계(422)"
+          },
+          "http": 422,
+          "model_posts": 0,
+          "seconds": 32,
+          "why_stopped": "같은 경계.",
+          "why_source": "model0 actual_2 f9e853d9 · segment-selection-2",
+          "independent_verdict": "해당 없음(생성 0)",
+          "goal_met": false,
+          "note": ""
+        },
+        {
+          "id": "SI6-04 · 사전",
+          "group": "협력업체 DB 계정 · wire 준비",
+          "question": "공공기관 개인정보 시스템 운영을 수탁한 회사야. 우리 협력업체 개발자에게 일부 운영 작업을 맡기려는데, 발주처에는 따로 알리지 않고 DB 계정을 줘도 돼?",
+          "stopped_at": "선택 전송 전 정지(422) · 후보 PIPA-28-2 · PIPA-26 계열",
+          "stages": {
+            "질문": "통과",
+            "검색": "통과",
+            "원문·자격": "통과",
+            "모델": "도달 안 함(전송 0)",
+            "HTTP": "경계(422)"
+          },
+          "http": 422,
+          "model_posts": 0,
+          "seconds": 34,
+          "why_stopped": "같은 경계.",
+          "why_source": "model0 actual_3 dd573abb · segment-selection-3",
+          "independent_verdict": "해당 없음(생성 0)",
+          "goal_met": false,
+          "note": ""
+        }
+      ],
+      "not_proven": [
+        "v3 계약이 모델 출력에서 지켜진다는 것(전송 0)",
+        "계수 증서가 실제 전송 토큰과 같다는 것(다음 live 에서 대조)"
+      ],
+      "caveat": "모델 호출이 없는 준비 단계다. 422 를 실패로 읽지 말 것 — 전송 전 정지가 목적이었다.",
+      "source": "private-export/SI6-principle-task-v3-model0-root-261109-r1"
+    },
+    {
+      "id": "O-1109-si6-task-v3-live-r1",
+      "label": "과업분리 v3 live r1 — 대조군 SI6-01 · 예약 claim 에서 NameError · POST 0",
+      "period": "past",
+      "status": "실패(전송 전)",
+      "evidence_class": "실제 검색 · 실제 자격 검사 · 모델 0(드라이버 예외로 전송 전 중단) · HTTP 응답 없음",
+      "at": "2026-11-09 13:07 KST",
+      "run_conditions": {
+        "service": "격리 프로세스 · 공개 범위 v2 · DB 1473 스냅샷 · 운영 아님",
+        "settings": "선택 1 + 설명 1 예정 · 실제 전송 0 · retry 0 · GPT 0",
+        "cells": [
+          {
+            "arm": "대조군(SI6-01 ON)",
+            "selection_model": "도달 안 함",
+            "selection_location": "예약(lease) claim 단계에서 NameError",
+            "explanation_model": "도달 안 함",
+            "explanation_location": "—"
+          }
+        ]
+      },
+      "code_pin": "adc1d203e",
+      "result_pin": "actual 1f7fac89 · summary exception_type NameError",
+      "denominator": 1,
+      "http_200": 0,
+      "http_error": 0,
+      "model_posts": 0,
+      "embedding_calls": 2,
+      "what_changed": "v3 첫 live 시도. 검색·원문 자격까지 지나고 선택 wire 를 만든 뒤, 캠페인 드라이버의 예약(lease) claim 코드가 NameError 를 내 모델 전송 전에 멈췄다. 응답 상태 없음 · POST 0 · 코호트 카운터 소비 0.",
+      "environment": "이 PC 격리 · GB10 호출 0 · GPT 0 · DB/색인 전후 동일",
+      "independent_evaluation": {
+        "by": "Robert 338b57727(sprout-lex 커밋)",
+        "positive_answered": "—",
+        "boundary_minimum_hold": "—",
+        "missing_condition_resolved": "—",
+        "status": "답변 없음 · 채점 대상 아님. 실패 원인은 코드(드라이버) 쪽이며 모델·질문과 무관."
+      },
+      "rows": [
+        {
+          "id": "SI6-01 · r1",
+          "group": "수탁사의 제3자 전달 · 대조군",
+          "question": "공공기관 민원시스템을 운영하는 수탁회사야. 발주처 담당자가 다른 업체에 민원인 명단을 보내 달라고 했어. 그 업체가 어떤 일을 맡았는지는 아직 몰라. 담당자가 요청했으니 바로 보내도 돼?",
+          "stopped_at": "예약 claim NameError → 전송 0 · HTTP 응답 없음",
+          "stages": {
+            "질문": "통과",
+            "검색": "통과",
+            "원문·자격": "통과",
+            "모델": "도달 안 함(드라이버 예외)",
+            "HTTP": "응답 없음"
+          },
+          "http": null,
+          "model_posts": 0,
+          "seconds": 45,
+          "why_stopped": "campaign_driver.drive 1프레임에서 NameError. 선택 wire(SI6-B-1)는 만들어졌고 전송되지 않았다.",
+          "why_source": "v3 live r1 actual_1 1f7fac89 · segment-live-summary(frames) · Robert 338b57727",
+          "independent_verdict": "채점 불가(답변 없음)",
+          "goal_met": false,
+          "note": "r2 에서 같은 질문을 다시 돌렸다."
+        }
+      ],
+      "not_proven": [
+        "v3 계약의 동작(전송이 없었다)"
+      ],
+      "caveat": "실패 기록. 모델에 아무것도 보내지 않았으므로 품질·비용 수치가 없다.",
+      "source": "private-export/SI6-principle-task-v3-live-root-261109-r1 (control)"
+    },
+    {
+      "id": "P-1109-si6-task-v3-live-r2",
+      "label": "과업분리 v3 live r2 — 대조군 SI6-01 · 선택 1회 200 · 계약 충돌(C2′)로 설명 생략 · 질문 3 배달",
+      "period": "past",
+      "status": "완료",
+      "evidence_class": "실제 검색 · 실제 자격 검사(공개 범위) · 실제 모델(GB10 선택 1회 · 설명 0) · 실제 HTTP(200)",
+      "at": "2026-11-09 13:48 KST",
+      "run_conditions": {
+        "service": "격리 프로세스 · 공개 범위 v2 · DB 1473 스냅샷 · 운영 아님",
+        "settings": "선택 1(prompt 3217 · 캐시 0) · 설명 0(계약 충돌로 생략) · 선택 계수 재사용 true · retry 0 · GPT 0",
+        "cells": [
+          {
+            "arm": "대조군(SI6-01 ON)",
+            "selection_model": "qwen3-235b",
+            "selection_location": "GB10 원격(SSH · llama-server qwen3-235b Q5_K_M · ctx 32768 · 출력 1536 · thinking off · 온도 0)",
+            "explanation_model": "생략",
+            "explanation_location": "C2′ 계약 충돌 — subject_role 이 known 과 missing 에 동시에 들어 설명 금지"
+          }
+        ]
+      },
+      "code_pin": "d287e7ade",
+      "result_pin": "actual 70909fae · summary 1행 · 선택 응답 usage prompt 3217",
+      "denominator": 1,
+      "http_200": 1,
+      "http_error": 0,
+      "model_posts": 1,
+      "embedding_calls": 2,
+      "what_changed": "v3 계약이 처음으로 실제 전송을 지났다. 선택 모델은 needs_context 를 내며 확인 질문 3개를 제안했는데, 같은 출력 안에서 subject_role 을 「알려졌다」와 「빠졌다」에 함께 적어 C2′ 계약 충돌이 잡혔다. 충돌이 있으면 설명 단계를 밟지 않는 규칙대로 설명 POST 0 · 일반 원칙 0 · 질문 3 과 원문 안내만 배달됐다.",
+      "environment": "이 PC 격리 · GB10 SSH 1회 · GPT 0 · DB/색인 전후 동일 · 누적 생성 32 → 33",
+      "independent_evaluation": {
+        "by": "Robert 0bd4d5dd6(10키 판정 · sprout-lex 커밋)",
+        "positive_answered": "0/1",
+        "boundary_minimum_hold": "—",
+        "missing_condition_resolved": "0/1",
+        "status": "continue_targets false · stated_fact_requestion true(질문에 이미 적힌 사실을 다시 물었다) · 생성 설명 0 · 오답 배달 0."
+      },
+      "rows": [
+        {
+          "id": "SI6-01 · r2",
+          "group": "수탁사의 제3자 전달 · 대조군",
+          "question": "공공기관 민원시스템을 운영하는 수탁회사야. 발주처 담당자가 다른 업체에 민원인 명단을 보내 달라고 했어. 그 업체가 어떤 일을 맡았는지는 아직 몰라. 담당자가 요청했으니 바로 보내도 돼?",
+          "stopped_at": "선택 200(needs_context) → C2′ 충돌 → 설명 생략 · 질문 3 + 원문 안내(source_navigation)",
+          "stages": {
+            "질문": "통과",
+            "검색": "통과",
+            "원문·자격": "통과",
+            "모델": "멈춤(선택만 · 계약 충돌)",
+            "HTTP": "통과(질문·원문 안내)"
+          },
+          "http": 200,
+          "model_posts": 1,
+          "seconds": 78,
+          "why_stopped": "stated_context 3(known) ∩ missing_context_ids 에 subject_role 겹침 → contract_conflict true. 질문 3 은 그대로 전달.",
+          "why_source": "v3 live r2 actual_1 70909fae · summary · Robert 0bd4d5dd6",
+          "independent_verdict": "continue_targets false · 재질문 지적",
+          "goal_met": false,
+          "note": "충돌 때 설명을 어떻게 이을지(B 분기)가 r3 의 주제가 됐다."
+        }
+      ],
+      "not_proven": [
+        "v3 가 v2 보다 낫다는 것(비교 쌍 없음)",
+        "충돌이 모델 탓인지 계약 정의 탓인지(1회)"
+      ],
+      "caveat": "지어낸 개발 질문 1개 · 1회 · 대조군만. 대상 2문항으로 이어가지 않기로 한 판정(continue_targets false)을 따랐다.",
+      "source": "private-export/SI6-principle-task-v3-live-root-261109-r2 (control)"
+    },
+    {
+      "id": "Q-1109-si6-task-v3-bridge-r3",
+      "label": "과업분리 v3 충돌 다리(B) r3 — 대조군 SI6-01 · 선택 1 + 설명 1 · 규칙 8 생성 → CL03 strict(digit) 거부 · 배달 0",
+      "period": "latest",
+      "status": "완료",
+      "evidence_class": "실제 검색 · 실제 자격 검사(공개 범위) · 실제 모델(GB10 2회) · 실제 HTTP(200)",
+      "at": "2026-11-09 14:37 KST",
+      "run_conditions": {
+        "service": "격리 프로세스 · 공개 범위 v2 · DB 1473 스냅샷 · 운영 아님",
+        "settings": "선택 1(r2 와 같은 wire · 캐시 3216) + 설명 1(prompt 1703 · 출력 517) · 충돌 다리 켬(source_only · 선택 승격 없음) · retry 0 · GPT 0",
+        "cells": [
+          {
+            "arm": "대조군(SI6-01 ON · B 다리)",
+            "selection_model": "qwen3-235b",
+            "selection_location": "GB10 원격(SSH · llama-server qwen3-235b Q5_K_M · ctx 32768 · 출력 1536 · thinking off · 온도 0)",
+            "explanation_model": "qwen3-235b",
+            "explanation_location": "같은 GB10 · 공급 PIPA-26 8단위 · 일반 원칙만 요구(개별 사안 판단 금지)"
+          }
+        ]
+      },
+      "code_pin": "c72464e75",
+      "result_pin": "actual 9dc836a6 · summary 1행 · 설명 출력 sha bb2ccc1f",
+      "denominator": 1,
+      "http_200": 1,
+      "http_error": 0,
+      "model_posts": 2,
+      "embedding_calls": 2,
+      "what_changed": "충돌이 나도 설명 단계가 「원문에서 읽히는 일반 원칙」만 생성하도록 잇는 다리(B)를 켜고 돌렸다. 이번엔 같은 선택 wire 에 모델이 다른 출력을 내 contract_conflict 가 false 였고(B 분기는 실행되지 않음), 설명 모델은 규칙 8개를 냈으나 CL03 strict 숫자 검사가 「제3자」의 숫자를 잡아 전부 거부했다. 배달된 원칙 0 · 질문 3 보존.",
+      "environment": "이 PC 격리 · GB10 SSH 2회 · GPT 0 · DB/색인 전후 동일 · 누적 생성 33 → 35 · 비생성 계수 13",
+      "independent_evaluation": {
+        "by": "Robert e37cbaece(sprout-lex 커밋)",
+        "positive_answered": "0/1",
+        "boundary_minimum_hold": "—",
+        "missing_condition_resolved": "0/1",
+        "status": "continue_targets false · 생성 규칙 8 중 배달 0(strict digit) · 오답 배달 0 · B 분기 미실행이라 다리 효과 판정 불가."
+      },
+      "rows": [
+        {
+          "id": "SI6-01 · r3",
+          "group": "수탁사의 제3자 전달 · 대조군 · B 다리",
+          "question": "공공기관 민원시스템을 운영하는 수탁회사야. 발주처 담당자가 다른 업체에 민원인 명단을 보내 달라고 했어. 그 업체가 어떤 일을 맡았는지는 아직 몰라. 담당자가 요청했으니 바로 보내도 돼?",
+          "stopped_at": "설명 규칙 8 생성 뒤 CL03 strict(digit) 거부 → 원문 + 질문 3 안내",
+          "stages": {
+            "질문": "통과",
+            "검색": "통과",
+            "원문·자격": "통과",
+            "모델": "오류: 설명 검사 거부(digit)",
+            "HTTP": "통과(원문 안내)"
+          },
+          "http": 200,
+          "model_posts": 2,
+          "seconds": 134,
+          "why_stopped": "법문 자체의 「제3자」가 숫자 규칙에 걸렸다(K-1108 의 조문 번호 거부와 같은 계열). contract_conflict false 라 다리 분기는 안 밟았다.",
+          "why_source": "v3 live r3 actual_1 9dc836a6 · explanation-raw(rules 8) · Robert e37cbaece",
+          "independent_verdict": "continue_targets false",
+          "goal_met": false,
+          "note": "B 세 번째 회귀 표본 후보 — 법문 고유 표기(제3자)를 숫자 규칙에서 가를 것."
+        }
+      ],
+      "not_proven": [
+        "B 다리가 충돌 상황을 구제한다는 것(이번 실행은 충돌이 없었다)",
+        "r2 와 r3 의 선택 출력 차이의 원인(같은 wire · 온도 0 · 1회씩)",
+        "숫자 규칙을 바꾸면 8규칙이 배달됐을 것이라는 추정"
+      ],
+      "caveat": "지어낸 개발 질문 1개 · 1회 · 대조군만 · 인과 주장 없음. 11/9 누적: 생성 POST 35 · 비생성 13 · GPT 0.",
+      "source": "private-export/SI6-principle-task-v3-live-root-261109-r3 (control)"
     }
   ],
   "evidence_classes": [
