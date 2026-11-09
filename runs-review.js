@@ -53,7 +53,12 @@
     '.rr ul{margin:4px 0;padding-left:18px}',
     '.rr .rr-bar{height:8px;border-radius:4px;background:#e6ecec;margin-top:4px;min-width:90px;overflow:hidden}',
     '.rr .rr-bar i{display:block;height:100%;background:#2a78d6}',
-    '.rr .rr-daylog summary{font-size:13px;font-weight:600;color:#203c48}'
+    '.rr .rr-daylog summary{font-size:13px;font-weight:600;color:#203c48}',
+    '.rr .rr-archive{border:1px dashed #c9d3d5;border-radius:7px;background:#fafbfb;padding:6px 12px;margin:8px 0}',
+    '.rr .rr-archive>summary{cursor:pointer;display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;padding:4px 0}',
+    '.rr .rr-archive .rr-archive-title{font-size:13px;font-weight:600;color:#3d5158}',
+    '.rr .rr-archive .rr-archive-badge{font-weight:600}',
+    '.rr .rr-archive[open]>summary{margin-bottom:6px;border-bottom:1px solid #e6ecec}'
   ].join('\n');
 
   function el(tag, text, cls) { var e = document.createElement(tag); if (text != null) e.textContent = text; if (cls) e.className = cls; return e; }
@@ -288,7 +293,6 @@
     if (d.day_log_1108) root.append(el('h3', '11월 8일 — 단계별 목표와 진행률'), dayLogBlock(d, d.day_log_1108));
     if (d.day_log_1107) root.append(el('h3', '11월 7일 — 단계별 목표와 진행률'), dayLogBlock(d, d.day_log_1107));
     if (d.evening_tests) root.append(el('h3', '답변 연결 뒤 시험'), eveningBlock(d));
-    root.append(el('h3', '추이 — 실제 질문 10개'), trendBlock(d, tip));
     root.append(el('h3', '실행 기록'));
     var tabs = el('div', null, 'rr-tabs'), holder = el('div');
     function show(id) {
@@ -312,6 +316,29 @@
     if (d.day_log_1108 || d.day_log_1107) root.append(el('h3', '작업 상세 기록'));
     if (d.day_log_1108) root.append(dayLogDetail(d, d.day_log_1108));
     if (d.day_log_1107) root.append(dayLogDetail(d, d.day_log_1107));
+    // 보관(갱신 중단) — 더 이상 갱신하지 않는 측정을 기본 접어 둔다. 데이터는 그대로이고 자리와 접힘만 다르다.
+    if (d.trend_real10) root.append(el('h3', '보관(갱신 중단)'), archiveTrend(d, tip));
+  }
+
+  // 실제 질문 10개 추이 — 2026-11-09 보관 구역으로 이동(사용자 결정). 측정일은 추정하지 않고
+  // 추이 행의 code_pin 과 같은 실행 묶음(run_sets[].at)에서 읽는다 — 같은 실행의 날짜 필드가 출처다.
+  function trendDates(d) {
+    var pins = {}; ((d.trend_real10 || {}).rows || []).forEach(function (r) { if (r.code_pin) pins[r.code_pin] = true; });
+    var days = {};
+    (d.run_sets || []).forEach(function (s) { if (pins[s.code_pin]) { var m = String(s.at || '').match(/\d{4}-\d{2}-\d{2}/); if (m) days[m[0]] = true; } });
+    return Object.keys(days).sort();
+  }
+  function archiveTrend(d, tip) {
+    var days = trendDates(d), when = days.length ? (days.length > 1 ? days[0] + '~' + days[days.length - 1].slice(5) : days[0]) : null;
+    var dt = el('details', null, 'rr-archive'); dt.id = 'archive-trend-real10';
+    var sm = el('summary'); sm.append(el('span', '추이 — 실제 질문 10개', 'rr-archive-title'));
+    sm.append(el('span', (when ? '측정 ' + when + ' · ' : '측정일 미기재 · ') + '이후 갱신 없음 · 비교용', 'rr-badge no rr-archive-badge'));
+    dt.append(sm);
+    dt.append(el('p', '이 구역은 갱신을 멈춘 기록이다. 수치는 측정 당시 그대로이며 그 뒤 실행과 비교할 때만 쓴다.', 'rr-note'));
+    dt.append(trendBlock(d, tip));
+    function openIfTargeted() { if (location.hash.replace('#', '') === dt.id) dt.open = true; }
+    openIfTargeted(); window.addEventListener('hashchange', openIfTargeted);
+    return dt;
   }
 
   window.RunsReview = { mount: mount };
