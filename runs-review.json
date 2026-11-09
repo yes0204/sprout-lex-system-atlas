@@ -1927,7 +1927,7 @@
     {
       "id": "K-1108-kgc04-followup-on1",
       "label": "K1 후속 — 관측된 필수 문맥을 별도 producer 로 공급 · ON 1회만",
-      "period": "latest",
+      "period": "past",
       "status": "완료",
       "evidence_class": "실제 검색 · 실제 자격 검사 · 실제 모델(GB10 1회 · 선택은 역사 exact 재생) · 실제 HTTP · 모델 0 사전 선행",
       "at": "2026-11-08 14:29 KST",
