@@ -91,12 +91,13 @@
       "depends": "틀은 병행 / 최종은 T7",
       "output": "질문별 전후 답변, 달라진 이유, 실패와 한계",
       "acceptance": "화면과 실응답 일치, 실패·미실행 보존",
-      "current": "Anna가 기존 3문항 실제 답변·0/3 판정을 화면 반영. 새 WBS 작성 및 원격 PR 진행 중."
+      "current": "기존 3문항 실제 답변·0/3 판정 화면 보존. 11/16 WBS origin 반영·atlas PR1 생성 완료. 공개 게시와 Sarah 독립 검수는 미완료."
     }
   ],
   "sources": [
     "https://github.com/yes0204/sprout-lex/issues/381#issuecomment-6903831256",
     "https://github.com/yes0204/sprout-lex/issues/381#issuecomment-6903860970",
-    "https://github.com/yes0204/sprout-lex/issues/381#issuecomment-6903900508"
+    "https://github.com/yes0204/sprout-lex/issues/381#issuecomment-6903900508",
+    "https://github.com/yes0204/sprout-lex/issues/381#issuecomment-6904120369"
   ]
 }
