@@ -13,7 +13,9 @@ def render():
            '<h1>11/16 작업 — 회사 업무 질문에 제대로 답하도록</h1>',
            '<p><strong>'+esc(d['baseline'])+'</strong></p>', '<p>'+esc(d['authority'])+'</p>',
            '<p>'+esc(d['status_note'])+'</p>',
-           '<p>진행 순서: 자료와 시험 질문 정리 → 현재 막히는 지점 확인 → 문맥·조건·역할 오류 수정 → 실제 답변 비교 → 결과 공개. 화면 정리는 함께 진행합니다.</p>',
+           '<p>갱신: '+esc(d['updated_at'])+' · 실제 확인된 결과 기준</p>',
+           '<p>진행 순서: '+esc(d['progress_order'])+'</p>',
+           *['<p><strong>'+esc(x['title'])+'</strong> — '+esc(x['text'])+'</p>' for x in d['summary']],
            '<div class="wbs-grid">']
     for r in d['tasks']:
         parts += ['<article id="wbs-'+r['id']+'"><h2>'+r['id']+' '+esc(r['title'])+'</h2>',
