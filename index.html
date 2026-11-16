@@ -17,14 +17,14 @@
 <h1>11/16 작업 — 회사 업무 질문에 제대로 답하도록</h1>
 <p><strong>아직 답변 품질 개선을 입증하지 못했습니다. 최근 3개 질문 모두 답변은 나왔지만, 중요한 조건 누락과 역할 혼동 때문에 품질 기준을 통과하지 못했습니다.</strong></p>
 <p>11월 16일 작업입니다. 검증된 뒤 제품 반영을 판단하며, 지금은 개선·시험 단계입니다.</p>
-<p>아래 상태는 확인된 작업만 표시합니다. 담당자에게 요청했다고 해서 작업을 시작했거나 완료했다고 표시하지 않습니다.</p>
+<p>완료는 실제 완료 기준으로 셉니다. 입력·기준 고정은 완료했고, 나머지 7개는 구현·검수·실측 단계입니다. 코드 시험 통과를 답변 개선으로 세지 않습니다.</p>
 <p>진행 순서: 자료와 시험 질문 정리 → 현재 막히는 지점 확인 → 문맥·조건·역할 오류 수정 → 실제 답변 비교 → 결과 공개. 화면 정리는 함께 진행합니다.</p>
 <div class="wbs-grid">
 <article id="wbs-T1"><h2>T1 최신 법령과 연결 관계를 같은 기준으로 맞추기</h2>
-<p class="wbs-status">진행 중 · 책임 Anna</p>
+<p class="wbs-status">코드 검수 통과 · 운영 연결 전 · 책임 Anna</p>
 <p><strong>왜 하나요?</strong> 오래된 조문과 새 조문이 섞인 답변을 막습니다.</p>
-<p><strong>지금까지</strong> 현행·이전 법령 사본을 전달하고 파일 일치를 확인했습니다. 새 지식그래프가 같은 법령 기준인지 확인이 남았습니다.</p>
-<p><strong>다음 작업</strong> 법령·검색 색인·지식그래프의 버전을 대조합니다.</p>
+<p><strong>지금까지</strong> 같은 정본을 쓰는 KG 후보와 연결 코드를 확인했습니다. 담당 범위 검수 2건과 사라 검수가 통과했고, 최신 합류판의 계약 시험 62개도 통과했습니다. 운영에는 아직 연결하지 않았습니다.</p>
+<p><strong>다음 작업</strong> 주석 정정 최종 검수와 병합 확인 뒤, 기능을 끈 채 배포하고 106문항으로 기존 검색과 비교합니다.</p>
 <p><strong>완료 기준</strong> 세 자료가 일치하거나 남은 차이와 영향이 명확해야 합니다.</p>
 <details><summary>협업 담당 · 기술 기록</summary><dl>
 <dt>협업</dt><dd>Olivia · William · Grace</dd>
@@ -33,10 +33,10 @@
 <dt>기술 산출물</dt><dd>정본·색인·KG·코드·KG 사용 상태를 한 실행 명세로 결속</dd>
 </dl></details></article>
 <article id="wbs-T2"><h2>T2 시험 문제와 채점 기준을 먼저 정하기</h2>
-<p class="wbs-status">입력 확인 완료 · 기준 인수 중 · 책임 Henry</p>
+<p class="wbs-status">입력·기준 고정 완료 · 책임 Henry</p>
 <p><strong>왜 하나요?</strong> 잘 아는 질문만 골라 개선됐다고 판단하지 않습니다.</p>
 <p><strong>지금까지</strong> 개발용 40개·평가용 120개·예비 57개, 총 217개의 질문 입력을 확인했습니다. 정답과 작성 의도는 실행 입력에서 뺐습니다.</p>
-<p><strong>다음 작업</strong> Henry가 평가 기준과 입력을 인수하고, 평가자에게 노출할 정보를 구분합니다.</p>
+<p><strong>다음 작업</strong> 고정한 기준을 그대로 사용하고, 평가 질문을 보고 구현을 맞추지 않습니다.</p>
 <p><strong>완료 기준</strong> 질문·채점 기준을 결과 확인 전에 고정하고, 개발용과 평가용 결과를 분리합니다.</p>
 <details><summary>협업 담당 · 기술 기록</summary><dl>
 <dt>협업</dt><dd>독립 질문 작성자 · Robert · Sarah</dd>
@@ -48,13 +48,13 @@
 <p class="wbs-status">연결 작업 중 · 검색 실행 전 · 책임 Anna</p>
 <p><strong>왜 하나요?</strong> 답변이 막힌 이유가 검색인지, 근거 부족인지 구분합니다.</p>
 <p><strong>지금까지</strong> 질문 입력은 준비됐습니다. 이 217개 묶음의 실제 검색과 모델 실행은 아직 하지 않았습니다.</p>
-<p><strong>다음 작업</strong> Anna가 검색부터 근거 선택 직전까지 연결하고, 멈춘 질문의 이유도 남깁니다.</p>
+<p><strong>다음 작업</strong> KG 연결과 106문항 검색 비교를 먼저 마친 뒤, 같은 배포본으로 217문항의 실제 도달 단계와 중단 이유를 기록합니다.</p>
 <p><strong>완료 기준</strong> 217개 모두 처리 상태와 중단 이유가 있어야 하며, 못 간 단계를 실행한 것처럼 채우지 않습니다.</p>
 <details><summary>협업 담당 · 기술 기록</summary><dl>
 <dt>협업</dt><dd>Henry · Sarah</dd>
 <dt>선행</dt><dd>T1 · T2</dd>
-<dt>산출물</dt><dd>160행 검색·공급 입력 및 중단 사유 목록</dd>
-<dt>기술 산출물</dt><dd>160행 검색·공급 입력 및 중단 사유 목록</dd>
+<dt>산출물</dt><dd>217행 검색·공급 입력 및 중단 사유 목록</dd>
+<dt>기술 산출물</dt><dd>217행 검색·공급 입력 및 중단 사유 목록</dd>
 </dl></details></article>
 <article id="wbs-T4"><h2>T4 필요한 예외와 단서도 함께 가져오기</h2>
 <p class="wbs-status">검사 코드 완료 · 공급 연결 전 · 책임 Emily</p>
@@ -69,9 +69,9 @@
 <dt>기술 산출물</dt><dd>검수된 관계를 따른 문맥 묶음과 원문 위치 영수증</dd>
 </dl></details></article>
 <article id="wbs-T5"><h2>T5 답변이 중요한 조건을 빠뜨렸는지 확인하기</h2>
-<p class="wbs-status">검사 후보 준비 · 의미 검수 전 · 책임 Emily</p>
+<p class="wbs-status">원문 의미 기준 검수 통과 · 연결 전 · 책임 Emily</p>
 <p><strong>왜 하나요?</strong> 숫자가 맞더라도 조건이 빠진 답변을 좋은 답변으로 세지 않습니다.</p>
-<p><strong>지금까지</strong> 원문 조건을 기록하는 후보가 있습니다. 정확한 인용만으로 의미가 보존됐다고 판단하지는 않습니다.</p>
+<p><strong>지금까지</strong> 15유형·24개 원문 단위·36개 반례의 조건 보존 기준을 사라가 수락했습니다. 이는 의미 기준 검수이며, 실제 답변 검사 연결이나 품질 개선 완료는 아닙니다.</p>
 <p><strong>다음 작업</strong> Emily가 검사 경로를 연결하고 Robert·Sarah가 조건 누락을 독립 판독합니다.</p>
 <p><strong>완료 기준</strong> 조건을 빠뜨린 답변과 온전히 보존한 답변을 구별하고, 판단 불가도 따로 남깁니다.</p>
 <details><summary>협업 담당 · 기술 기록</summary><dl>
@@ -105,10 +105,10 @@
 <dt>기술 산출물</dt><dd>단계별 비교표와 독립 채점 영수증</dd>
 </dl></details></article>
 <article id="wbs-T8"><h2>T8 질문별 수정 전후를 한눈에 보여주기</h2>
-<p class="wbs-status">진행 중 · 책임 James</p>
+<p class="wbs-status">표시 검수 통과 · 새 결과 연결 전 · 책임 James</p>
 <p><strong>왜 하나요?</strong> 사용자가 답변과 남은 문제를 직접 확인할 수 있게 합니다.</p>
-<p><strong>지금까지</strong> 기존 실패 답변과 판정은 보존했습니다. 진행보드를 쉬운 설명으로 바꾸고 James에게 결과 화면 정리를 요청했습니다.</p>
-<p><strong>다음 작업</strong> James가 기존 답변·수정 답변·달라진 이유를 먼저 보여주고 자세한 증거는 접어 둡니다.</p>
+<p><strong>지금까지</strong> 질문별 판정·검토 날짜·수락되지 않은 원답을 구분한 화면이 검수를 통과했습니다. 앞으로 나올 검색 결과와 실제 답변 결과를 따로 받을 계약을 확인 중입니다.</p>
+<p><strong>다음 작업</strong> 기존 응답은 보존하고 새 실측 결과만 추가합니다. 검색 적중과 답변 정확성을 따로 보여 줍니다.</p>
 <p><strong>완료 기준</strong> 화면이 실제 응답과 일치하고, 실패·미실행을 성공처럼 보이지 않게 합니다.</p>
 <details><summary>협업 담당 · 기술 기록</summary><dl>
 <dt>협업</dt><dd>Anna · Sarah</dd>
@@ -123,6 +123,9 @@
 <li><a href="https://github.com/yes0204/sprout-lex/issues/381#issuecomment-6904120369">기록 4</a></li>
 <li><a href="https://github.com/yes0204/sprout-lex/issues/381#issuecomment-6904220329">기록 5</a></li>
 <li><a href="https://github.com/yes0204/sprout-lex/issues/381#issuecomment-6904460400">기록 6</a></li>
+<li><a href="https://github.com/yes0204/sprout-lex/pull/454#issuecomment-6906331506">기록 7</a></li>
+<li><a href="https://github.com/yes0204/sprout-lex/pull/454#issuecomment-6906507925">기록 8</a></li>
+<li><a href="https://github.com/yes0204/sprout-lex/pull/381#issuecomment-6905280489">기록 9</a></li>
 </ul></details></div>
 <!-- WBS-1116-END -->
 <details class="wbs-archive"><summary>11/7 이전 보드 보관 · 갱신 중단</summary>
