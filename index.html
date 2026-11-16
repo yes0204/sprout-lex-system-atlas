@@ -22,7 +22,7 @@
 <div class="wbs-grid">
 <article id="wbs-T1"><h2>T1 기준 데이터 세대 고정</h2>
 <p class="wbs-status">진행 중 · 책임 Anna</p>
-<p>Anna 읽기 실측: 정본 00419ad6, DATA_COMMIT 2d8d3c36, 운영 코드 1850c88b 확인. 기본 data/kg.db 없음은 미사용 증명이 아님; 실제 KG 지정 경로·빌드 인수 미확인.</p>
+<p>정본00419·DATA_COMMIT2d8d·코드1850 확인. Olivia에 현행00419/이전832f 사본 전달·SHA 일치. 실제 KG 설정과 새 빌드 인수 대조는 남음.</p>
 <details><summary>담당·선행 조건·완료 기준</summary><dl>
 <dt>협업</dt><dd>Olivia · William · Grace</dd>
 <dt>선행</dt><dd>없음</dd>
@@ -31,7 +31,7 @@
 </dl></details></article>
 <article id="wbs-T2"><h2>T2 평가 질문과 기준 봉인</h2>
 <p class="wbs-status">조율 중 · 책임 Henry</p>
-<p>기존 3문항은 개발 회귀로만 사용. 새 질문 작성 세션은 Sarah 측에서 준비 중이며 최종 인수 미확인.</p>
+<p>Henry 최종 목록160행(dev40/gate120) 인수. 질문 SHA160 전수 일치. 기대답·층·작성 의도는 실행 입력에서 제외. 기준·라벨 인수는 별도.</p>
 <details><summary>담당·선행 조건·완료 기준</summary><dl>
 <dt>협업</dt><dd>독립 질문 작성자 · Robert · Sarah</dd>
 <dt>선행</dt><dd>없음</dd>
@@ -39,12 +39,12 @@
 <dt>완료 기준</dt><dd>출력 전 기준 고정, 구현자 미노출 유지</dd>
 </dl></details></article>
 <article id="wbs-T3"><h2>T3 기존 방식 기준선 확보</h2>
-<p class="wbs-status">대기 · 책임 Anna</p>
-<p>입력 생성은 Anna, 격리 Qev 소비는 Henry. 질문 목록 봉인과 자료 세대 확정 전 실행하지 않음.</p>
+<p class="wbs-status">진행 중 · 책임 Anna</p>
+<p>질문 전용 입력 준비 완료. 기존 설명 wire와 Qev 선택 wire가 달라 selection model0 접점 조율 중. 검색160·선택 전송0; 미도달 행을 가짜 wire로 채우지 않음.</p>
 <details><summary>담당·선행 조건·완료 기준</summary><dl>
 <dt>협업</dt><dd>Henry · Sarah</dd>
 <dt>선행</dt><dd>T1 · T2</dd>
-<dt>산출물</dt><dd>150행 검색·공급 입력 및 중단 사유 목록</dd>
+<dt>산출물</dt><dd>160행 검색·공급 입력 및 중단 사유 목록</dd>
 <dt>완료 기준</dt><dd>모든 행의 입력·출처·실행 상태 추적; 첫 단계 생성 0</dd>
 </dl></details></article>
 <article id="wbs-T4"><h2>T4 필수 문맥 공급 연결</h2>
@@ -97,6 +97,7 @@
 <li><a href="https://github.com/yes0204/sprout-lex/issues/381#issuecomment-6903860970">기록 2</a></li>
 <li><a href="https://github.com/yes0204/sprout-lex/issues/381#issuecomment-6903900508">기록 3</a></li>
 <li><a href="https://github.com/yes0204/sprout-lex/issues/381#issuecomment-6904120369">기록 4</a></li>
+<li><a href="https://github.com/yes0204/sprout-lex/issues/381#issuecomment-6904220329">기록 5</a></li>
 </ul></details></div>
 <!-- WBS-1116-END -->
 <details class="wbs-archive"><summary>11/7 이전 보드 보관 · 갱신 중단</summary>

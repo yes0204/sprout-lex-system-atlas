@@ -14,7 +14,7 @@
       "depends": "없음",
       "output": "정본·색인·KG·코드·KG 사용 상태를 한 실행 명세로 결속",
       "acceptance": "세대 일치 또는 차이 명시, 운영 반영과 구분",
-      "current": "Anna 읽기 실측: 정본 00419ad6, DATA_COMMIT 2d8d3c36, 운영 코드 1850c88b 확인. 기본 data/kg.db 없음은 미사용 증명이 아님; 실제 KG 지정 경로·빌드 인수 미확인."
+      "current": "정본00419·DATA_COMMIT2d8d·코드1850 확인. Olivia에 현행00419/이전832f 사본 전달·SHA 일치. 실제 KG 설정과 새 빌드 인수 대조는 남음."
     },
     {
       "id": "T2",
@@ -25,18 +25,18 @@
       "depends": "없음",
       "output": "개발 세트와 미노출 평가 세트, 질문·기준 SHA",
       "acceptance": "출력 전 기준 고정, 구현자 미노출 유지",
-      "current": "기존 3문항은 개발 회귀로만 사용. 새 질문 작성 세션은 Sarah 측에서 준비 중이며 최종 인수 미확인."
+      "current": "Henry 최종 목록160행(dev40/gate120) 인수. 질문 SHA160 전수 일치. 기대답·층·작성 의도는 실행 입력에서 제외. 기준·라벨 인수는 별도."
     },
     {
       "id": "T3",
       "title": "기존 방식 기준선 확보",
-      "status": "대기",
+      "status": "진행 중",
       "owner": "Anna",
       "partners": "Henry · Sarah",
       "depends": "T1 · T2",
-      "output": "150행 검색·공급 입력 및 중단 사유 목록",
+      "output": "160행 검색·공급 입력 및 중단 사유 목록",
       "acceptance": "모든 행의 입력·출처·실행 상태 추적; 첫 단계 생성 0",
-      "current": "입력 생성은 Anna, 격리 Qev 소비는 Henry. 질문 목록 봉인과 자료 세대 확정 전 실행하지 않음."
+      "current": "질문 전용 입력 준비 완료. 기존 설명 wire와 Qev 선택 wire가 달라 selection model0 접점 조율 중. 검색160·선택 전송0; 미도달 행을 가짜 wire로 채우지 않음."
     },
     {
       "id": "T4",
@@ -98,6 +98,7 @@
     "https://github.com/yes0204/sprout-lex/issues/381#issuecomment-6903831256",
     "https://github.com/yes0204/sprout-lex/issues/381#issuecomment-6903860970",
     "https://github.com/yes0204/sprout-lex/issues/381#issuecomment-6903900508",
-    "https://github.com/yes0204/sprout-lex/issues/381#issuecomment-6904120369"
+    "https://github.com/yes0204/sprout-lex/issues/381#issuecomment-6904120369",
+    "https://github.com/yes0204/sprout-lex/issues/381#issuecomment-6904220329"
   ]
 }
