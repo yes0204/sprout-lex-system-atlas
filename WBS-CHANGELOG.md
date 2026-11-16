@@ -8,3 +8,7 @@
 - 독립 검수: Sarah PR381 6904120369로 요청 전달, 수락 완료 아님.
 
 - 원격: https://github.com/yes0204/sprout-lex-system-atlas/pull/1 · 코드 착수: sprout-lex PR475/3beb78827. 요청 전달과 수령은 구분.
+
+## 같은 날 사용자 정정 뒤 공개 반영
+- 로컬 미리보기만 제시한 처리를 정정. 기존 공개 통합보드 codex/published를 13ed2ae로 fast-forward. 제품 운영 배포 아님.
+- WBS의 공개 게시 미완료 문구를 갱신. Pages 공개 바이트와 화면 후속 확인.
