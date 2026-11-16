@@ -1,0 +1,102 @@
+{
+  "date": "2026-11-16",
+  "title": "KG·답변 경로·Qev 연결 WBS",
+  "authority": "사용자: 11/16 WBS 추가 및 작업 시작. origin 브랜치/PR만; 운영 교체·활성화·배포 아님.",
+  "status_note": "담당은 작업 책임 배정이며, 협업 세션의 착수·완료는 수령 근거가 있어야 갱신합니다. 진행 중 표시는 현재 Anna의 하위 작업을 포함합니다.",
+  "baseline": "27B 유지. 지시문 추가 실제 답변 3/3, 동결 품질 기준 0/3으로 미채택. 새 후보 효과 미입증.",
+  "tasks": [
+    {
+      "id": "T1",
+      "title": "기준 데이터 세대 고정",
+      "status": "진행 중",
+      "owner": "Anna",
+      "partners": "Olivia · William · Grace",
+      "depends": "없음",
+      "output": "정본·색인·KG·코드·KG 사용 상태를 한 실행 명세로 결속",
+      "acceptance": "세대 일치 또는 차이 명시, 운영 반영과 구분",
+      "current": "Anna 읽기 실측: 정본 00419ad6, DATA_COMMIT 2d8d3c36, 운영 코드 1850c88b 확인. 기본 data/kg.db 없음은 미사용 증명이 아님; 실제 KG 지정 경로·빌드 인수 미확인."
+    },
+    {
+      "id": "T2",
+      "title": "평가 질문과 기준 봉인",
+      "status": "조율 중",
+      "owner": "Henry",
+      "partners": "독립 질문 작성자 · Robert · Sarah",
+      "depends": "없음",
+      "output": "개발 세트와 미노출 평가 세트, 질문·기준 SHA",
+      "acceptance": "출력 전 기준 고정, 구현자 미노출 유지",
+      "current": "기존 3문항은 개발 회귀로만 사용. 새 질문 작성 세션은 Sarah 측에서 준비 중이며 최종 인수 미확인."
+    },
+    {
+      "id": "T3",
+      "title": "기존 방식 기준선 확보",
+      "status": "대기",
+      "owner": "Anna",
+      "partners": "Henry · Sarah",
+      "depends": "T1 · T2",
+      "output": "150행 검색·공급 입력 및 중단 사유 목록",
+      "acceptance": "모든 행의 입력·출처·실행 상태 추적; 첫 단계 생성 0",
+      "current": "입력 생성은 Anna, 격리 Qev 소비는 Henry. 질문 목록 봉인과 자료 세대 확정 전 실행하지 않음."
+    },
+    {
+      "id": "T4",
+      "title": "필수 문맥 공급 연결",
+      "status": "진행 중",
+      "owner": "Emily",
+      "partners": "Anna · Olivia · Alice",
+      "depends": "설계 병행 / 실측은 T1",
+      "output": "검수된 관계를 따른 문맥 묶음과 원문 위치 영수증",
+      "acceptance": "추가 원문 자격·판·위치 확인; 누락·중복·순환 기록",
+      "current": "Anna가 선언 위치 대조 검사를 구현. 잘못된 구간·겹침·미결속을 거부. 기존 포함 22시험 통과; formatter 생산자 연결·원문 변환 검증은 미완료."
+    },
+    {
+      "id": "T5",
+      "title": "답변의 조건 보존 검사",
+      "status": "진행 중",
+      "owner": "Emily",
+      "partners": "Anna · Alice · Robert · Sarah",
+      "depends": "T4 공급 계약",
+      "output": "주장별 조건·예외 목록과 누락/오류/미확인 결과",
+      "acceptance": "문자 일치와 의미 보존을 분리, 미확인을 통과로 올리지 않음",
+      "current": "격리 조건 추출과 위치 검사 합계 22시험 통과. 정확한 인용은 의미 보존 판정이 아님. 제품 연결·독립 재검수 미완료."
+    },
+    {
+      "id": "T6",
+      "title": "질문 속 역할 연결 수정",
+      "status": "대기",
+      "owner": "Emily",
+      "partners": "Robert · Sarah",
+      "depends": "기존 오류 분석 가능 / 통합은 T4",
+      "output": "명시 사실과 미상 역할 분리, 원칙 설명+필수 질문",
+      "acceptance": "역할 임의 확정·명시 사실 재질문 방지, 정당한 질문 보존",
+      "current": "재위탁 역할 오류를 회귀로 보존. 프롬프트 추가 후보는 0/3으로 미채택."
+    },
+    {
+      "id": "T7",
+      "title": "Qev 비교와 실제 답변 검증",
+      "status": "대기",
+      "owner": "Henry",
+      "partners": "Anna · Robert · Sarah",
+      "depends": "T3 · T4 · T5 · T6",
+      "output": "단계별 비교표와 독립 채점 영수증",
+      "acceptance": "배달·조건 누락·역할 오류·되묻기·시간·호출 수 분리",
+      "current": "선택 시험만으로 설명 품질 성공을 주장하지 않음. 수정별 개발 검증 뒤 고정 후보로 미노출 평가."
+    },
+    {
+      "id": "T8",
+      "title": "결과 화면과 인수 보고",
+      "status": "진행 중",
+      "owner": "James",
+      "partners": "Anna · Sarah",
+      "depends": "틀은 병행 / 최종은 T7",
+      "output": "질문별 전후 답변, 달라진 이유, 실패와 한계",
+      "acceptance": "화면과 실응답 일치, 실패·미실행 보존",
+      "current": "Anna가 기존 3문항 실제 답변·0/3 판정을 화면 반영. 새 WBS 작성 및 원격 PR 진행 중."
+    }
+  ],
+  "sources": [
+    "https://github.com/yes0204/sprout-lex/issues/381#issuecomment-6903831256",
+    "https://github.com/yes0204/sprout-lex/issues/381#issuecomment-6903860970",
+    "https://github.com/yes0204/sprout-lex/issues/381#issuecomment-6903900508"
+  ]
+}
