@@ -10,16 +10,16 @@ def render():
     assert len(d['tasks']) == 8 and len({r['id'] for r in d['tasks']}) == 8
     esc = html.escape
     parts=[START, '<div class="wbs-current" aria-label="11월 16일 작업 계획">',
-           '<h1>11/16 작업 WBS — 근거부터 실제 답변까지</h1>',
+           '<h1>11/16 작업 — 회사 업무 질문에 제대로 답하도록</h1>',
            '<p><strong>'+esc(d['baseline'])+'</strong></p>', '<p>'+esc(d['authority'])+'</p>',
            '<p>'+esc(d['status_note'])+'</p>',
-           '<p>순서: T1·T2 병행 → T3 기준선 → T4·T6 구현 → T5 연결 → T7 평가 → T8 인수. 화면 틀과 검사 설계는 병행합니다.</p>',
+           '<p>진행 순서: 자료와 시험 질문 정리 → 현재 막히는 지점 확인 → 문맥·조건·역할 오류 수정 → 실제 답변 비교 → 결과 공개. 화면 정리는 함께 진행합니다.</p>',
            '<div class="wbs-grid">']
     for r in d['tasks']:
         parts += ['<article id="wbs-'+r['id']+'"><h2>'+r['id']+' '+esc(r['title'])+'</h2>',
                   '<p class="wbs-status">'+esc(r['status'])+' · 책임 '+esc(r['owner'])+'</p>',
-                  '<p>'+esc(r['current'])+'</p>', '<details><summary>담당·선행 조건·완료 기준</summary><dl>']
-        for key,label in [('partners','협업'),('depends','선행'),('output','산출물'),('acceptance','완료 기준')]:
+                  '<p><strong>왜 하나요?</strong> '+esc(r['benefit'])+'</p>', '<p><strong>지금까지</strong> '+esc(r['current'])+'</p>', '<p><strong>다음 작업</strong> '+esc(r['next'])+'</p>', '<p><strong>완료 기준</strong> '+esc(r['acceptance'])+'</p>', '<details><summary>협업 담당 · 기술 기록</summary><dl>']
+        for key,label in [('partners','협업'),('depends','선행'),('output','산출물'),('technical_note','기술 산출물')]:
             parts += ['<dt>'+label+'</dt><dd>'+esc(r[key])+'</dd>']
         parts += ['</dl></details></article>']
     parts += ['</div><details><summary>확인 근거 · 공개 가능한 기록만</summary><ul>']
