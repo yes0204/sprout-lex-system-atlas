@@ -9,13 +9,15 @@ def render():
     d = json.loads((ROOT/'wbs-2026-11-16.json').read_text(encoding='utf-8'))
     assert len(d['tasks']) == 8 and len({r['id'] for r in d['tasks']}) == 8
     esc = html.escape
-    parts=[START, '<div class="wbs-current" aria-label="11월 16일 작업 계획">',
-           '<h1>11/16 작업 — 회사 업무 질문에 제대로 답하도록</h1>',
+    parts=[START, '<div class="wbs-current" aria-label="회사 업무 질문 개선 현황">',
+           '<h1>11/16 시작 작업 — 11/20 개선 현황</h1>',
            '<p><strong>'+esc(d['baseline'])+'</strong></p>', '<p>'+esc(d['authority'])+'</p>',
            '<p>'+esc(d['status_note'])+'</p>',
            '<p>갱신: '+esc(d['updated_at'])+' · 실제 확인된 결과 기준</p>',
            '<p>진행 순서: '+esc(d['progress_order'])+'</p>',
            *['<p><strong>'+esc(x['title'])+'</strong> — '+esc(x['text'])+'</p>' for x in d['summary']],
+           '<p><a href="operating-check-2026-11-20.html">운영 반영 후 실제 답변 2건 보기</a></p><p><a href="action-evidence-2026-11-20.html">회사 업무 질문 8건: 실제 답변과 남은 문제 보기</a> · <a href="compact-evidence-2026-11-20.html">원문 공급 개선 전후 6건 보기</a></p>',
+           '<p>위 비교표는 운영 반영 전 고정 실험 기록입니다. 현재 운영 확인 결과는 이 보드의 배포 상태에서 구분해 안내합니다.</p>',
            '<div class="wbs-grid">']
     for r in d['tasks']:
         parts += ['<article id="wbs-'+r['id']+'"><h2>'+r['id']+' '+esc(r['title'])+'</h2>',
