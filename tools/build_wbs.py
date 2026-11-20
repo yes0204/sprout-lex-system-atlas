@@ -16,6 +16,7 @@ def render():
            '<p>갱신: '+esc(d['updated_at'])+' · 실제 확인된 결과 기준</p>',
            '<p>진행 순서: '+esc(d['progress_order'])+'</p>',
            *['<p><strong>'+esc(x['title'])+'</strong> — '+esc(x['text'])+'</p>' for x in d['summary']],
+           '<p><a href="condition-scope-2026-11-20.html">최신: 조건 누락·행위 확장 검사 전후 6질문</a></p>',
            '<p><a href="operating-check-2026-11-20.html">운영 반영 후 실제 답변 2건 보기</a></p><p><a href="action-evidence-2026-11-20.html">회사 업무 질문 8건: 실제 답변과 남은 문제 보기</a> · <a href="compact-evidence-2026-11-20.html">원문 공급 개선 전후 6건 보기</a></p>',
            '<p>위 비교표는 운영 반영 전 고정 실험 기록입니다. 현재 운영 확인 결과는 이 보드의 배포 상태에서 구분해 안내합니다.</p>',
            '<div class="wbs-grid">']
