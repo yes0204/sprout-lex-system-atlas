@@ -11,6 +11,7 @@ def render():
     esc = html.escape
     parts=[START, '<div class="wbs-current" aria-label="회사 업무 질문 개선 현황">',
            '<h1>11/16 시작 작업 — 11/20 개선 현황</h1>',
+           (ROOT/'improvement-summary.html').read_text(encoding='utf-8').strip(),
            '<p><strong>'+esc(d['baseline'])+'</strong></p>', '<p>'+esc(d['authority'])+'</p>',
            '<p>'+esc(d['status_note'])+'</p>',
            '<p>갱신: '+esc(d['updated_at'])+' · 실제 확인된 결과 기준</p>',
@@ -21,9 +22,11 @@ def render():
            '<p>위 비교표는 운영 반영 전 고정 실험 기록입니다. 현재 운영 확인 결과는 이 보드의 배포 상태에서 구분해 안내합니다.</p>',
            '<div class="wbs-grid">']
     for r in d['tasks']:
+        link=r.get('next_link')
+        next_text=('<a href="'+esc(link['href'])+'">'+esc(link['label'])+'</a>'+esc(link['suffix'])) if link else esc(r['next'])
         parts += ['<article id="wbs-'+r['id']+'"><h2>'+r['id']+' '+esc(r['title'])+'</h2>',
                   '<p class="wbs-status">'+esc(r['status'])+' · 책임 '+esc(r['owner'])+'</p>',
-                  '<p><strong>왜 하나요?</strong> '+esc(r['benefit'])+'</p>', '<p><strong>지금까지</strong> '+esc(r['current'])+'</p>', '<p><strong>다음 작업</strong> '+esc(r['next'])+'</p>', '<p><strong>완료 기준</strong> '+esc(r['acceptance'])+'</p>', '<details><summary>협업 담당 · 기술 기록</summary><dl>']
+                  '<p><strong>왜 하나요?</strong> '+esc(r['benefit'])+'</p>', '<p><strong>지금까지</strong> '+esc(r['current'])+'</p>', '<p><strong>다음 작업</strong> '+next_text+'</p>', '<p><strong>완료 기준</strong> '+esc(r['acceptance'])+'</p>', '<details><summary>협업 담당 · 기술 기록</summary><dl>']
         for key,label in [('partners','협업'),('depends','선행'),('output','산출물'),('technical_note','기술 산출물')]:
             parts += ['<dt>'+label+'</dt><dd>'+esc(r[key])+'</dd>']
         parts += ['</dl></details></article>']
