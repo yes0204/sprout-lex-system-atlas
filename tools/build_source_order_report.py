@@ -59,6 +59,7 @@ def build():
         out+=['<div class="pair"><article class="arm"><h3>새 답변의 해설</h3><div class="answer">'+esc(statement['before'])+'</div></article>',
               '<article class="arm"><h3>추가 검사 후 · 원칙 문구 그대로</h3><div class="answer">'+esc(statement['after'])+'</div></article></div>']
     out+=['<p>끝난 일: 발견한 표현의 검사 보완과 같은 문장 재검사. 남은 일: 다른 표현·다른 업무에서의 의미 검증과 검색 재현 안정성. 모든 질문의 정답이나 개선율 100%를 주장하지 않습니다.</p></section>']
+    out+=['<p class="note">최종 수정 운영 반영: 6a0ab9299 · 11월 20일 22:24 KST · 1,086개 시험 통과 · 서비스 정상. 최종판에서 새 답변을 또 생성하지는 않았습니다. 위 수정 후 화면은 보존된 해설의 재검사 결과입니다.</p>']
     out+=['<details><summary>검증 범위와 증거</summary><p>네 쌍 모두 질문·공급 원문·지시문·모델 설정이 동일하고 구조화 출력 항목 순서만 다른 것을 전송 전에 대조했습니다. 다만 자체 직원 질문은 이후 재현에서 공급이 변해 종단 비교에서 제외했습니다. 운영 DB·색인·KG 변경 없음. 실패한 준비 실행은 보존했으며 모델을 보내지 않았습니다. 모델 원출력과 배달 결과는 분리했습니다. 이 페이지는 합성 업무 질문과 공개 법령에 근거한 답변만 포함합니다.</p><a href="source-order-2026-11-20.json">실제 결과와 해시 JSON</a></details></html>']
     (ROOT/'source-order-2026-11-20.html').write_text('\n'.join(out)+'\n',encoding='utf8')
 
