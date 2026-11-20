@@ -25,6 +25,9 @@ def build():
         if c['changed']:
             out+=['<div class="pair"><article><h3>운영 답변의 해설</h3><div class="answer">'+e(c['before'])+'</div></article><article><h3>검사 보완 후 · 원칙 문장 그대로</h3><div class="answer">'+e(c['after'])+'</div></article></div>']
     out+=['</section>']
+    if d.get('followup'):
+        f=d['followup']
+        out+=['<section id="followup"><h2>검사 수정 후 운영에서 다시 물었습니다</h2><p>'+e(f['reading'])+'</p><p>00:39 운영 반영 후 같은 계정 질문 1회 · HTTP 200 · '+str(f['elapsed_seconds'])+'초 · 자동 재시도 0. 앞의 8질문 집계에 합치지 않습니다.</p><details><summary>수정 후 새 운영 답변 전체 · 남은 지적과 함께 읽기</summary><div class="answer">'+e(f['answer'])+'</div></details><p>이번 원응답은 수정 전과 다릅니다. 같은 문장 재검사 5건과 새 운영 출력에서 제외된 1건은 서로 다른 관측입니다. 효과를 5→1 감소율로 계산하지 않습니다.</p></section>']
     for i,r in enumerate(d['rows'],1):
         out+=['<section id="q'+str(i)+'"><h2>'+str(i)+'. '+e(r['title'])+'</h2><p>'+e(r['question'])+'</p><p><strong>'+e(r['status'])+'</strong> — '+e(r['reading'])+'</p><p><small>운영 API '+str(r['seconds'])+'초 · 단회 · 자동 재시도 0</small></p>']
         if r['questions']:
