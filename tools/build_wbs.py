@@ -10,7 +10,7 @@ def render():
     assert len(d['tasks']) == 8 and len({r['id'] for r in d['tasks']}) == 8
     esc = html.escape
     parts=[START, '<div class="wbs-current" aria-label="회사 업무 질문 개선 현황">',
-           '<h1>11/16 시작 작업 — 11/20 개선 현황</h1>',
+           '<h1>11/16 시작 작업 — 11/21 운영 재확인</h1>',
            (ROOT/'improvement-summary.html').read_text(encoding='utf-8').strip(),
            '<p><strong>'+esc(d['baseline'])+'</strong></p>', '<p>'+esc(d['authority'])+'</p>',
            '<p>'+esc(d['status_note'])+'</p>',
