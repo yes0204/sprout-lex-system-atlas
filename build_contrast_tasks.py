@@ -22,6 +22,9 @@ for i,(r,note) in enumerate(zip(d['rows'],notes),1):
  if r['before_answer']:lines.append(answer('수정 전 운영 답변',r['before_answer']))
  lines.append(answer('수정 후 격리 실행에서 실제 전달된 답변',r['answer']))
  lines.append('</section>')
+if d.get('final_operating_ui'):
+ f=d['final_operating_ui']
+ lines+=['<h2>마지막 수정까지 운영에서 확인했습니다</h2><p>운영 '+esc(f['deployed_commit'][:9])+' · 전체 회귀 1,006개 통과 · 고정 응답 14입력 재검증. 고객사 역할 단정 수정 뒤 운영 화면에서 같은 질문을 한 번 더 실행했습니다.</p><p>감독·직원 권한 관리 원칙이 함께 나왔고, 법적 역할을 단정한 뒷문장 1개가 실제로 제외됐습니다. 아래는 화면에서 읽어 보존한 답변입니다. HTTP 원응답·토큰 기록으로 대신 표기하지 않았습니다.</p>',answer('최종 운영 화면의 실제 답변',f['answer']),'<p>남은 문제: 준용 조문 열거를 인용 검사기가 별도 인용으로 읽으면서 미확인 경고 61개를 표시했습니다. 경고를 숨기거나 검증 완료로 바꾸지 않았습니다. 원문 인용과 설명의 근거 연결을 구분하는 후속 검사가 필요합니다.</p>']
 if d.get('operating'):
  o=d['operating'];lines+=['<h2>운영 반영 뒤 다시 확인</h2>','<p>회사 Git main → deploy '+esc(o['deployed_commit'][:9])+' 반영 후 두 질문을 새로 실행했습니다. 앞선 격리 결과를 운영 결과로 바꿔 적지 않았습니다.</p>']
  for r in o['rows']:
